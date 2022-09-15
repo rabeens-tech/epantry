@@ -1,0 +1,20 @@
+{
+  "products": [
+    
+    {
+      "id":1,
+    "name":"MOMOS",
+    "description":"mitho Momos"
+  },
+  {
+    "id":2,
+    "name":"pizza",
+    "description":"mitho pizzass"
+  },
+  {
+    "id":3,
+    "name":"Coke",
+    "description":"mitho Coke"
+  }
+  ]
+}
