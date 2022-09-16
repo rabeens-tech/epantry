@@ -12,7 +12,7 @@ import Controls from "../controls/Controls";
 import { toast } from "react-toastify";
 import Spinner from "../../utils/spinner";
 //import  PageHeaderTitle from "../home/PageHeaderTitle";
-import CategoryForm from "./CategoryForm";
+import ConsumeForm from "./ConsumeForm";
 import AddIcon from "@material-ui/icons/Add";
 
 import ConfirmDialog from "../home/ConfirmDialog";
@@ -65,7 +65,7 @@ const category=[
 ]
 
 
-export default function ProductCategory(props) {
+export default function ConsumeptionPage(props) {
   const classes = useStyles(props);
   const [records, setRecords] = useState(category);
   const [isNewPopup, setIsNewPopup] = useState(false);
@@ -231,7 +231,7 @@ const deleteconsume= (_data) => {
                               title: "Are you sure to delete this record?",
                               subTitle: "You can't undo this operation",
                               onConfirm: () => {
-                                deleteProduct(item.id);
+                                deleteconsume(item.id);
                               },
                             });
                           }}

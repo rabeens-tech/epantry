@@ -12,7 +12,7 @@ import Controls from "../controls/Controls";
 import { toast } from "react-toastify";
 import Spinner from "../../utils/spinner";
 //import  PageHeaderTitle from "../home/PageHeaderTitle";
-import CategoryForm from "./CategoryForm";
+import ProductForm from "./ProductForm";
 import AddIcon from "@material-ui/icons/Add";
 
 import ConfirmDialog from "../home/ConfirmDialog";

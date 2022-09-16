@@ -125,7 +125,7 @@ const ConsumeForm = (props) => {
             name="category_id"
             value={values.category_id}
             onChange={handleInputChange}
-            options={loadCategory}
+            options={category}
            
           />
         <Controls.Input

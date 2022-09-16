@@ -21,9 +21,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faSquare } from '@fortawesome/free-solid-svg-icons';
 
-// import Button from '@mui/material/Button';
-// import Box from "@material-ui/core/Box";
-import axios from "axios"; //
+
+
 import { toast } from "react-toastify";
 
 //accordion
@@ -112,8 +111,8 @@ console.log(routes)
 
       <div className="sidebar" style={{ textAlign: "center" }}>
         <div>
-          {menuWidth === max_width ? 
-          null
+          {menuWidth === max_width ? ""
+          
            : (
            <FontAwesomeIcon
               margin="20px"
@@ -222,17 +221,17 @@ console.log(routes)
               to=""
               onClick={(e) => {
                 e.preventDefault();
-                axios
-                  .post(`${config.APP_CONFIG}/logout/userlogout`) 
-                  .then((res) => {
-                    if (res.data.status_code === 401) {
-                     // userSessionContext.handleLogOut();
-                    }
-                  })
-                  .catch((err) => {
-                    toast.error("cannot Logout");
-                    //setPermissions([]);
-                  });
+                // axios
+                //   .post(`${config.APP_CONFIG}/logout/userlogout`) 
+                //   .then((res) => {
+                //     if (res.data.status_code === 401) {
+                //      // userSessionContext.handleLogOut();
+                //     }
+                //   })
+                //   .catch((err) => {
+                //     toast.error("cannot Logout");
+                //     //setPermissions([]);
+                //   });
               }}
             >
               {menuWidth === max_width ? (

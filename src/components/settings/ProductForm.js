@@ -61,6 +61,7 @@ const units=[
 
 },
 ]
+
 const ProductForm = (props) => {
 
   const _data = props.data || initialFValues;
@@ -124,7 +125,7 @@ const ProductForm = (props) => {
             name="category_id"
             value={values.category_id}
             onChange={handleInputChange}
-            options={loadCategory}
+            options={category}
            
           />
         <Controls.Input

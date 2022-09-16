@@ -9,15 +9,15 @@ import "react-toastify/dist/ReactToastify.css";
 import { CssBaseline } from "@material-ui/core";
 import "react-toastify/dist/ReactToastify.css";
 
-import UserSessionContext from "./contexts/UserSessionContext";
+
 //import Footer from "./components/home/Footer";
 import NotFound from "./components/pages/NotFound";
 import routes from "./utils/routes";
-import axios from "axios";
+//import axios from "axios";
 import config from "./utils/config";
 
-import Spinner from "./utils/spinner";
-import UserAuthenticationContext from "./contexts/UserAuthenticationContext";
+///import Spinner from "./utils/spinner";
+
 
 
 
@@ -37,30 +37,29 @@ export default function App() {
     setToken(false);
   };
 
-  // useEffect(() => {
-  //   let _token = window.localStorage.getItem("ERP_TOKEN");
+  useEffect(() => {
+    let _token = window.localStorage.getItem("ERP_TOKEN");
 
-  //   if (_token === undefined || _token === null) {
-  //     // setToken("abcd")
-  //     setToken(false);
-  //   } else {
-  //     setToken(token);
-  //   }
-  // }, []);
+    if (_token === undefined || _token === null) {
+     // setToken("1234")
+      setToken(false);
+    } else {
+      setToken(token);
+    }
+  }, [token]);
 
-  // if (token === false||undefined) {
-  //   return <Login setToken={save_token}></Login>;
-  // } else {
+  if (token === false) {
     return (
       <div>
-        {/* <UserSessionContext.Provider
-          value={{
-            token: token,
-            handleLogOut: handleLogOut,
-          }}
-        >
-           */}
-           
+        <ToastContainer rtl />
+        <Login setToken={save_token}></Login>
+      </div>
+    );
+  }
+
+    return (
+      <div>
+      
               <div
                 style={{
                   display: "flex",
@@ -109,7 +108,7 @@ export default function App() {
                 </Router>
               </div>
               <CssBaseline />
-             {/* // <UserSessionContext.Provider> */}
+           
       </div>
     );
   }
