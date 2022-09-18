@@ -41,14 +41,14 @@ export default function App() {
     let _token = window.localStorage.getItem("ERP_TOKEN");
 
     if (_token === undefined || _token === null) {
-     // setToken("1234")
-      setToken(false);
+      setToken("1234")
+      //(false);
     } else {
       setToken(token);
     }
   }, [token]);
 
-  if (token === false) {
+  if (token === true) {
     return (
       <div>
         <ToastContainer rtl />

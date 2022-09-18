@@ -2,7 +2,7 @@ import React from 'react'
 import TextField from '@mui/material/TextField';
 export default function Input(props) {
 
-    const {id, name, label, onKeyDown,type, value,error=null, onChange,required,onClick,step, inputProps, ...other } = props;
+    const {id, name, label, onKeyDown,type, value,error=null, onChange,required,onClick,step, inputProps,fullWidth, ...other } = props;
     return (
      
         <TextField
@@ -18,6 +18,7 @@ export default function Input(props) {
             onChange={onChange}
             required={required}
             inputProps={ inputProps}
+            fullWidth={fullWidth}
             step={step}
             {...other}
             {...(error && {error:true,helperText:error})}

@@ -28,12 +28,52 @@ const useStyles = makeStyles((theme) => ({
     zIndex:4
   },
 }));
+const product=[
+  {
+    "id":1,
+  "name":"vegsMOMOS",
+  "description":"mitho Momos",
+  "categoryname":"momos",
+  "qty":"3",
+  "unit":"plate",
+  "image":"drive"
+},
+{
+  "id":2,
+  "name":"pizza",
+  "description":"mitho pizzass",
+  "categoryname":"dominos",
+  "qty":"3",
+  "unit":"packet",
+  "image":"drive"
+},
+{
+  "id":3,
+  "name":"cocacola",
+  "description":"mitho Coke",
+  "categoryname":"Coke",
+  "unit":"bottle",
+  "qty":"3",
+  "image":"drive"
+},
+{
+  "id":4,
+  "name":"nachos",
+  "description":"mithhjh",
+  "categoryname":"crisps",
+  "unit":"packet",
+  "qty":"3",
+  "image":"drive"
+},
+]
+
 const headCells = [
   { id: "item", label: "Item" },
   { id: "description", label: " Description", disableSorting: true },
-  { id: "ParentName", label: "ParentName", disableSorting: true },
-
-
+  { id: "categoryname", label: "categoryname", disableSorting: true },
+  { id: "qty", label: "quantity"},
+  { id: "unit", label: "Description", disableSorting: true },
+  { id: "image", label: "image", disableSorting: true },
   { id: "actions", label: "Actions", disableSorting: true },
 ];
 
@@ -41,7 +81,7 @@ export default function InventoryList(props) {
   const userSessionContext = React.useContext(UserSessionContext);
 
   const classes = useStyles(props);
-  const [records, setRecords] = useState();
+  const [records, setRecords] = useState(product);
   const [isNewPopup, setIsNewPopup] = useState(false);
   const [isEditPopup, setIsEditPopup] = useState(false);
   const [confirmDialog, setConfirmDialog] = useState({
@@ -140,8 +180,11 @@ export default function InventoryList(props) {
                 recordsAfterPagingAndSorting().map((item) => (
                   <TableRow key={item.id}>
                     <TableCell>{item.name}</TableCell>
-                    <TableCell>{item.stock_quantity}</TableCell>
-                    <TableCell>{item.parentName}</TableCell>
+                    <TableCell>{item.description}</TableCell>
+                    <TableCell>{item.categoryname}</TableCell>
+                    <TableCell>{item.qty}</TableCell>
+                    <TableCell>{item.unit}</TableCell>
+                    <TableCell>{item.image}</TableCell>
                    
               
   

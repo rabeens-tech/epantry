@@ -28,12 +28,11 @@ const useStyles = makeStyles((theme) => ({
     zIndex:4
   },
 }));
+
 const headCells = [
   { id: "item", label: "Item" },
-  { id: "description", label: " Description", disableSorting: true },
-  { id: "ParentName", label: "ParentName", disableSorting: true },
-
-
+  { id: "qty", label: " Qty Left", disableSorting: true },
+  { id: "days", label: "Days to Deplete", disableSorting: true },
   { id: "actions", label: "Actions", disableSorting: true },
 ];
 
