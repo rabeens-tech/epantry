@@ -1,14 +1,11 @@
 import React, { useState } from "react";
 import "./Card.css";
-//import { CircularProgressbar } from "react-circular-progressbar";
-//import "react-circular-progressbar/dist/styles.css";
-//import { motion, AnimateSharedLayout } from "framer-motion";
-//import {AnimatePresence} from "framer-motion/dist/framer-motion";
 
+import CloseIcon from "@material-ui/icons/Close";
 
 // parent Card
 
-const Card = (props) => {
+const Cardd = (props) => {
   const [expanded, setExpanded] = useState(false);
   return (
     <div>
@@ -30,8 +27,8 @@ function CompactCard({ param, setExpanded }) {
    // <motion.div
       <div className="CompactCard"
       style={{
-        background:"linear-gradient(180deg, #bb67ff 0%, #c484f3 100%)",
-        boxShadow: "0px 10px 20px 0px #e0c6f5",
+        background: param.color.backGround,
+        boxShadow: param.color.boxShadow,
       }}
       layoutId="expandableCard"
       onClick={setExpanded}
@@ -41,10 +38,10 @@ function CompactCard({ param, setExpanded }) {
         <span>{param.title}</span>
       </div>
       <div className="detail">
-       </div> 
-       {/* <Png /> */}
+    
+     
         <span>{param.value}</span>
-        <span>Sku in stockS</span>
+        </div> 
       </div>
     //</motion.div>
   
@@ -53,7 +50,7 @@ function CompactCard({ param, setExpanded }) {
 
 // Expanded Card
 function ExpandedCard({ param, setExpanded }) {
-//   const data = {
+   //const data = {}
 //     options: {
 //       chart: {
 //         type: "area",
@@ -114,16 +111,22 @@ function ExpandedCard({ param, setExpanded }) {
       layoutId="expandableCard"
     >
       <div style={{ alignSelf: "flex-end", cursor: "pointer", color: "white" }}>
-        {/* <UilTimes onClick={setExpanded} /> */}
+        <CloseIcon onClick={setExpanded} /> 
       </div>
         <span>{param.title}</span>
       <div className="chartContainer">
         {/* <Chart options={data.options} series={param.series} type="area" /> */}
+        <h2>productList</h2>
+
+<ol>
+  <li>Coffee</li>
+  <li>Tea</li>
+  <li>Milk</li>
+</ol> 
       </div>
-      <span>Sku in stockS</span>
-    {/* </motion.div> */}
+    
     </div>
   );
 }
 
-export default Card;
+export default Cardd;

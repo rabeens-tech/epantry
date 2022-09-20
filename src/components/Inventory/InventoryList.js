@@ -6,7 +6,8 @@ import UseTable from "../home/UseTable";
 import Popup from "../home/Popup";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import CloseIcon from "@material-ui/icons/Close";
-import { makeStyles, TableBody, TableRow, TableCell, Tooltip } from "@material-ui/core";
+import { Search } from "@material-ui/icons";
+import { makeStyles, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Tooltip} from "@material-ui/core";
 import Controls from "../controls/Controls";
 import InventoryCategoryForm from "./InventoryCategoryForm";
 import AddIcon from "@material-ui/icons/Add";
@@ -17,7 +18,7 @@ import Spinner from "../../utils/spinner";
 import ConfirmDialog from "../home/ConfirmDialog";
 import UserAuthenticationContext from "../../contexts/UserAuthenticationContext";
 import PageHeaderTitle from "../../utils/PageHeaderTitle";
-
+import ProductForm from "../settings/ProductForm";
 const useStyles = makeStyles((theme) => ({
   pageContent: {
     margin: theme.spacing(5),
@@ -36,7 +37,7 @@ const product=[
   "categoryname":"momos",
   "qty":"3",
   "unit":"plate",
-  "image":"drive"
+  "consume_rate":"2gram/day"
 },
 {
   "id":2,
@@ -45,7 +46,7 @@ const product=[
   "categoryname":"dominos",
   "qty":"3",
   "unit":"packet",
-  "image":"drive"
+  "consume_rate":"2piece/week"
 },
 {
   "id":3,
@@ -54,7 +55,7 @@ const product=[
   "categoryname":"Coke",
   "unit":"bottle",
   "qty":"3",
-  "image":"drive"
+  "consume_rate":"2bootle/day"
 },
 {
   "id":4,
@@ -63,20 +64,27 @@ const product=[
   "categoryname":"crisps",
   "unit":"packet",
   "qty":"3",
-  "image":"drive"
+  "consume_rate":"200gram/week"
 },
 ]
 
 const headCells = [
-  { id: "item", label: "Item" },
-  { id: "description", label: " Description", disableSorting: true },
-  { id: "categoryname", label: "categoryname", disableSorting: true },
-  { id: "qty", label: "quantity"},
-  { id: "unit", label: "Description", disableSorting: true },
-  { id: "image", label: "image", disableSorting: true },
-  { id: "actions", label: "Actions", disableSorting: true },
-];
+//   { id: "item", label: "Item" },
+//   { id: "description", label: " Description", disableSorting: true },
+//   { id: "categoryname", label: "categoryname", disableSorting: true },
+//   { id: "qty", label: "quantity"},
+//   { id: "unit", label: "Description", disableSorting: true },
+//   { id: "image", label: "image", disableSorting: true },
+//   { id: "actions", label: "Actions", disableSorting: true },
+// ];
+{ id: "name", label: "Item" },
 
+{ id: "categoryname", label: "Category", disableSorting: true },
+{ id: "qty", label: "Quantity"},
+{ id: "unit", label: "UOM", disableSorting: true },
+{ id: "consume_rate", label: "Consume rate", disableSorting: true },
+{ id: "actions", label: "Actions", disableSorting: true },
+];
 export default function InventoryList(props) {
   const userSessionContext = React.useContext(UserSessionContext);
 
@@ -100,7 +108,23 @@ export default function InventoryList(props) {
     UseTable(records, headCells, filterFn);
 
 
-
+    const handleSearch = (e) => {
+      let query = e.target.value;
+  
+      setFilterFn({
+        fn: (items) => {
+          if (query === "") return items;
+          else
+            return items.filter(
+              (x) =>
+                (x.name+x.categoryname )
+                  .toLowerCase()
+                  .includes(query.toLowerCase())
+             
+            );
+        },
+      });
+    };
   const addCategory = (_data) => {
    
   };
@@ -122,17 +146,17 @@ export default function InventoryList(props) {
     <div>
       {isNewPopup ? (
         <Popup
-          title="Category Form"
+          title="Product Form"
           openPopup={isNewPopup}
           setPopups={setIsNewPopup}
         >
-          <InventoryCategoryForm handleSubmit={addCategory} />
+          <ProductForm handleSubmit={addCategory} />
         </Popup>
       ) : null}
 
       {isEditPopup ? (
         <Popup
-          title="Product Category"
+          title="Edit Inventory"
           openPopup={isEditPopup === false ? false : true}
           setPopups={() => {
             setIsEditPopup(false);
@@ -153,7 +177,7 @@ export default function InventoryList(props) {
         <div className="row proCategoryPage">
           <div>
           
-            <PageHeaderTitle title="Inventory Categories" />
+            <PageHeaderTitle title="InventoryList" />
           </div>
     
             <div className="addButton">
@@ -170,6 +194,20 @@ export default function InventoryList(props) {
     
         </div>
       </div>
+      <Toolbar>
+          <Controls.Input
+            label="Search"
+            className={classes.searchInput}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search />
+                </InputAdornment>
+              ),
+            }}
+            onChange={handleSearch}
+          />
+        </Toolbar>
       <div style={{marginTop:"15px"}}></div>
       <div className="row">
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 proCategoryTbl">
@@ -180,11 +218,11 @@ export default function InventoryList(props) {
                 recordsAfterPagingAndSorting().map((item) => (
                   <TableRow key={item.id}>
                     <TableCell>{item.name}</TableCell>
-                    <TableCell>{item.description}</TableCell>
+          
                     <TableCell>{item.categoryname}</TableCell>
                     <TableCell>{item.qty}</TableCell>
                     <TableCell>{item.unit}</TableCell>
-                    <TableCell>{item.image}</TableCell>
+                    <TableCell>{item.consume_rate}</TableCell>
                    
               
   
@@ -199,12 +237,12 @@ export default function InventoryList(props) {
                         <EditOutlinedIcon fontSize="small" /></Tooltip>
                       </Controls.ActionButton>
                     
-                      {/* <Controls.ActionButton
+                      <Controls.ActionButton
                         color="secondary"
                         onClick={() => {
                           setConfirmDialog({
                             isOpen: true,
-                            title: "Are you sure to delete this record?",
+                            title: "Are you sure to delete item record?",
                             subTitle: "You can't undo this operation",
                             onConfirm: () => {
                               deleteproductcategory(item.id);
@@ -213,7 +251,7 @@ export default function InventoryList(props) {
                         }}
                       ><Tooltip title="Delete">
                         <CloseIcon fontSize="small" /></Tooltip>
-                      </Controls.ActionButton> */}
+                      </Controls.ActionButton>
                     </TableCell>
                   </TableRow>
                 ))}

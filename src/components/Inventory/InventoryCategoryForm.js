@@ -23,9 +23,29 @@ const qtyList=[
   {id:3,"name":"litre"},
   {id:4,"name":"ml"},
 ]
+const categoryList=[
+  {
+    "id":1,
+  "name":"MOMOS",
+  "description":"mitho Momos",
+},
+{
+  "id":2,
+  "name":"pizza",
+  "description":"mitho pizzass",
+},
+{
+  "id":3,
+  "name":"Coke",
+  "description":"mitho Coke",
+},
+]
+
+
 export default function InventoryCategoryForm(props) {
   const userSessionContext = React.useContext(UserSessionContext);
 
+  const [categoryList, setCategoryList] = useState(categoryList);
   const validate = (fieldValues=values) => {
     let temp = { ...errors }
     if ('name' in fieldValues)
@@ -46,8 +66,8 @@ export default function InventoryCategoryForm(props) {
    if('category_id' in fieldValues){
       temp.category_id = fieldValues.category_id ? "" : "This field is required."
     }
-    if('quantity_measure_unit' in fieldValues){
-      temp.quantity_measure_unit = fieldValues.quantity_measure_unit ? "" : "This field is required."
+    if('consume_rate' in fieldValues){
+      temp.consume_rate = fieldValues.consume_rate ? "" : "This field is required."
     }
     setErrors({
       ...temp
@@ -58,21 +78,22 @@ export default function InventoryCategoryForm(props) {
   const _data = props.data || initialFValues;
  
   const { values,  setValues, handleInputChange, ResetForm, errors,  setErrors } = useForm(_data, true, validate);
-  const onInputChange = (_key, _value) => {
+  // const onInputChange = (_key, _value) => {
    
   
-     setValues({ ...values, [_key]: _value });
-   };
+  //    setValues({ ...values, [_key]: _value });
+  //  };
   const handleSubmission = (e) => {
     e.preventDefault();
     if (validate()) {
       let req_value = { 
         id: values.id,
         name:values.name,
-        category_id: values.category_id,
-        description: values.description,
-        product_image_location:"nophoto",
-       quantity_measure_unit: values.quantity_measure_unit,
+        category_id: values. category_id,
+        quantity: values.quantity,
+        unit: values.unit,
+        consume_rate:values.consume_rate,
+       
       };
 
       props.handleSubmit(req_value);
@@ -80,7 +101,6 @@ export default function InventoryCategoryForm(props) {
     }
   };
 
-  const [categoryList, setCategoryList] = useState();
 
 
  
@@ -104,40 +124,40 @@ export default function InventoryCategoryForm(props) {
           />
 
         <Controls.Input
-            name="productName"
+            name="name"
             label="Product Name"
-            value={values.productName}
+            value={values.name}
             onChange={handleInputChange}
-            error={errors.productName}
+            error={errors.name}
             required={true}
           />
           
-          <Controls.Input
-            label="Description"
-            name="description"
-            value={values.description}
-            onChange={handleInputChange}
-            error={errors.description}
-            required={true}
-          />
+         
 
         </Grid>
         <Grid item xs={6}>
        
- 
+        <Controls.Input
+            label="Qty"
+            name="quantity"
+            value={values.quantity}
+            onChange={handleInputChange}
+            error={errors.description}
+            required={true}
+          />
           <Controls.Select
-            label="Product Qty Unit"
-            name="quantity_measure_unit"
-            value={values.quantity_measure_unit}
+            label="Unit"
+            name="unit"
+            value={values.unit}
             onChange={handleInputChange}
             options={qtyList}
         
             required={true}
           />
   <Controls.Input
-            label="Product_image"
-            name="product_image_location"
-            value={values.product_image_location}
+            label="Consumption Rate"
+            name="consume_rate"
+            value={values.consume_rate}
             onChange={handleInputChange}
            
           
