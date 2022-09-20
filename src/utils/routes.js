@@ -23,7 +23,7 @@ const routes = [
  
 
   {
-    path:"settings/productCategory",
+    path:"/settings/productCategory",
     component: ProductCategory,
     exact:true,
     parent: "SETTINGS",
@@ -31,7 +31,7 @@ const routes = [
     showInNav:true,
 },
 {
-  path:"settings/productSKU",
+  path:"/settings/productSKU",
   component: ProductPage,
   exact:true,
   parent: "SETTINGS",
@@ -39,7 +39,7 @@ const routes = [
   showInNav:true,
 },
 {
-  path:"inventory/inventorylist",
+  path:"/inventory/inventorylist",
   component: InventoryList,
   exact:true,
   parent: "INVENTORY",
@@ -47,7 +47,7 @@ const routes = [
   showInNav:true,
 },
 {
-path:"grocery/productlist",
+path:"/grocery/productlist",
 component: GroceryList,
 exact:true,
 parent: "GROCERY",
@@ -55,7 +55,7 @@ title:"GroceryList",
 showInNav:true,
 },
 {
-  path:"stock/addstockproductlist",
+  path:"/stock/addstockproductlist",
   component: StockList1,
   exact:true,
   parent: "STOCK",
@@ -63,7 +63,7 @@ showInNav:true,
   showInNav:true,
   },
 {
-  path:"consumption/productlist",
+  path:"/consumption/productlist",
   component: ConsumptionPage,
   exact:true,
   parent: "CONSUMPTION",

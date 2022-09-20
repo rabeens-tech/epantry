@@ -64,7 +64,7 @@ const units=[
 const ConsumeForm = (props) => {
 
   const _data = props.data || initialFValues;
-
+  const loadCategory = category
   const validate = (fieldValues=values) => {
     let temp = { ...errors }
     if ('name' in fieldValues)

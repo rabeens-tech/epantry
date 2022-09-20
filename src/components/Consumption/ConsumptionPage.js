@@ -12,7 +12,8 @@ import Controls from "../controls/Controls";
 import { toast } from "react-toastify";
 import Spinner from "../../utils/spinner";
 //import  PageHeaderTitle from "../home/PageHeaderTitle";
-import CategoryForm from "./CategoryForm";
+// import CategoryForm from "./CategoryForm";
+import ConsumeForm from './ConsumeForm';
 import AddIcon from "@material-ui/icons/Add";
 
 import ConfirmDialog from "../home/ConfirmDialog";
@@ -80,6 +81,10 @@ export default function ProductCategory(props) {
       return items;
     },
   });
+
+  const deleteProduct = () =>{
+
+  }
 
  
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =

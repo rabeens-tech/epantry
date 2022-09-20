@@ -14,7 +14,7 @@ import Spinner from "../../utils/spinner";
 //import  PageHeaderTitle from "../home/PageHeaderTitle";
 import CategoryForm from "./CategoryForm";
 import AddIcon from "@material-ui/icons/Add";
-
+import ProductForm from './ProductForm';
 import ConfirmDialog from "../home/ConfirmDialog";
 const useStyles = makeStyles((theme) => ({
   pageContent: {

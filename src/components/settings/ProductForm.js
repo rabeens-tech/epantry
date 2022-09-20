@@ -64,6 +64,7 @@ const units=[
 const ProductForm = (props) => {
 
   const _data = props.data || initialFValues;
+  const loadCategory = category
 
   const validate = (fieldValues=values) => {
     let temp = { ...errors }
