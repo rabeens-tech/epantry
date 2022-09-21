@@ -18,6 +18,9 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(5),
     padding: theme.spacing(3),
   },
+  searchInput: {
+    width: '50%'
+},
   newButton: {
     margin: 0,
     zIndex:4
@@ -31,7 +34,9 @@ const product=[
   "categoryname":"momos",
   "qty":"3",
   "unit":"plate",
-  "day":"7"
+  "last_replenished":"3",
+  "left_unit":"bottle",
+  "left_qty":"3",
 },
 {
   "id":2,
@@ -40,7 +45,9 @@ const product=[
   "categoryname":"dominos",
   "qty":"3",
   "unit":"packet",
-  "day":"7"
+  "last_replenished":"4",
+  "left_unit":"bottle",
+  "left_qty":"3",
 },
 {
   "id":3,
@@ -49,7 +56,9 @@ const product=[
   "categoryname":"Coke",
   "unit":"bottle",
   "qty":"3",
-  "day":"7"
+  "last_replenished":"75",
+  "left_unit":"bottle",
+  "left_qty":"3",
 },
 {
   "id":4,
@@ -58,7 +67,9 @@ const product=[
   "categoryname":"crisps",
   "unit":"packet",
   "qty":"3",
-  "day":"7"
+  "left_unit":"bottle",
+  "left_qty":"3",
+  "last_replenished":"7"
 },
 ]
 
@@ -70,10 +81,12 @@ const product=[
 const headCells = [
   { id: "categoryname", label: "categoryname", disableSorting: true },
   { id: "name", label: "Item" },
-  { id: "qty", label: "quantity"},
+  { id: "qty", label: "QTY"},
   { id: "unit", label: "UOM", disableSorting: true },
-  { id: "day", label: " days", disableSorting: true },
-  { id: "actions", label: "Actions", disableSorting: true },
+  { id: "left_qty", label: " QTY", disableSorting: true },
+  { id: "left_unit", label: "UOM", disableSorting: true },
+ 
+  { id: "last_replenished", label: "Last Replenished", disableSorting: true },
 ];
 
 export default function StockList1(props) {
@@ -151,23 +164,10 @@ export default function StockList1(props) {
                     <TableCell>{item.name}</TableCell>
                     <TableCell>{item.qty}</TableCell>
                     <TableCell>{item.unit}</TableCell>
-                    <TableCell>{item.day}</TableCell>
-                   
-              
-  
-                    <TableCell>
-                   
-                      {/* <Controls.ActionButton
-                        color="primary"
-                        onClick={(e) => {
-                          setIsEditPopup(item.id);
-                        }}
-                      ><Tooltip title="Edit">
-                        <EditOutlinedIcon fontSize="small" /></Tooltip>
-                      </Controls.ActionButton> */}
-                       
-                      
-                    </TableCell>
+                    <TableCell>{item.left_qty}</TableCell>
+                    <TableCell>{item.left_unit}</TableCell>
+                    <TableCell>{item.last_replenished}{"  days ago"}</TableCell>
+
                   </TableRow>
                 ))}
             </TableBody>

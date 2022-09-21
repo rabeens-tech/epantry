@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(5),
     padding: theme.spacing(3),
   },
+  searchInput: {
+    width: '50%'
+},
   newButton: {
     position: "absolute",
     zIndex: 4,

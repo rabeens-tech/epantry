@@ -23,23 +23,53 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(5),
     padding: theme.spacing(3),
   },
+  searchInput: {
+    width: '50%'
+},
   newButton: {
     margin: 0,
     zIndex:4
   },
+
+
 }));
+
+
+const makeStyle=(days)=>{
+  if(days ===0)
+  {
+    return {
+      background: 'rgb(145 254 159 / 47%)',
+      color: 'red',
+    }
+  }
+  else if(days <4)
+  {
+    return{
+      background: '#ffadad8f',
+      color: 'yellow',
+    }
+  }
+  if(days >5)
+  {
+    return{
+      background: '#59bfff',
+      color: 'green',
+    }
+  }
+}
 const product=[
   {
-    "id":1,
+    id:1,
   "name":"vegsMOMOS",
-  "days":"5",
+  "days":0,
   "categoryname":"momos",
   "qty":"3",
   "unit":"plate",
   "consume_rate":"2gram/day"
 },
 {
-  "id":2,
+  id:2,
   "name":"pizza",
   "days":"4",
   "categoryname":"dominos",
@@ -48,7 +78,7 @@ const product=[
   "consume_rate":"2piece/week"
 },
 {
-  "id":3,
+  id:3,
   "name":"cocacola",
   "days":"7",
   "categoryname":"Coke",
@@ -57,13 +87,59 @@ const product=[
   "consume_rate":"2bootle/day"
 },
 {
-  "id":4,
+  id:4,
   "name":"nachos",
   "days":"3",
   "categoryname":"crisps",
   "unit":"packet",
   "qty":"3",
   "consume_rate":"200gram/week"
+},
+]
+const product_stock=[
+  {
+    id:1,
+  "name":"vegsMOMOS",
+  "description":"mitho Momos",
+  "categoryname":"momos",
+  qtyi:5,
+  "unit":"plate",
+  "last_replenished":"3",
+  "left_unit":"bottle",
+  "left_qty":"3",
+},
+{
+  id:2,
+  "name":"pizza",
+  "description":"mitho pizzass",
+  "categoryname":"dominos",
+  qtyi:3,
+  "unit":"packet",
+  "last_replenished":"4",
+  "left_unit":"bottle",
+  "left_qty":"3",
+},
+{
+  id:3,
+  "name":"cocacola",
+  "description":"mitho Coke",
+  "categoryname":"Coke",
+  "unit":"bottle",
+  "qtyi":"3",
+  "last_replenished":"75",
+  "left_unit":"bottle",
+  "left_qty":"3",
+},
+{
+  id:4,
+  "name":"nachos",
+  "description":"mithhjh",
+  "categoryname":"crisps",
+  "unit":"packet",
+  "qty":"3",
+  "left_unit":"bottle",
+  "left_qty":"3",
+  "last_replenished":"7"
 },
 ]
 const headCells = [
@@ -80,7 +156,7 @@ export default function GroceryList(props) {
 
   const classes = useStyles(props);
   const [records, setRecords] = useState(product);
-
+  const [data, setData] = useState(product_stock);
 
   const [filterFn, setFilterFn] = useState({
     fn: (items) => {
@@ -121,7 +197,14 @@ export default function GroceryList(props) {
   if (records === undefined) {
     return <Spinner />;
   }
- 
+ console.log(data)
+ const check=(id)=>{
+  let a={};
+   a =data.filter((x)=> x.id===id)
+console.log(a)
+    return <div>{a[0]["qtyi"]}{a[0]["unit"]}</div>
+ }
+// console.log(a);
   return (
     <div>
   
@@ -166,9 +249,21 @@ export default function GroceryList(props) {
                    
               
   
-                    <TableCell>
+                    <TableCell align="left">
+                    <span className="status" style={makeStyle(item.days)}>{"Repeat Last Purchase -"} {check(item.id)}{"Order Now"}
                       
-                    </TableCell>
+                      {/* {("Repeat Last Purchase -")+({data.filter((x)=> x.id===item.id).map((y,i)=>
+                      {
+  console.log(y);
+                      return(<div key={i}>{y.qtyi}{y.unit}</div>)})})} */}
+                     
+     {/* <span className="status" style={makeStyle(item.days)}>{"Repeat Last Purchase - "}{data.filter((x)=> x.id===item.id).map((y,index)=>{return({y.qty} {""}{y.unit} )               
+              })}
+  
+                    
+                  </span> */}
+                    
+                  </span></TableCell>
                   </TableRow>
                 ))}
             </TableBody>

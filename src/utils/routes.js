@@ -6,8 +6,14 @@ import ProductCategory from "../components/settings/ProductCategory";
 import ConsumptionPage from "../components/Consumption/ConsumptionPage";
 import Login from "../components/Login/Login";
 import StockList1 from "../components/StockList/StockList1";
-
-
+import InventoryIcon from '@mui/icons-material/Inventory';
+import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import CategoryIcon from '@mui/icons-material/Category';
+import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
+import AddBusinessIcon from '@mui/icons-material/AddBusiness';
+import User from "../components/settings/User";
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 const routes = [
   {
     path: "/",
@@ -25,6 +31,16 @@ const routes = [
     parent: "SETTINGS",
     title:" manage category",
     showInNav:true,
+    icon:<CategoryIcon />
+},
+{
+  path:"/settings/User",
+  component: User,
+  exact:true,
+  parent: "SETTINGS",
+  title:" User",
+  showInNav:true,
+  icon:<ManageAccountsIcon />
 },
 {
   path:"/settings/productSKU",
@@ -33,14 +49,17 @@ const routes = [
   parent: "SETTINGS",
   title:"productSKU",
   showInNav:true,
+icon:<ProductionQuantityLimitsIcon/>
 },
 {
-  path:"/inventory/inventorylist",
+  path:"/inventory/inventorylist/add",
   component: InventoryList,
   exact:true,
   parent: "INVENTORY",
-  title:"ProductList",
+  title:"Add Inventory",
   showInNav:true,
+ 
+  icon:<AddBusinessIcon />
 },
 {
 path:"/grocery/productlist",
@@ -49,22 +68,26 @@ exact:true,
 parent: "GROCERY",
 title:"GroceryList",
 showInNav:true,
+icon:<LocalGroceryStoreIcon/>,
 },
 {
-  path:"/stock/addstockproductlist",
+  path:"/stock/stockproductlist/add",
   component: StockList1,
   exact:true,
   parent: "STOCK",
-  title:"stock",
+  title:"Stock List",
   showInNav:true,
+  icon:<InventoryIcon />
+
   },
 {
   path:"/consumption/productlist",
   component: ConsumptionPage,
   exact:true,
   parent: "CONSUMPTION",
-  title:"ConList",
-  showInNav:true
+  title:"Consumption",
+  showInNav:true,
+  icon:<AccessTimeIcon/>
   },
 ];
 

@@ -10,18 +10,23 @@ import CompanyContext from "../../contexts/CompanyContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
 import {
-  faCalculator,
+  UilEstate,
+  UilClipboardAlt,
+  UilUsersAlt,
+  UilPackage,
+  UilChart,
+  UilSignOutAlt,
+} from "@iconscout/react-unicons";
+import {
   faCog,
-  faFileInvoiceDollar,
-  faAddressBook,
-  faCopy,
   faSignOutAlt,
   faHome,
-  faChartLine,
+ faBuilding,
 } from "@fortawesome/free-solid-svg-icons";
-import { faSquare } from '@fortawesome/free-solid-svg-icons';
+import{faCartPlus} from '@fortawesome/free-solid-svg-icons';
+import { faWarehouse ,faCookie} from '@fortawesome/free-solid-svg-icons';
 
-
+import {faLock}from '@fortawesome/free-solid-svg-icons';
 
 import { toast } from "react-toastify";
 
@@ -35,11 +40,10 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 //import UserAuthenticationContext from '../../contexts/UserAuthenticationContext';
 import routes from "../../utils/routes"
 const TopLevelNavItems = [
-  { name: "INVENTORY",icon: <FontAwesomeIcon icon={ faFileInvoiceDollar} size="lg" />},
- 
-  { name: "GROCERY", icon: <FontAwesomeIcon icon={ faAddressBook} size="lg" /> },
-  { name: "STOCK", icon: <FontAwesomeIcon icon={faCopy} size="lg" /> },
-  { name: "CONSUMPTION", icon: <FontAwesomeIcon icon={faChartLine} size="lg" /> },
+  { name: "INVENTORY", icon:<FontAwesomeIcon icon={ faBuilding} size="lg" />},
+  { name: "GROCERY", icon: <FontAwesomeIcon icon={ faCartPlus} size="lg" /> },
+  { name: "STOCK", icon: <FontAwesomeIcon icon={faLock} size="lg" /> },
+  { name: "CONSUMPTION",  icon: <FontAwesomeIcon icon={faCookie} size="lg" />},
   { name: "SETTINGS", icon: <FontAwesomeIcon icon={faCog} size="lg" /> },
 ];
 
@@ -47,13 +51,13 @@ const max_width = "250px";
 const Sidebar = () => {
 
   const [menuWidth, setMenuWidth] = React.useState("50px");
- // const userSessionContext = React.useContext(UserSessionContext);
+
   const [expanded, setExpanded] = React.useState(false);
 
   const handleChange = (index) => (event, isExpanded) => {
     setExpanded(isExpanded ? index : false);
   };
-console.log(routes)
+
 
   return (
     <aside
@@ -158,8 +162,7 @@ console.log(routes)
                       )
                       .map((route, index) => {
                      
-                        console.log(window.location.pathname);
-                        console.log(route)
+                    
                         return (
                           <div key={index}>
                             <Link

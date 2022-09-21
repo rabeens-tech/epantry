@@ -428,3 +428,7 @@ input,
 .header-section .show-on-hover .card a {
   padding: 11px 15px;
 }
+.status {
+  padding: 8px;
+  border-radius: 9px;
+}

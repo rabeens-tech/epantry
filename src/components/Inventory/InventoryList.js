@@ -24,6 +24,9 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(5),
     padding: theme.spacing(3),
   },
+  searchInput: {
+    width: '50%'
+},
   newButton: {
     margin: 0,
     zIndex:4
@@ -146,7 +149,7 @@ export default function InventoryList(props) {
     <div>
       {isNewPopup ? (
         <Popup
-          title="Product Form"
+          title="Add Product "
           openPopup={isNewPopup}
           setPopups={setIsNewPopup}
         >
