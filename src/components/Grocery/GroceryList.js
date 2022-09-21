@@ -5,12 +5,12 @@ import config from "../../utils/config";
 import UseTable from "../home/UseTable";
 import Popup from "../home/Popup";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
-import CloseIcon from "@material-ui/icons/Close";
-import { makeStyles, TableBody, TableRow, TableCell, Tooltip } from "@material-ui/core";
+import { Search } from "@material-ui/icons";
+import { makeStyles, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Tooltip} from "@material-ui/core";
 import Controls from "../controls/Controls";
 
 import AddIcon from "@material-ui/icons/Add";
-
+import Cards from "../cards/Cards";
 
 import { toast } from "react-toastify";
 import Spinner from "../../utils/spinner";
@@ -28,10 +28,49 @@ const useStyles = makeStyles((theme) => ({
     zIndex:4
   },
 }));
-
+const product=[
+  {
+    "id":1,
+  "name":"vegsMOMOS",
+  "days":"5",
+  "categoryname":"momos",
+  "qty":"3",
+  "unit":"plate",
+  "consume_rate":"2gram/day"
+},
+{
+  "id":2,
+  "name":"pizza",
+  "days":"4",
+  "categoryname":"dominos",
+  "qty":"3",
+  "unit":"packet",
+  "consume_rate":"2piece/week"
+},
+{
+  "id":3,
+  "name":"cocacola",
+  "days":"7",
+  "categoryname":"Coke",
+  "unit":"bottle",
+  "qty":"3",
+  "consume_rate":"2bootle/day"
+},
+{
+  "id":4,
+  "name":"nachos",
+  "days":"3",
+  "categoryname":"crisps",
+  "unit":"packet",
+  "qty":"3",
+  "consume_rate":"200gram/week"
+},
+]
 const headCells = [
-  { id: "item", label: "Item" },
+  { id: "name", label: "Item" },
+  { id: "categoryname", label: " Category", disableSorting: true },
   { id: "qty", label: " Qty Left", disableSorting: true },
+  { id: "unit", label: " UOM", disableSorting: true },
   { id: "days", label: "Days to Deplete", disableSorting: true },
   { id: "actions", label: "Actions", disableSorting: true },
 ];
@@ -40,14 +79,8 @@ export default function GroceryList(props) {
 
 
   const classes = useStyles(props);
-  const [records, setRecords] = useState();
-  const [isNewPopup, setIsNewPopup] = useState(false);
-  const [isEditPopup, setIsEditPopup] = useState(false);
-  const [confirmDialog, setConfirmDialog] = useState({
-    isOpen: false,
-    title: "",
-    subTitle: "",
-  });
+  const [records, setRecords] = useState(product);
+
 
   const [filterFn, setFilterFn] = useState({
     fn: (items) => {
@@ -58,7 +91,23 @@ export default function GroceryList(props) {
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     UseTable(records, headCells, filterFn);
 
-
+    const handleSearch = (e) => {
+      let query = e.target.value;
+  
+      setFilterFn({
+        fn: (items) => {
+          if (query === "") return items;
+          else
+            return items.filter(
+              (x) =>
+                (x.name+x.categoryname )
+                  .toLowerCase()
+                  .includes(query.toLowerCase())
+             
+            );
+        },
+      });
+    };
 
   const addCategory = (_data) => {
    
@@ -68,10 +117,6 @@ export default function GroceryList(props) {
    
   };
 
-  const deleteproductcategory = (id) => {
-    setConfirmDialog({ ...confirmDialog, isOpen: false });
-  
-  };
 
   if (records === undefined) {
     return <Spinner />;
@@ -79,43 +124,31 @@ export default function GroceryList(props) {
  
   return (
     <div>
-      {/* {isNewPopup ? (
-        <Popup
-          title="Category Form"
-          openPopup={isNewPopup}
-          setPopups={setIsNewPopup}
-        >
-          <InventoryCategoryForm handleSubmit={addCategory} />
-        </Popup>
-      ) : null}
-
-     
-      <ConfirmDialog
-        confirmDialog={confirmDialog}
-        setConfirmDialog={setConfirmDialog}
-      /> */}
-
+  
+<Cards/>
       <div>
+
         <div className="row proCategoryPage">
           <div>
           
             <PageHeaderTitle title="Grocery" />
           </div>
-     
-            <div className="addButton">
-              <Controls.Button
-                text="Add New"
-                variant="outlined"
-                startIcon={<AddIcon />}
-                className={classes.newButton}                
-                onClick={() => {
-                  setIsNewPopup(!isNewPopup);
-                }}
-              />
-            </div>
-      
         </div>
       </div>
+      <Toolbar>
+          <Controls.Input
+            label="Search"
+            className={classes.searchInput}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search />
+                </InputAdornment>
+              ),
+            }}
+            onChange={handleSearch}
+          />
+        </Toolbar>
       <div style={{marginTop:"15px"}}></div>
       <div className="row">
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 proCategoryTbl">
@@ -126,22 +159,14 @@ export default function GroceryList(props) {
                 recordsAfterPagingAndSorting().map((item) => (
                   <TableRow key={item.id}>
                     <TableCell>{item.name}</TableCell>
-                    <TableCell>{item.stock_quantity}</TableCell>
-                    <TableCell>{item.parentName}</TableCell>
+                    <TableCell>{item.categoryname}</TableCell>
+                    <TableCell>{item.qty}</TableCell>
+                    <TableCell>{item.unit}</TableCell>
+                    <TableCell>{item.days}</TableCell>
                    
               
   
                     <TableCell>
-                   
-                      <Controls.ActionButton
-                        color="primary"
-                        onClick={(e) => {
-                          setIsEditPopup(item.id);
-                        }}
-                      ><Tooltip title="Edit">
-                        <EditOutlinedIcon fontSize="small" /></Tooltip>
-                      </Controls.ActionButton>
-                       
                       
                     </TableCell>
                   </TableRow>

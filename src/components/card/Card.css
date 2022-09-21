@@ -7,24 +7,43 @@
     padding: 1rem;
     position: relative;
     cursor: pointer;
+  
   }
   .CompactCard:hover {
     box-shadow: none !important;
   }
   
-  /* radial bar */
-  .radialBar {
+ /* radial bar  */
+   .radialBar {
     flex: 1 1;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     gap: 1rem;
+   
   }
 
   
   .radialBar > span {
     font-size: 17px;
     font-weight: bold;
+ 
+  }
+   /* radial bar  */
+   .radialBars {
+    flex: 1 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  
+  .radialBars > span {
+    font-size: 17px;
+    font-weight: bold;
+  
   }
   
   /* sideDetail*/
@@ -34,15 +53,39 @@
     flex-direction: column;
     align-items: flex-end;
     justify-content: space-between;
+    font-size: 30px;
+    font-weight: bold;
   }
+  .details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    font-size: 10px;
+    font-weight: bold;
+
+  }
+  .details > span:nth-child(2) {
+    font-size: 15px;
+    font-weight: bold;
+    align-items: center;
   
+  }
+  .details > span:nth-child(3) {
+   
+    font-size: 10px;
+    font-weight: bold;
+  }
   .detail > span:nth-child(2) {
-    font-size: 22px;
+    font-size: 40px;
     font-weight: bold;
   }
   .detail > span:nth-child(3) {
-    font-size: 12px;
+    font-size: 40px;
+    font-weight: bold;
   }
+ 
   
   /* ExpandedCard */
   .ExpandedCard {
@@ -71,7 +114,7 @@
   
  
   
-  @media screen and (max-width: 1200px) {
+  /* @media screen and (max-width: 1200px) {
     .ExpandedCard {
       top: 2rem;
       height: 45vh;
@@ -86,4 +129,4 @@
       left: 25px;
       width: 80%;
     }
-  }
+  } */

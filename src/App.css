@@ -25,7 +25,17 @@
   margin-bottom: 0;
   margin-left: 10px;
 }
-
+.slick-arrow {
+  background-color: red;
+  height: 35px;
+  width: 35px;
+  border-radius: 100px;
+}
+.slick-arrow:hover,
+.slick-arrow:active,
+.slick-arrow:focus {
+  background-color: red !important;
+}
 .nav-item > span > div {
   background-color: inherit;
 }

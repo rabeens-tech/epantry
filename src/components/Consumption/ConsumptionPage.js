@@ -34,6 +34,7 @@ const headCells = [
   { id: "categoryname", label: " CategoryName" },
   { id: "frequency", label: " Consumptionfrequency" },
   { id: "depletion_rate", label: " Avg Qty Consumption" },
+  { id: "unit", label: " UOM", disableSorting: true },
   { id: "actions", label: "Actions", disableSorting: true },
 ];
 
@@ -44,21 +45,24 @@ const category=[
     {
       "id":1,
     "name":"vegMOMOS",
-    "frequency":"mitho",
+    "categoryname":"momos",
+    "frequency":"daily",
     "depletion_rate":"0.1",
     "unit":"kg",
   },
   {
     "id":2,
     "name":"pizza",
-    "frequency":"mitho",
+    "categoryname":"dominoss",
+    "frequency":"daily",
     "depletion_rate":"0.5",
     "unit":"gram",
   },
   {
     "id":3,
     "name":"fanta",
-    "frequency":"mitho",
+    "categoryname":"cocacola",
+    "frequency":"weekly",
     "depletion_rate":"200",
     "unit":"ml",
   },
@@ -166,7 +170,7 @@ const deleteconsume= (_data) => {
             <div>
               <div>            
               <span
-              style={{ fontSize:"30px"}}>Product</span>
+              style={{ fontSize:"30px"}}>Consumption Summary</span>
               </div>
              
               <div className="addButton">
@@ -211,6 +215,8 @@ const deleteconsume= (_data) => {
                       <TableCell>{item.name}</TableCell>
                       <TableCell>{item.categoryname}</TableCell>
                       <TableCell>{item.frequency}</TableCell>
+                      <TableCell>{item.depletion_rate}</TableCell>
+                      <TableCell>{item.unit}</TableCell>
 
                       <TableCell>
                         <Controls.ActionButton

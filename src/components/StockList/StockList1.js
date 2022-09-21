@@ -10,7 +10,7 @@ import Controls from "../controls/Controls";
 import AddIcon from "@material-ui/icons/Add";
 
 
-import Cards from "../cards/Cards";
+import CardsStock from "../cards/CardsStock";
 import PageHeaderTitle from "../../utils/PageHeaderTitle";
 
 const useStyles = makeStyles((theme) => ({
@@ -61,6 +61,12 @@ const product=[
   "day":"7"
 },
 ]
+
+
+
+
+
+   
 const headCells = [
   { id: "categoryname", label: "categoryname", disableSorting: true },
   { id: "name", label: "Item" },
@@ -109,10 +115,10 @@ export default function StockList1(props) {
 
 
   return (
-    <div className="content-wrapper iframe-mode" data-widget="iframe" data-loading-screen={750}>
-
-  <Cards/>
-  
+    <div>
+  <div>
+  <CardsStock/> 
+  </div>
 
   <div>
           
@@ -171,7 +177,7 @@ export default function StockList1(props) {
           :null}
         </div>
       </div>
-   </div>
+      </div>
   );
 }
 

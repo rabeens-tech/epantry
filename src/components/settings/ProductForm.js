@@ -14,17 +14,17 @@ const initialFValues = {
 const category=[
     {
       "id":1,
-    "name":"MOMOS",
+    "title":"MOMOS",
     "description":"mitho Momos",
   },
   {
     "id":2,
-    "name":"pizza",
+    "title":"pizza",
     "description":"mitho pizzass",
   },
   {
     "id":3,
-    "name":"Coke",
+    "title":"Coke",
     "description":"mitho Coke",
   },
 ]
@@ -32,32 +32,32 @@ const category=[
 const units=[
     {
       "id":1,
-    "name":"kg",
+    "title":"kg",
     
   },
   {
     "id":2,
-    "name":"gram",
+    "title":"gram",
    
   },
   {
     "id":3,
-    "name":"ml",
+    "title":"ml",
  
   },
   {
     "id":4,
-  "name":"litre",
+  "title":"litre",
   
 },
 {
   "id":5,
-  "name":"piece",
+  "title":"piece",
  
 },
 {
   "id":6,
-  "name":"packet",
+  "title":"packet",
 
 },
 ]
