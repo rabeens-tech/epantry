@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(5),
     padding: theme.spacing(3),
   },
+  searchInput: {
+    width: '50%'
+},
   newButton: {
     position: "absolute",
     zIndex: 4,
@@ -127,7 +130,7 @@ const deleteProduct= (_data) => {
         >
           {isNewPopup ? (
             <Popup
-              title="Unit MeasureMent Form"
+              title="Add Category"
               openPopup={isNewPopup}
               setPopups={setIsNewPopup}
             >
@@ -137,7 +140,7 @@ const deleteProduct= (_data) => {
 
           {isEditPopup ? (
             <Popup
-              title="Edit Unit Form"
+              title="Edit Category"
               openPopup={isEditPopup === false ? false : true}
               setPopups={() => {
                 setIsEditPopup(false);

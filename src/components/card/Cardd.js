@@ -34,13 +34,13 @@ function CompactCard({ param, setExpanded }) {
       onClick={setExpanded}
     >
       <div className="radialBar">
-       
-        <span>{param.title}</span>
+      <span>{param.value}</span>
+    
       </div>
       <div className="detail">
-    
+      <span>{param.title}</span>
      
-        <span>{param.value}</span>
+      
         </div> 
       </div>
     //</motion.div>
@@ -113,10 +113,10 @@ function ExpandedCard({ param, setExpanded }) {
       <div style={{ alignSelf: "flex-end", cursor: "pointer", color: "white" }}>
         <CloseIcon onClick={setExpanded} /> 
       </div>
-        <span>{param.title}</span>
+       
       <div className="chartContainer">
-        {/* <Chart options={data.options} series={param.series} type="area" /> */}
-        <h2>productList</h2>
+      <span>{param.title}</span>
+        <h3>productList</h3>
 
 <ol>
   <li>Coffee</li>

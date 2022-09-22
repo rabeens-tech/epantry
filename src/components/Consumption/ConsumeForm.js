@@ -3,8 +3,10 @@ import React from "react";
 import { Grid } from "@material-ui/core";
 import { useForm, Form } from "../../components/home/useForm";
 import Controls from "../controls/Controls";
+import { right } from "@popperjs/core";
 
 const initialFValues = {
+  id:"",
   category_id:"",
   name: "",
   depletion_rate:"",
@@ -60,6 +62,29 @@ const units=[
   "name":"packet",
 
 },
+]
+
+const frequency=[{
+  "id":1,
+"title":"Daily",
+
+},
+{
+"id":2,
+"title":"Weekly",
+
+},
+{
+"id":3,
+"title":"Monthly",
+
+},
+{
+  "id":4,
+  "title":"Yearly",
+
+},
+
 ]
 const ConsumeForm = (props) => {
 
@@ -136,23 +161,18 @@ const ConsumeForm = (props) => {
       
         required={true}
         />
-              <Controls.Input
-         name="frequency"
-        
-         label="Frequency"
-         value={values.frequency}
-         onChange={handleInputChange} 
-         required={true}
-   
-         
-        
+              <Controls.Select
+            label="Consumption Frequency"
+            name="frequency"
+            value={values.frequency}
+            onChange={handleInputChange}
+            options={frequency}
         />
       </Grid>
       
       <Grid container item xs={6}> 
       <Controls.Input
-         name="depletion_rate"
-       
+         name="depletion_rate"     
          label="Avg Qty"
          value={values.depletion_rate}
          onChange={handleInputChange} 
@@ -171,7 +191,7 @@ const ConsumeForm = (props) => {
      
 
       </Grid>
-      <div>
+      <div style ={{alignItems:right}}>
       {_data.id ? (
             <Controls.Button
               type="submit" 
