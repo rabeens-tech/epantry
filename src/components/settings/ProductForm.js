@@ -1,8 +1,30 @@
 
 import React from "react";
-import { Grid } from "@material-ui/core";
 import { useForm, Form } from "../../components/home/useForm";
 import Controls from "../controls/Controls";
+
+import {
+  Button,Divider ,Paper,Typography,
+  IconButton,
+  Tooltip,
+  makeStyles,
+  Theme,Grid,
+} from "@material-ui/core";
+import { PhotoCamera } from "@material-ui/icons";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& > *": {
+      margin: theme.spacing(1),
+    },
+  },
+  input: {
+    display: "none",
+  },
+  faceImage: {
+    color: theme.palette.primary.light,
+  },
+}));
 
 const initialFValues = {
   category_id:"",
@@ -63,9 +85,10 @@ const units=[
 ]
 
 const ProductForm = (props) => {
-
+  const classes = useStyles();
   const _data = props.data || initialFValues;
-
+  const [selectedFile, setSelectedFile] = React.useState(null);
+  const [File, setFile] = React.useState(null);
   const validate = (fieldValues=values) => {
     let temp = { ...errors }
     if ('name' in fieldValues)
@@ -95,6 +118,18 @@ const ProductForm = (props) => {
     if (fieldValues == values)
     return Object.values(temp).every(x => x == "")
   }
+  const handleCapture = (e) => {
+    setSelectedFile(e.target.files[0]);
+      setFile(URL.createObjectURL(e.target.files[0]));
+  };
+  const handleCapture1 = (e) => {
+//    const formData = new FormData();
+// formData.append("File", File);
+    setFile(URL.createObjectURL(e.target.files[0]));
+  };
+
+  console.log(selectedFile);
+  console.log(File);
   const { values, handleInputChange, errors, setErrors } =useForm(_data,true,validate);
   
   const handleSubmission = e => {
@@ -106,7 +141,7 @@ const ProductForm = (props) => {
         description:values.description,
         category_id:values.category_id,
         unit:values.unit,
-        image:"local",
+        image:"http://placekitten.com/g/150/150",
       };
 
       props.handleSubmit(req_value);
@@ -147,10 +182,7 @@ const ProductForm = (props) => {
          
         
         />
-      </Grid>
-      
-      <Grid container item xs={6}> 
-      <Controls.Select
+          <Controls.Select
             label="unit"
             name="unit"
             value={values.unit}
@@ -158,17 +190,30 @@ const ProductForm = (props) => {
             options={units}
            
           />
-      <Controls.Input
-         name="image"
-       
-         label="Image"
-         value={values.image}
-         onChange={handleInputChange} 
   
-         
-        
-        />
-
+      </Grid>
+      
+      <Grid container item xs={6}> 
+      <input
+        accept="image/*"
+        className={classes.input}
+        id="faceImage"
+        type="file"
+        onChange={handleCapture1}
+       />
+      {File ? < img src={File} alt="image" width="150" height="150" />: "Select Image"}
+      <Tooltip title="Select Image">
+        <label htmlFor="faceImage">
+          <IconButton
+            className={classes.faceImage}
+            color="primary"
+            aria-label="upload picture"
+            component="span"
+          >
+            <PhotoCamera fontSize="large" />
+          </IconButton>
+        </label>
+      </Tooltip>
       </Grid>
       <div>
       {_data.id ? (

@@ -8,28 +8,44 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 const useStyles = makeStyles((theme) => ({
-  table: {
-    "& thead th": {
-      fontWeight: "600",
-      // color: theme.palette.primary.main,
-      color: "#ffffff",
-      // backgroundColor: theme.palette.primary.light,
-      backgroundColor: "#454545",
-      position: "sticky",
-      top: 0,
-      zIndex: 9,
-    },
-    "& tbody td": {
-      fontWeight: "300",
-    },
-    "& tbody tr:hover": {
-      backgroundColor: "#fffbf2",
-      cursor: "pointer",
-    },
-  },
-}));
+//   table: {
+//     "& thead th": {
+//       fontWeight: "600",
+//       // color: theme.palette.primary.main,
+//       color: "#ffffff",
+//       // backgroundColor: theme.palette.primary.light,
+//     //  backgroundColor: "#454545",
+//       position: "sticky",
+//       top: 0,
+//       zIndex: 9,
+//     },
+//     "& tbody td": {
+//       fontWeight: "300",
+//     },
+//     "& tbody tr:hover": {
+//       backgroundColor: "#fffbf2",
+//       cursor: "pointer",
+//     },
+//   },
+// }));
 //onChangeRowsPerPage
-
+table: {
+  marginTop: theme.spacing(3),
+  '& thead th': {
+      fontWeight: '600',
+      // color: theme.palette.primary.main,
+      color: '#ffff',
+      backgroundColor: theme.palette.primary.light,
+  },
+  '& tbody td': {
+      fontWeight: '300',
+  },
+  '& tbody tr:hover': {
+      backgroundColor: '#fffbf2',
+      cursor: 'pointer',
+  },
+},
+}))
 
 
 

@@ -83,9 +83,9 @@ const headCells = [
 { id: "name", label: "Item" },
 
 { id: "categoryname", label: "Category", disableSorting: true },
-{ id: "qty", label: "Quantity"},
-{ id: "unit", label: "UOM", disableSorting: true },
-{ id: "consume_rate", label: "Consume rate", disableSorting: true },
+{ id: "quantity", label: "Quantity"},
+{ id: "unitName", label: "UOM", disableSorting: true },
+{ id: "consume_rate", label: "ConsumptionRate", disableSorting: true },
 { id: "actions", label: "Actions", disableSorting: true },
 ];
 export default function InventoryList(props) {
@@ -128,16 +128,79 @@ export default function InventoryList(props) {
         },
       });
     };
+
+      // useEffect(() => {
+    //load_inventory();
+  // }, []);
   const addCategory = (_data) => {
+//     axios
+//     .post(`${config.APP_CONFIG}/inventory/save`, _data, {
+//       headers: { Authorization: userSessionContext.token },
+//     })
+//     .then((res) => {
+//       if (res.data.status_code === 200) {
+//         toast.success(res.data.msg || "successfully added");
+    
+//       } else if (res.data.status_code === 401) {
+//         userSessionContext.handleLogout();
+//       } else if (res.data.status_code === 400) {
+//         toast.error(res.data.msg);
+//         setRecords([]);
+//       }
+//     })
+//     .catch((err) => {
+//       toast.error("Something Went Wrong");
+//       setRecords([]);
+//     });
+//   setIsNewPopup(false);
+// };
    
   };
 
   const updateCategory = (_data) => {
+//     axios
+//     .put(`${config.APP_CONFIG}/inventory/change/${_data.id}`,  {
+//       headers: { Authorization: userSessionContext.token },
+//     })
+//     .then((res) => {
+//       if (res.data.status_code === 200) {
+//         toast.success(res.data.msg || "successfully added");
+//         load_inventory();
+//       } else if (res.data.status_code === 401) {
+//         userSessionContext.handleLogout();
+//       } else if (res.data.status_code === 400) {
+//         toast.error(res.data.msg);
+//         setRecords([]);
+//       }
+//     })
+//     .catch((err) => {
+//       toast.error("Something Went Wrong");
+//       setRecords([]);
+//     });
+//   setIsNewPopup(false);
+// };
    
   };
 
   const deleteproductcategory = (id) => {
-    setConfirmDialog({ ...confirmDialog, isOpen: false });
+    // setConfirmDialog({ ...confirmDialog, isOpen: false });
+    // axios
+    //   .delete(`${config.APP_CONFIG}/api/${id}`, {
+    //     headers: { Authorization: userSessionContext.token },
+    //   })
+    //   .then((res) => {
+    //     if (res.data.status_code === 200) {
+    //       toast.success("Deleted Successfully!");
+    //       load_inventory();
+    //     } else if (res.data.status_code === 401) {
+    //       userSessionContext.handleLogout();
+    //     } else {
+    //       toast.error("delete unsuccessful");
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     toast.error("Error");
+    //   });
   
   };
 
@@ -222,7 +285,7 @@ export default function InventoryList(props) {
                   <TableRow key={item.id}>
                     <TableCell>{item.name}</TableCell>
           
-                    <TableCell>{item.categoryname}</TableCell>
+                    <TableCell>{item.categoryName}</TableCell>
                     <TableCell>{item.qty}</TableCell>
                     <TableCell>{item.unit}</TableCell>
                     <TableCell>{item.consume_rate}</TableCell>

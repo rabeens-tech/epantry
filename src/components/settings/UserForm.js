@@ -3,14 +3,16 @@ import React from "react";
 import { Grid } from "@material-ui/core";
 import { useForm, Form } from "../../components/home/useForm";
 import Controls from "../controls/Controls";
-
+import {Switch }from "@material-ui/core";
+import { FormControl ,FormGroup,FormControlLabel} from '@mui/material';
 const initialFValues = {
   
-  username: "",
+  userName: "",
   password:"",
+  userEmail:"",
   confirmpassword:"",
-  is_admin:0,
-  active:0,
+  userRole:0,
+  isActive:0,
 };
 
 const UserForm = (props) => {
@@ -22,15 +24,22 @@ const UserForm = (props) => {
 
   const validate = (fieldValues=values) => {
     let temp = { ...errors }
-    if ('username' in fieldValues)
-    temp.username = fieldValues.username
-    ?fieldValues.username.length<31
-    ?fieldValues.username.match(/^[a-zA-Z0-9 !@#\$%\^\&*\)\(+=._-]+$/g)
+    if ('userName' in fieldValues)
+    temp.userName = fieldValues.userName
+    ?fieldValues.userName.length<31
+    ?fieldValues.userName.match(/^[a-zA-Z0-9 !@#\$%\^\&*\)\(+=._-]+$/g)
       ? ""
         : "Invalid Data" 
        :"maximum 30 Characters"
     : "This field is required."
-
+    if ('userEmail' in fieldValues)
+    temp.userEmail = fieldValues.userEmail
+    ?fieldValues.userEmail.length<31
+    ?fieldValues.userEmail.match(/^[a-zA-Z0-9 !@#\$%\^\&*\)\(+=._-]+$/g)
+      ? ""
+        : "Invalid Data" 
+       :"maximum 30 Characters"
+    : "This field is required."
     if ('password' in fieldValues)
     temp.password = fieldValues.password
     ?fieldValues.password.length>5
@@ -85,10 +94,11 @@ const UserForm = (props) => {
     if (validate()) {
       let req_value = {
         id:values.id,
-        name: values.name,
+        name: values.userName,
+        userEmail:values.userEmail,
         password:values.password,
-        is_admin:1,
-        active:0,
+        userRole:"admin",
+        isActive:values.isActive,
       };
 
       props.handleSubmit(req_value);
@@ -103,19 +113,18 @@ const UserForm = (props) => {
         <Grid container>
       <Grid container item xs={6}>
         <Controls.Input
-         name="username"
-         label="Name"
-         value={values.username}
+         name="userName"
+         label="User Name"
+         value={values.userName}
          onChange={handleInputChange} 
-         error={errors.username}
+         error={errors.userName}
         required={true}
         />
-      </Grid>
+  
       
-      <Grid container item xs={6}> 
+   
       <Controls.Input
          name="password"
-    
          label="Password"
          value={values.password}
          onChange={handleInputChange} 
@@ -125,21 +134,32 @@ const UserForm = (props) => {
         />
  <Controls.Input
          name="confirmpassword"
-    
-         label="Password"
+         label="ConfirmPassword"
          value={values.confirmpassword}
          onChange={handleInputChange} 
          error={errors.confirmpassword}
          
         
         />
+    </Grid>
+    
+      <Grid container item xs={6}> 
 
-      </Grid>
-      <Grid item xs={5}>
-      {getSwitch(values.is_admin, handleInputChange, "Is Admin")}
-            </Grid>
-            <Grid item xs={5}>
-              {getSwitch(values.active, handleInputChange, "Is Active")}
+      <Controls.Input
+         name="userEmail"
+         label="Email"
+         value={values.userEmail}
+         onChange={handleInputChange} 
+         error={errors.userEmail}
+        required={true}
+        />
+   
+
+     
+     
+            {getSwitch(values.userRole, handleInputChange, "Is Admin")}
+          
+              {getSwitch(values.isActive, handleInputChange, "IsActive")}
             </Grid>
       <div> 
               <Controls.Button

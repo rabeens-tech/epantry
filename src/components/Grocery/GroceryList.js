@@ -30,7 +30,15 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
     zIndex:4
   },
-
+//   status: {
+//     fontWeight: 'bold',
+//     fontSize: '0.75rem',
+//     color: 'white',
+//     backgroundColor: 'grey',
+//     borderRadius: 8,
+//     padding: '3px 10px',
+//     display: 'inline-block'
+// }
 
 }));
 
@@ -186,10 +194,51 @@ export default function GroceryList(props) {
     };
 
   const addCategory = (_data) => {
-   
+   //     axios
+//     .post(`${config.APP_CONFIG}/Products/ProductCategory/api`, _data, {
+//       headers: { Authorization: userSessionContext.token },
+//     })
+//     .then((res) => {
+//       if (res.data.status_code === 200) {
+//         toast.success(res.data.msg || "successfully added");
+    
+//       } else if (res.data.status_code === 401) {
+//         userSessionContext.handleLogout();
+//       } else if (res.data.status_code === 400) {
+//         toast.error(res.data.msg);
+//         setRecords([]);
+//       }
+//     })
+//     .catch((err) => {
+//       toast.error("Something Went Wrong");
+//       setRecords([]);
+//     });
+//   setIsNewPopup(false);
+// };
   };
 
   const updateCategory = (_data) => {
+    //     axios
+//     .post(`${config.APP_CONFIG}/Products/ProductCategory/api`, _data, {
+//       headers: { Authorization: userSessionContext.token },
+//     })
+//     .then((res) => {
+//       if (res.data.status_code === 200) {
+//         toast.success(res.data.msg || "successfully added");
+    
+//       } else if (res.data.status_code === 401) {
+//         userSessionContext.handleLogout();
+//       } else if (res.data.status_code === 400) {
+//         toast.error(res.data.msg);
+//         setRecords([]);
+//       }
+//     })
+//     .catch((err) => {
+//       toast.error("Something Went Wrong");
+//       setRecords([]);
+//     });
+//   setIsNewPopup(false);
+// };
    
   };
 
@@ -262,8 +311,19 @@ console.log(a)
   
                     
                   </span> */}
+
+{/* <Typography 
+                    className={classes.status}
+                    style={{
+                        backgroundColor: 
+                        ((row.status === 'Active' && 'red') ||
+                        (row.status === 'Pending' && 'yellow') ||
+                        (row.status === 'Blocked' && 'green'))
+                    }}
+                  >{row.status}</Typography> */}
+</span></TableCell>
                     
-                  </span></TableCell>
+                
                   </TableRow>
                 ))}
             </TableBody>

@@ -6,7 +6,7 @@ import Popup from "../home/Popup";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import CloseIcon from "@material-ui/icons/Close";
 import { Search } from "@material-ui/icons";
-import { makeStyles, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Tooltip} from "@material-ui/core";
+import { makeStyles, TableBody, TableRow, TableCell, Toolbar, InputAdornment,Paper,Tooltip} from "@material-ui/core";
 import Controls from "../controls/Controls";
 
 import { toast } from "react-toastify";
@@ -101,15 +101,99 @@ export default function ProductCategory(props) {
 
 
   // useEffect(() => {
-  
-  // }, []);
+  // load_product_category();
+  //  }, []);
+
+  //  const load_product_category=() => {
+  //   axios.get(`${config.APP_CONFIG}/category/getall`)
+  //   .then((res) => {
+  //     if (res.data.status_code === 200) {
+  //       setRecords(res.data)
+    
+  //     } else if (res.data.status_code === 401) {
+  //       userSessionContext.handleLogout();
+  //     } else if (res.data.status_code === 400) {
+  //       toast.error(res.data.msg);
+  //       setRecords([]);
+  //     }
+  //   })
+  //   .catch((err) => {
+  //     toast.error("Something Went Wrong");
+  //     setRecords([]);
+  //   });
+
+
+  //  }
+
+
   const addproductcategory = (_data) => {
+    //     axios
+//     .post(`${config.APP_CONFIG}/Product/save`, _data, 
+    
+//     )
+//     .then((res) => {
+//       if (res.data.status_code === 200) {
+//         toast.success(res.data.msg || "successfully added");
+    
+//       } else if (res.data.status_code === 401) {
+//         userSessionContext.handleLogout();
+//       } else if (res.data.status_code === 400) {
+//         toast.error(res.data.msg);
+//         setRecords([]);
+//       }
+//     })
+//     .catch((err) => {
+//       toast.error("Something Went Wrong");
+//       setRecords([]);
+//     });
+//   setIsNewPopup(false);
+// };
 
   }
   const updateproductcategory = (_data) => {
+    //     axios
+//     .post(`${config.APP_CONFIG}/Products/ProductCategory/api`, _data, {
+//       headers: { Authorization: userSessionContext.token },
+//     })
+//     .then((res) => {
+//       if (res.data.status_code === 200) {
+//         toast.success(res.data.msg || "successfully added");
+    
+//       } else if (res.data.status_code === 401) {
+//         userSessionContext.handleLogout();
+//       } else if (res.data.status_code === 400) {
+//         toast.error(res.data.msg);
+//         setRecords([]);
+//       }
+//     })
+//     .catch((err) => {
+//       toast.error("Something Went Wrong");
+//       setRecords([]);
+//     });
+//   setIsNewPopup(false);
+// };
     
 }
-const deleteProduct= (_data) => {
+const deleteProductcategory= (id) => {
+    setConfirmDialog({ ...confirmDialog, isOpen: false });
+    axios
+      .delete(`${config.APP_CONFIG}/api/${id}`)
+      
+      
+      .then((res) => {
+        if (res.data.status_code === 200) {
+          toast.success("Deleted Successfully!");
+         // load_product_category();
+        } else if (res.data.status_code === 401) {
+         // userSessionContext.handleLogout();
+        } else {
+          toast.error("Delete Unsuccessful");
+        }
+      })
+      .catch((err) => {
+        toast.error("Error");
+      });
+  
     
 }
 
@@ -156,8 +240,9 @@ const deleteProduct= (_data) => {
             confirmDialog={confirmDialog}
             setConfirmDialog={setConfirmDialog}
           />
-
+      <Paper className={classes.pageContent}>
           <div>
+    
             <div>
               <div>            
               <span
@@ -180,7 +265,6 @@ const deleteProduct= (_data) => {
           </div>
          
 
-
           <Toolbar>
           <Controls.Input
             label="Search"
@@ -195,6 +279,8 @@ const deleteProduct= (_data) => {
             onChange={handleSearch}
           />
         </Toolbar>
+        </Paper>
+        <Paper className={classes.pageContent}>
           <div className="row">
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
               <TblContainer>
@@ -203,8 +289,8 @@ const deleteProduct= (_data) => {
                   {recordsAfterPagingAndSorting().map((item, index) => (
                     <TableRow key={item.id}>
                    
-                      <TableCell>{item.name}</TableCell>
-                      <TableCell>{item.description}</TableCell>
+                      <TableCell>{item.categoryName}</TableCell>
+                      <TableCell>{item.categorydescription}</TableCell>
 
                       <TableCell>
                         <Controls.ActionButton
@@ -222,10 +308,10 @@ const deleteProduct= (_data) => {
                           onClick={() => {
                             setConfirmDialog({
                               isOpen: true,
-                              title: "Are you sure to delete this record?",
+                              title: "Are you sure to delete this Category?",
                               subTitle: "You can't undo this operation",
                               onConfirm: () => {
-                                deleteProduct(item.id);
+                                deleteProductcategory(item.id);
                               },
                             });
                           }}
@@ -241,6 +327,7 @@ const deleteProduct= (_data) => {
               <TblPagination />
             </div>
           </div>
+          </Paper>
         </div>
       </div>
     </div>

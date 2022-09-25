@@ -13,9 +13,10 @@ const initialFValues = {
   name:"",
   description: "",
   product_image_location:"",
-  quantity_measure_unit:"",
-
- 
+  quantity:"",
+  daysToDeplete:"",
+  consumptionRate:"",
+  consumptionType:"",
 };
 const qtyList=[
   {id:1,"name":"gram"},
@@ -48,10 +49,10 @@ export default function InventoryCategoryForm(props) {
   const [categoryList, setCategoryList] = useState(categoryList);
   const validate = (fieldValues=values) => {
     let temp = { ...errors }
-    if ('name' in fieldValues)
-    temp.name = fieldValues.name 
-    ? fieldValues.name.length<61 
-    ?fieldValues.name.match(/^[a-zA-Z0-9 !@#\$%\^\&*\)\(+=._-]+$/g)
+    if ('inventoryName' in fieldValues)
+    temp.inventoryName = fieldValues.inventoryName 
+    ? fieldValues.inventoryName.length<61 
+    ?fieldValues.inventoryName.match(/^[a-zA-Z0-9 !@#\$%\^\&*\)\(+=.]+$/g)
     ? ""
       : "Invalid Data"
        :"Maximum 60 Characters"
@@ -63,11 +64,12 @@ export default function InventoryCategoryForm(props) {
     // ? ""
     //   : "Invalid Data" 
     // : "This field is required.";
-   if('category_id' in fieldValues){
-      temp.category_id = fieldValues.category_id ? "" : "This field is required."
+   if('categoryId' in fieldValues){
+      temp.categoryId = fieldValues.categoryId ? "" : "This field is required."
     }
-    if('consume_rate' in fieldValues){
-      temp.consume_rate = fieldValues.consume_rate ? "" : "This field is required."
+
+    if('consumptionType' in fieldValues){
+      temp.consumptionType = fieldValues.consumptionType ? "" : "This field is required."
     }
     setErrors({
       ...temp
@@ -88,12 +90,12 @@ export default function InventoryCategoryForm(props) {
     if (validate()) {
       let req_value = { 
         id: values.id,
-        name:values.name,
-        category_id: values. category_id,
+        inventoryName:values.inventoryName,
+        categoryId: values. categoryId,
         quantity: values.quantity,
         unit: values.unit,
-        consume_rate:values.consume_rate,
-       
+        consumptionType:values.consumptionType,
+        inventoryImgUrl:"http://placekitten.com/g/150/150"
       };
 
       props.handleSubmit(req_value);
@@ -115,8 +117,8 @@ export default function InventoryCategoryForm(props) {
         <Grid item xs={6}>
          <Controls.Select
             label="CategoryName"
-            name="category_id"
-            value={values.category_id}
+            name="categoryId"
+            value={values.categoryId}
             onChange={handleInputChange}
             options={categoryList}
             // error={errors.parentId}
@@ -124,16 +126,13 @@ export default function InventoryCategoryForm(props) {
           />
 
         <Controls.Input
-            name="name"
+            name="inventoryName"
             label="Product Name"
-            value={values.name}
+            value={values.inventoryName}
             onChange={handleInputChange}
-            error={errors.name}
+            error={errors.inventoryName}
             required={true}
           />
-          
-         
-
         </Grid>
         <Grid item xs={6}>
        
@@ -154,10 +153,18 @@ export default function InventoryCategoryForm(props) {
         
             required={true}
           />
-  <Controls.Input
+          <Controls.Input
             label="Consumption Rate"
-            name="consume_rate"
-            value={values.consume_rate}
+            name="consumptionRate"
+            value={values.consumptionRate}
+            onChange={handleInputChange}
+           
+          
+          />
+  <Controls.Input
+            label="ConsumptionType"
+            name="consumptionType"
+            value={values.consumptionType}
             onChange={handleInputChange}
            
           

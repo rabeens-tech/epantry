@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { Store } from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
 import axios from "axios";
 import config from "../../utils/config";
 import UseTable from "../home/UseTable";
@@ -6,16 +8,19 @@ import Popup from "../home/Popup";
 
 import CloseIcon from "@material-ui/icons/Close";
 import { Search } from "@material-ui/icons";
-import { makeStyles, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Tooltip} from "@material-ui/core";
+import { makeStyles, TableBody, TableRow, TableCell, Toolbar, Paper,InputAdornment, Table,Tooltip,Typography,Grid} from "@material-ui/core";
 import Controls from "../controls/Controls";
-
+import CardHeader from '@mui/material/CardHeader';
 import { toast } from "react-toastify";
 import Spinner from "../../utils/spinner";
 
-import UserForm from "./CategoryForm";
+import UserForm from "./UserForm";
 import AddIcon from "@material-ui/icons/Add";
-
 import ConfirmDialog from "../home/ConfirmDialog";
+import Avatar from '@mui/material/Avatar';
+import Stack from '@mui/material/Stack';
+import { deepOrange } from '@mui/material/colors';
+
 const useStyles = makeStyles((theme) => ({
   pageContent: {
     margin: theme.spacing(5),
@@ -30,13 +35,23 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
     right: 0,
   },
+  avatar: {
+    backgroundColor: theme.palette.primary.light,
+    color: theme.palette.getContrastText(theme.palette.primary.light)
+},
+table: {
+  minWidth: 640
+},
+
 }));
 
 const headCells = [
   { id: "username", label: "UserName" },
-  { id: "password", label: " Password" },
-  { id: "is_admin", label: " Is Admin" },
-  { id: "active", label: " Active " },
+  { id: "userEmail", label: "Email" },
+  { id: "is_admin", label: "Admin", disableSorting: true },
+
+  { id: "active", label: " Active " ,disableSorting: true },
+
   { id: "actions", label: "Actions", disableSorting: true },
 ];
 
@@ -46,8 +61,8 @@ const headCells = [
 const users=[
     {
       "id":1,
-    "username":"MOMOS",
-    "password":"mitho Momos",
+    "username":"suraj",
+    "userEmail":"surajgmail.com",
     "is_admin":"1",
     "active":"0",
     
@@ -55,7 +70,7 @@ const users=[
   {
     "id":2,
     "username":"pizza",
-    "password":"mitho pizzass",
+    "userEmail":"mithopizzass@gmail.com",
     "is_admin":"1",
     "active":"1",
     
@@ -63,11 +78,35 @@ const users=[
   {
     "id":3,
     "username":"Coke",
-    "password":"mitho Coke",
+    "userEmail":"mithoCoke@gmail.com",
     "is_admin":"0",
     "active":"0",
     
   },
+  {
+    "id":4,
+  "username":"suraj",
+  "userEmail":"surajgmail.com",
+  "is_admin":"1",
+  "active":"0",
+  
+},
+{
+  "id":5,
+  "username":"pizza",
+  "userEmail":"mithopizzass@gmail.com",
+  "is_admin":"1",
+  "active":"1",
+  
+},
+{
+  "id":6,
+  "username":"Coke",
+  "userEmail":"mithoCoke@gmail.com",
+  "is_admin":"0",
+  "active":"0",
+  
+},
 ]
 
 
@@ -111,23 +150,74 @@ export default function User(props) {
 
 
 
-  // useEffect(() => {
-  
-  // }, []);
+  //  useEffect(() => {
+  // load_user();
+  //  }, []);
+  //  const load_user = () => {
+   
+  //      axios.get(`${config.APP_CONFIG}/users/getall`)
+  //       .then((res) => {
+  //         if (res.data.status_code === 200) {
+  //           setRecords(res.data)
+        
+  //         } else if (res.data.status_code === 401) {
+  //           userSessionContext.handleLogout();
+  //         } else if (res.data.status_code === 400) {
+  //           toast.error(res.data.msg);
+  //           setRecords([]);
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         toast.error("Something Went Wrong");
+  //         setRecords([]);
+  //       });
+
+  //  }
+
   const adduser = (_data) => {
-
-  }
-const deleteuser= (_data) => {
+        axios
+    .post(`${config.APP_CONFIG}/users/save`, _data )
+    .then((res) => {
+      if (res.data.status_code === 200) {
+        toast.success("successfully added");
     
-}
+      } else if (res.data.status_code === 401) {
+        // userSessionContext.handleLogout();
+      } else if (res.data.status_code === 400) {
+        toast.error(res.data.msg);
+        setRecords([]);
+      }
+    })
+    .catch((err) => {
+      toast.error("Something Went Wrong");
+     setRecords([]);
+     });
+  setIsNewPopup(false);
+};
 
   
+const  deleteuser = (id) => {
+    setConfirmDialog({ ...confirmDialog, isOpen: false });
+    axios.delete(`${config.APP_CONFIG}/users/remove/${id}`)
+      .then((res) => {
+        if (res.data.status_code === 200) {
+          toast.success("Deleted Successfully!");
+        //  load_user();
+        } else if (res.data.status_code === 401) {
+          // .handluserSessionContexteLogout();
+        } else {
+          toast.error("Delete Unsuccessful");
+        }
+      })
+      .catch((err) => {
+        toast.error("Error");
+      });
+   
+    } 
+
   if (records === undefined) {
     return <Spinner />;
   }
-
-  
-
   return (
     <div>
    
@@ -152,7 +242,7 @@ const deleteuser= (_data) => {
             setConfirmDialog={setConfirmDialog}
           />
 
-         
+<Paper className={classes.pageContent}>
             <div>
               <div>            
               <span
@@ -161,7 +251,7 @@ const deleteuser= (_data) => {
              
               <div className="addButton">
                 <Controls.Button
-                  text="Add New"
+                  text="Add user"
                   variant="outlined"
                   startIcon={<AddIcon />}
                   className={classes.newButton}
@@ -172,9 +262,6 @@ const deleteuser= (_data) => {
               </div>
              
             </div>
-       
-         
-
 
           <Toolbar>
           <Controls.Input
@@ -190,16 +277,32 @@ const deleteuser= (_data) => {
             onChange={handleSearch}
           />
         </Toolbar>
+        {/* </Paper>
+        <Paper className={classes.pageContent}> */}
           <div className="row">
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+              <Table className={classes.table}>
               <TblContainer>
                 <TblHead />
                 <TableBody>
                   {recordsAfterPagingAndSorting().map((item, index) => (
                     <TableRow key={item.id}>
-                   
-                      <TableCell>{item.username}</TableCell>
-                      <TableCell>{item.password}</TableCell>
+
+                      <TableCell>
+<div className="avataricon">
+<Avatar alt={item.username} src='.' className="avt"/>
+{item.username}
+</div>
+                      {/* <CardHeader
+                      avatar={
+                          <Avatar alt={item.username} src='.' className={classes.avatar}/>}
+                       title= {item.username}
+                   />
+                   */}
+                 
+                 
+                      </TableCell>
+                      <TableCell>{item.userEmail}</TableCell>
                       <TableCell>{item.is_admin===1?"Yes":"No"}</TableCell>
                       <TableCell>{item.active===1?"Yes":"No"}</TableCell>
                       <TableCell>
@@ -222,13 +325,16 @@ const deleteuser= (_data) => {
                         </Controls.ActionButton> 
                     
                       </TableCell>
+                    
                     </TableRow>
                   ))}
                 </TableBody>
               </TblContainer>
+              </Table>
               <TblPagination />
             </div>
           </div>
+          </Paper>
         </div>
       </div>
 

@@ -112,16 +112,96 @@ export default function ConsumeptionPage(props) {
 
 
 
-  // useEffect(() => {
-  
-  // }, []);
+    useEffect(() => {
+      load_consume();
+       }, []);
+       const load_consume = () => {
+       
+           axios.get(`${config.APP_CONFIG}/users/getall`)
+            .then((res) => {
+              if (res.data.status_code === 200) {
+                setRecords(res.data.msg)
+            
+              } else if (res.data.status_code === 401) {
+                userSessionContext.handleLogout();
+              } else if (res.data.status_code === 400) {
+                toast.error(res.data.msg);
+                setRecords([]);
+              }
+            })
+            .catch((err) => {
+              toast.error("Something Went Wrong");
+              setRecords([]);
+            });
+    
+       }
   const addconsume = (_data) => {
+   //     axios
+//     .post(`${config.APP_CONFIG}/`, _data, {
+//       headers: { Authorization: userSessionContext.token },
+//     })
+//     .then((res) => {
+//       if (res.data.status_code === 200) {
+//         toast.success(res.data.msg || "successfully added");
+    
+//       } else if (res.data.status_code === 401) {
+//         userSessionContext.handleLogout();
+//       } else if (res.data.status_code === 400) {
+//         toast.error(res.data.msg);
+//         setRecords([]);
+//       }
+//     })
+//     .catch((err) => {
+//       toast.error("Something Went Wrong");
+//       setRecords([]);
+//     });
+//   setIsNewPopup(false);
+// };
 
   }
   const updateconsume= (_data) => {
+    //     axios
+//     .post(`${config.APP_CONFIG}/`, _data, {
+//       headers: { Authorization: userSessionContext.token },
+//     })
+//     .then((res) => {
+//       if (res.data.status_code === 200) {
+//         toast.success(res.data.msg || "successfully added");
     
+//       } else if (res.data.status_code === 401) {
+//         userSessionContext.handleLogout();
+//       } else if (res.data.status_code === 400) {
+//         toast.error(res.data.msg);
+//         setRecords([]);
+//       }
+//     })
+//     .catch((err) => {
+//       toast.error("Something Went Wrong");
+//       setRecords([]);
+//     });
+//   setIsNewPopup(false);
+// };
 }
-const deleteconsume= (_data) => {
+const deleteconsume= (id) => {
+    // setConfirmDialog({ ...confirmDialog, isOpen: false });
+    // axios
+    //   .delete(`${config.APP_CONFIG}/api/${id}`, {
+    //     headers: { Authorization: userSessionContext.token },
+    //   })
+    //   .then((res) => {
+    //     if (res.data.status_code === 200) {
+    //       toast.success("Deleted Successfully!");
+    //       load_product_category();
+    //     } else if (res.data.status_code === 401) {
+    //       userSessionContext.handleLogout();
+    //     } else {
+    //       toast.error("delete unsuccessful");
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     toast.error("Error");
+    //   });
+  
     
 }
 
