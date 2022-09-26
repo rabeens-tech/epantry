@@ -98,7 +98,7 @@ const Sidebar = () => {
               display="inline-block"
               float="left"
             >
-              E-Pantary
+              E-Pantry
             </Typography>
           </Link>
         ) : null}
@@ -114,7 +114,7 @@ const Sidebar = () => {
       </div>
 
       <div className="sidebar" style={{ textAlign: "center" }}>
-        <div>
+        {/* <div>
           {menuWidth === max_width ? ""
           
            : (
@@ -126,7 +126,7 @@ const Sidebar = () => {
               title=""
             />
           )}
-        </div>
+        </div> */}
         {TopLevelNavItems.map((nav, index) => {
           return (
             <div key={index} className="nav-item">
@@ -212,7 +212,7 @@ const Sidebar = () => {
             </div>
           );
         })}
-        <div className="nav-item mt-3">
+        {/* <div className="nav-item mt-3">
           <li
             className="nav-header nav-item"
             style={{
@@ -251,7 +251,7 @@ const Sidebar = () => {
               )}
             </Link>
           </li>
-        </div>
+        </div> */}
       </div>
     </aside>
   );

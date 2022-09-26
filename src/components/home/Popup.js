@@ -28,11 +28,10 @@ export default function Popup(props) {
   const classes = useStyles();
 
   return (
-    // <Draggable>
+  
       <Dialog
        hideBackdrop
-      //disableEnforceFocus
-     // disableBackdropClick
+
         open={openPopup}
         fullWidth
         maxWidth="md"
@@ -55,6 +54,6 @@ export default function Popup(props) {
         </DialogTitle>
         <DialogContent dividers>{children}</DialogContent>
       </Dialog>
-    // </Draggable>
+   
   );
 }

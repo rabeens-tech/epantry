@@ -9,10 +9,10 @@ import { toast } from "react-toastify";
 import Spinner from "../../utils/spinner";
 
 const initialFValues = {
-  category_Id: "",
-  name:"",
+  categoryId: "",
+  InventoryName:"",
   description: "",
-  product_image_location:"",
+  inventoryImgUrl:"",
   quantity:"",
   daysToDeplete:"",
   consumptionRate:"",
@@ -80,11 +80,7 @@ export default function InventoryCategoryForm(props) {
   const _data = props.data || initialFValues;
  
   const { values,  setValues, handleInputChange, ResetForm, errors,  setErrors } = useForm(_data, true, validate);
-  // const onInputChange = (_key, _value) => {
-   
-  
-  //    setValues({ ...values, [_key]: _value });
-  //  };
+
   const handleSubmission = (e) => {
     e.preventDefault();
     if (validate()) {

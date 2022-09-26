@@ -6,7 +6,7 @@ import UseTable from "../home/UseTable";
 import Popup from "../home/Popup";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import { Search } from "@material-ui/icons";
-import { makeStyles, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Tooltip} from "@material-ui/core";
+import { makeStyles, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Tooltip,Paper} from "@material-ui/core";
 import Controls from "../controls/Controls";
 
 import AddIcon from "@material-ui/icons/Add";
@@ -20,8 +20,8 @@ import PageHeaderTitle from "../../utils/PageHeaderTitle";
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
-    margin: theme.spacing(5),
-    padding: theme.spacing(3),
+    margin: theme.spacing(1),
+    padding: theme.spacing(1),
   },
   searchInput: {
     width: '50%'
@@ -74,7 +74,8 @@ const product=[
   "categoryname":"momos",
   "qty":"3",
   "unit":"plate",
-  "consume_rate":"2gram/day"
+  "consume_rate":"2gram/day",
+  "imgUrl":"https://i.imgur.com/VVuoqig.jpg",
 },
 {
   id:2,
@@ -83,7 +84,8 @@ const product=[
   "categoryname":"dominos",
   "qty":"3",
   "unit":"packet",
-  "consume_rate":"2piece/week"
+  "consume_rate":"2piece/week",
+  "imgUrl":"https://i.imgur.com/VVuoqig.jpg",
 },
 {
   id:3,
@@ -92,7 +94,8 @@ const product=[
   "categoryname":"Coke",
   "unit":"bottle",
   "qty":"3",
-  "consume_rate":"2bootle/day"
+  "consume_rate":"2bootle/day",
+  "imgUrl":"https://i.imgur.com/VVuoqig.jpg",
 },
 {
   id:4,
@@ -101,7 +104,8 @@ const product=[
   "categoryname":"crisps",
   "unit":"packet",
   "qty":"3",
-  "consume_rate":"200gram/week"
+  "consume_rate":"200gram/week",
+  "imgUrl":"https://i.imgur.com/VVuoqig.jpg",
 },
 ]
 const product_stock=[
@@ -115,6 +119,7 @@ const product_stock=[
   "last_replenished":"3",
   "left_unit":"bottle",
   "left_qty":"3",
+
 },
 {
   id:2,
@@ -259,14 +264,15 @@ console.log(a)
   
 <Cards/>
       <div>
+      <Paper className={classes.pageContent}>
 
         <div className="row proCategoryPage">
-          <div>
+         
           
             <PageHeaderTitle title="Grocery" />
-          </div>
+       
         </div>
-      </div>
+     
       <Toolbar>
           <Controls.Input
             label="Search"
@@ -281,8 +287,8 @@ console.log(a)
             onChange={handleSearch}
           />
         </Toolbar>
-      <div style={{marginTop:"15px"}}></div>
-      <div className="row">
+   
+   
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 proCategoryTbl">
           <TblContainer>
             <TblHead />
@@ -290,7 +296,11 @@ console.log(a)
               {recordsAfterPagingAndSorting() &&
                 recordsAfterPagingAndSorting().map((item) => (
                   <TableRow key={item.id}>
-                    <TableCell>{item.name}</TableCell>
+                                        <TableCell><div className="avataricon">
+<img alt={item.name} src={item.imgUrl}className="avt"/>
+{item.name}
+</div>
+                      </TableCell>
                     <TableCell>{item.categoryname}</TableCell>
                     <TableCell>{item.qty}</TableCell>
                     <TableCell>{item.unit}</TableCell>
@@ -332,7 +342,9 @@ console.log(a)
           <TblPagination />
           :null}
         </div>
-      </div>
+        
+        </Paper>
+</div>
     </div>
   );
 }

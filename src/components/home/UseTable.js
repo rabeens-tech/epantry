@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 // }));
 //onChangeRowsPerPage
 table: {
-  marginTop: theme.spacing(3),
+  marginTop: theme.spacing(0),
   '& thead th': {
       fontWeight: '600',
       // color: theme.palette.primary.main,

@@ -18,8 +18,8 @@ import AddIcon from "@material-ui/icons/Add";
 import ConfirmDialog from "../home/ConfirmDialog";
 const useStyles = makeStyles((theme) => ({
   pageContent: {
-    margin: theme.spacing(5),
-    padding: theme.spacing(3),
+    margin: theme.spacing(1),
+    padding: theme.spacing(1),
   },
   searchInput: {
     width: '50%'
@@ -245,7 +245,7 @@ const deleteProduct= (id) => {
              
               <div className="addButton">
                 <Controls.Button
-                  text="Add New"
+                  text="Add Product"
                   variant="outlined"
                   startIcon={<AddIcon />}
                   className={classes.newButton}
@@ -319,7 +319,9 @@ const deleteProduct= (id) => {
                   ))}
                 </TableBody>
               </TblContainer>
-              <TblPagination />
+              {records.length>1 ?
+          <TblPagination />
+          :null}
             </div>
           </div>
 </Paper>

@@ -18,8 +18,8 @@ import AddIcon from "@material-ui/icons/Add";
 import ConfirmDialog from "../home/ConfirmDialog";
 const useStyles = makeStyles((theme) => ({
   pageContent: {
-    margin: theme.spacing(5),
-    padding: theme.spacing(3),
+    margin: theme.spacing(1),
+    padding: theme.spacing(1),
   },
   searchInput: {
     width: '50%'
@@ -33,8 +33,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const headCells = [
-  { id: "name", label: "Category Name" },
-  { id: "description", label: " Description" },
+  { id: "categoryName", label: "Category Name" },
+  { id: "categoryDescription", label: " Description", disableSorting: true },
   { id: "actions", label: "Actions", disableSorting: true },
 ];
 
@@ -44,18 +44,18 @@ const headCells = [
 const category=[
     {
       "id":1,
-    "name":"MOMOS",
-    "description":"mitho Momos",
+    "categoryName":"MOMOS",
+    "categoryDescription":"mitho Momos",
   },
   {
     "id":2,
-    "name":"pizza",
-    "description":"mitho pizzass",
+    "categoryName":"pizza",
+    "categoryDescription":"mitho pizzass",
   },
   {
     "id":3,
-    "name":"Coke",
-    "description":"mitho Coke",
+    "categoryName":"Coke",
+    "categoryDescription":"mitho Coke",
   },
 ]
 
@@ -246,12 +246,12 @@ const deleteProductcategory= (id) => {
             <div>
               <div>            
               <span
-              style={{ fontSize:"30px"}}>Product</span>
+              style={{ fontSize:"30px"}}>Product Category</span>
               </div>
              
               <div className="addButton">
                 <Controls.Button
-                  text="Add New"
+                  text="Add Category"
                   variant="outlined"
                   startIcon={<AddIcon />}
                   className={classes.newButton}
@@ -290,7 +290,7 @@ const deleteProductcategory= (id) => {
                     <TableRow key={item.id}>
                    
                       <TableCell>{item.categoryName}</TableCell>
-                      <TableCell>{item.categorydescription}</TableCell>
+                      <TableCell>{item.categoryDescription}</TableCell>
 
                       <TableCell>
                         <Controls.ActionButton

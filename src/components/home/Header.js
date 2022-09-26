@@ -15,7 +15,7 @@ const Header = () => {
     <div className="header-section">
       <div className="container-fluid">
         <div className="header-section-right">
-          hello suraj {_user}! &nbsp;
+          Welcome suraj {_user}! &nbsp;
           <span>
             <ExpandMoreIcon style={{ fontSize: "20px" }} />
           </span>
@@ -36,7 +36,7 @@ const Header = () => {
                     })
                     .then((res) => {
                       if (res.data.status_code === 401) {
-                        userSessionContext.handleLogOut();
+                        //userSessionContext.handleLogOut();
                       }
                     })
                     .catch((err) => {
@@ -46,6 +46,7 @@ const Header = () => {
                 }}
               >
                 <FontAwesomeIcon size="md" color="#444" icon={faSignOutAlt} />
+                &nbsp;
                 Log Out
               </Link>
             </div>

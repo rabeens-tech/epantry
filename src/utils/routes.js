@@ -56,7 +56,7 @@ icon:<ProductionQuantityLimitsIcon/>
   component: InventoryList,
   exact:true,
   parent: "INVENTORY",
-  title:"Add Inventory",
+  title:"Inventorys",
   showInNav:true,
  
   icon:<AddBusinessIcon />

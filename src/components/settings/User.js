@@ -23,8 +23,8 @@ import { deepOrange } from '@mui/material/colors';
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
-    margin: theme.spacing(5),
-    padding: theme.spacing(3),
+    margin: theme.spacing(1),
+    padding: theme.spacing(1),
   },
   searchInput: {
     width: '50%'
@@ -331,7 +331,9 @@ const  deleteuser = (id) => {
                 </TableBody>
               </TblContainer>
               </Table>
-              <TblPagination />
+              {records.length>1 ?
+          <TblPagination />
+          :null}
             </div>
           </div>
           </Paper>

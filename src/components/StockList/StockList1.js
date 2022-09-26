@@ -9,14 +9,14 @@ import Controls from "../controls/Controls";
 
 import AddIcon from "@material-ui/icons/Add";
 
-
+import NewCard from "../card/NewCard";
 import CardsStock from "../cards/CardsStock";
 import PageHeaderTitle from "../../utils/PageHeaderTitle";
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
-    margin: theme.spacing(5),
-    padding: theme.spacing(3),
+    margin: theme.spacing(1),
+    padding: theme.spacing(1),
   },
   searchInput: {
     width: '50%'
@@ -37,6 +37,7 @@ const product=[
   "last_replenished":"3",
   "left_unit":"bottle",
   "left_qty":"3",
+  "imgUrl":"https://i.imgur.com/VVuoqig.jpg",
 },
 {
   "id":2,
@@ -48,6 +49,7 @@ const product=[
   "last_replenished":"4",
   "left_unit":"bottle",
   "left_qty":"3",
+  "imgUrl":"https://i.imgur.com/VVuoqig.jpg",
 },
 {
   "id":3,
@@ -59,6 +61,7 @@ const product=[
   "last_replenished":"75",
   "left_unit":"bottle",
   "left_qty":"3",
+  "imgUrl":"https://i.imgur.com/VVuoqig.jpg",
 },
 {
   "id":4,
@@ -69,22 +72,18 @@ const product=[
   "qty":"3",
   "left_unit":"bottle",
   "left_qty":"3",
-  "last_replenished":"7"
+  "last_replenished":"7",
+  "imgUrl":"https://i.imgur.com/VVuoqig.jpg",
 },
 ]
-
-
-
-
-
-   
+ 
 const headCells = [
-  { id: "categoryname", label: "categoryname", disableSorting: true },
-  { id: "name", label: "Item" },
-  { id: "qty", label: "QTY"},
+  { id: "categoryname", label: "CategoryName", disableSorting: true },
+  { id: "name", label: "Item" , disableSorting: true },
+  { id: "qty", label: "QTY", disableSorting: true },
   { id: "unit", label: "UOM", disableSorting: true },
-  { id: "left_qty", label: " QTY", disableSorting: true },
-  { id: "left_unit", label: "UOM", disableSorting: true },
+  { id: "left_qty", label: " LeftQTY", disableSorting: true },
+  { id: "left_unit", label: "Left UOM", disableSorting: true },
  
   { id: "last_replenished", label: "Last Replenished", disableSorting: true },
 ];
@@ -130,7 +129,8 @@ export default function StockList1(props) {
   return (
     <div>
   <div>
-  <CardsStock/> 
+  {/* <CardsStock/>  */}
+  <NewCard/>
   </div>
 
   <div>
@@ -151,7 +151,6 @@ export default function StockList1(props) {
             onChange={handleSearch}
           />
         </Toolbar>
-  <div style={{marginTop:"15px"}}></div>
       <div className="row">
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 proCategoryTbl">
           <TblContainer>
@@ -160,8 +159,13 @@ export default function StockList1(props) {
               {recordsAfterPagingAndSorting() &&
                 recordsAfterPagingAndSorting().map((item) => (
                   <TableRow key={item.id}>
-                    <TableCell>{item.categoryname}</TableCell>
-                    <TableCell>{item.name}</TableCell>
+                 
+                    <TableCell><div className="avataricon">
+<img alt={item.name} src={item.imgUrl}className="avt"/>
+{item.name}
+</div>
+                      </TableCell>
+                      <TableCell>{item.categoryname}</TableCell>
                     <TableCell>{item.qty}</TableCell>
                     <TableCell>{item.unit}</TableCell>
                     <TableCell>{item.left_qty}</TableCell>

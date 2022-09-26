@@ -7,7 +7,7 @@ import Popup from "../home/Popup";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import CloseIcon from "@material-ui/icons/Close";
 import { Search } from "@material-ui/icons";
-import { makeStyles, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Tooltip} from "@material-ui/core";
+import { makeStyles, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Tooltip,Paper} from "@material-ui/core";
 import Controls from "../controls/Controls";
 import InventoryCategoryForm from "./InventoryCategoryForm";
 import AddIcon from "@material-ui/icons/Add";
@@ -21,8 +21,8 @@ import PageHeaderTitle from "../../utils/PageHeaderTitle";
 import ProductForm from "../settings/ProductForm";
 const useStyles = makeStyles((theme) => ({
   pageContent: {
-    margin: theme.spacing(5),
-    padding: theme.spacing(3),
+    margin: theme.spacing(1),
+    padding: theme.spacing(1),
   },
   searchInput: {
     width: '50%'
@@ -37,37 +37,41 @@ const product=[
     "id":1,
   "name":"vegsMOMOS",
   "description":"mitho Momos",
-  "categoryname":"momos",
+  "categoryName":"momos",
   "qty":"3",
   "unit":"plate",
-  "consume_rate":"2gram/day"
+  "consume_rate":"2gram/day",
+  "imgUrl":"https://i.imgur.com/VVuoqig.jpg",
 },
 {
   "id":2,
   "name":"pizza",
   "description":"mitho pizzass",
-  "categoryname":"dominos",
+  "categoryName":"dominos",
   "qty":"3",
   "unit":"packet",
-  "consume_rate":"2piece/week"
+  "consume_rate":"2piece/week",
+  "imgUrl":"https://i.imgur.com/VVuoqig.jpg",
 },
 {
   "id":3,
   "name":"cocacola",
   "description":"mitho Coke",
-  "categoryname":"Coke",
+  "categoryName":"Coke",
   "unit":"bottle",
   "qty":"3",
-  "consume_rate":"2bootle/day"
+  "consume_rate":"2bootle/day",
+  "imgUrl":"https://i.imgur.com/VVuoqig.jpg",
 },
 {
   "id":4,
   "name":"nachos",
   "description":"mithhjh",
-  "categoryname":"crisps",
+  "categoryName":"crisps",
   "unit":"packet",
   "qty":"3",
-  "consume_rate":"200gram/week"
+  "consume_rate":"200gram/week",
+  "imgUrl":"https://i.imgur.com/VVuoqig.jpg",
 },
 ]
 
@@ -82,10 +86,10 @@ const headCells = [
 // ];
 { id: "name", label: "Item" },
 
-{ id: "categoryname", label: "Category", disableSorting: true },
+{ id: "categoryName", label: "Category", disableSorting: true },
 { id: "quantity", label: "Quantity"},
 { id: "unitName", label: "UOM", disableSorting: true },
-{ id: "consume_rate", label: "ConsumptionRate", disableSorting: true },
+{ id: "consume_rate", label: "Consumption Rate", disableSorting: true },
 { id: "actions", label: "Actions", disableSorting: true },
 ];
 export default function InventoryList(props) {
@@ -212,7 +216,7 @@ export default function InventoryList(props) {
     <div>
       {isNewPopup ? (
         <Popup
-          title="Add Product "
+          title="Add Inventory "
           openPopup={isNewPopup}
           setPopups={setIsNewPopup}
         >
@@ -238,7 +242,7 @@ export default function InventoryList(props) {
         confirmDialog={confirmDialog}
         setConfirmDialog={setConfirmDialog}
       />
-
+ <Paper className={classes.pageContent}>
       <div>
         <div className="row proCategoryPage">
           <div>
@@ -248,7 +252,7 @@ export default function InventoryList(props) {
     
             <div className="addButton">
               <Controls.Button
-                text="Add New"
+                text="Add Inventory"
                 variant="outlined"
                 startIcon={<AddIcon />}
                 className={classes.newButton}                
@@ -274,7 +278,6 @@ export default function InventoryList(props) {
             onChange={handleSearch}
           />
         </Toolbar>
-      <div style={{marginTop:"15px"}}></div>
       <div className="row">
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 proCategoryTbl">
           <TblContainer>
@@ -283,7 +286,11 @@ export default function InventoryList(props) {
               {recordsAfterPagingAndSorting() &&
                 recordsAfterPagingAndSorting().map((item) => (
                   <TableRow key={item.id}>
-                    <TableCell>{item.name}</TableCell>
+                                         <TableCell><div className="avataricon">
+<img alt={item.name} src={item.imgUrl}className="avt"/>
+{item.name}
+</div>
+                      </TableCell>
           
                     <TableCell>{item.categoryName}</TableCell>
                     <TableCell>{item.qty}</TableCell>
@@ -308,7 +315,7 @@ export default function InventoryList(props) {
                         onClick={() => {
                           setConfirmDialog({
                             isOpen: true,
-                            title: "Are you sure to delete item record?",
+                            title: "Are you sure to delete item?",
                             subTitle: "You can't undo this operation",
                             onConfirm: () => {
                               deleteproductcategory(item.id);
@@ -327,7 +334,9 @@ export default function InventoryList(props) {
           <TblPagination />
           :null}
         </div>
+      
       </div>
+      </Paper>
     </div>
   );
 }

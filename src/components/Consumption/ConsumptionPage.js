@@ -6,7 +6,7 @@ import Popup from "../home/Popup";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import CloseIcon from "@material-ui/icons/Close";
 import { Search } from "@material-ui/icons";
-import { makeStyles, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Tooltip} from "@material-ui/core";
+import { makeStyles, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Tooltip,Paper} from "@material-ui/core";
 import Controls from "../controls/Controls";
 
 import { toast } from "react-toastify";
@@ -18,8 +18,8 @@ import AddIcon from "@material-ui/icons/Add";
 import ConfirmDialog from "../home/ConfirmDialog";
 const useStyles = makeStyles((theme) => ({
   pageContent: {
-    margin: theme.spacing(5),
-    padding: theme.spacing(3),
+    margin: theme.spacing(1),
+    padding: theme.spacing(1),
   },
     searchInput: {
         width: '50%'
@@ -52,6 +52,7 @@ const category=[
     "frequency":"daily",
     "depletion_rate":"0.1",
     "unit":"kg",
+    "imgUrl":"https://i.imgur.com/VVuoqig.jpg",
   },
   {
     "id":2,
@@ -60,6 +61,7 @@ const category=[
     "frequency":"daily",
     "depletion_rate":"0.5",
     "unit":"gram",
+    "imgUrl":"https://i.imgur.com/VVuoqig.jpg",
   },
   {
     "id":3,
@@ -68,6 +70,7 @@ const category=[
     "frequency":"weekly",
     "depletion_rate":"200",
     "unit":"ml",
+    "imgUrl":"https://i.imgur.com/VVuoqig.jpg",
   },
 ]
 
@@ -112,29 +115,29 @@ export default function ConsumeptionPage(props) {
 
 
 
-    useEffect(() => {
-      load_consume();
-       }, []);
-       const load_consume = () => {
+    // useEffect(() => {
+    //   load_consume();
+    //    }, []);
+    //    const load_consume = () => {
        
-           axios.get(`${config.APP_CONFIG}/users/getall`)
-            .then((res) => {
-              if (res.data.status_code === 200) {
-                setRecords(res.data.msg)
+    //        axios.get(`${config.APP_CONFIG}/users/getall`)
+    //         .then((res) => {
+    //           if (res.data.status_code === 200) {
+    //             setRecords(res.data.msg)
             
-              } else if (res.data.status_code === 401) {
-                userSessionContext.handleLogout();
-              } else if (res.data.status_code === 400) {
-                toast.error(res.data.msg);
-                setRecords([]);
-              }
-            })
-            .catch((err) => {
-              toast.error("Something Went Wrong");
-              setRecords([]);
-            });
+    //           } else if (res.data.status_code === 401) {
+    //            // userSessionContext.handleLogout();
+    //           } else if (res.data.status_code === 400) {
+    //             toast.error(res.data.msg);
+    //             setRecords([]);
+    //           }
+    //         })
+    //         .catch((err) => {
+    //           toast.error("Something Went Wrong");
+    //           setRecords([]);
+    //         });
     
-       }
+    //    }
   const addconsume = (_data) => {
    //     axios
 //     .post(`${config.APP_CONFIG}/`, _data, {
@@ -214,7 +217,7 @@ const deleteconsume= (id) => {
 
   return (
     <div>
-      <div className="">
+   
         <div
           className="content-wrapper iframe-mode"
           data-widget="iframe"
@@ -248,8 +251,9 @@ const deleteconsume= (id) => {
             confirmDialog={confirmDialog}
             setConfirmDialog={setConfirmDialog}
           />
-
+<Paper className={classes.pageContent}>
           <div>
+          
             <div>
               <div>            
               <span
@@ -295,7 +299,11 @@ const deleteconsume= (id) => {
                   {recordsAfterPagingAndSorting().map((item, index) => (
                     <TableRow key={item.id}>
                    
-                      <TableCell>{item.name}</TableCell>
+                      <TableCell><div className="avataricon">
+<img alt={item.name} src={item.imgUrl}className="avt"/>
+{item.name}
+</div>
+                      </TableCell>
                       <TableCell>{item.categoryname}</TableCell>
                       <TableCell>{item.frequency}</TableCell>
                       <TableCell>{item.depletion_rate}</TableCell>
@@ -333,11 +341,16 @@ const deleteconsume= (id) => {
                   ))}
                 </TableBody>
               </TblContainer>
-              <TblPagination />
+             
+              {records.length>1 ?
+          <TblPagination />
+          :null}
             </div>
+        
           </div>
+          </Paper>
         </div>
-      </div>
+
     </div>
   );
 }

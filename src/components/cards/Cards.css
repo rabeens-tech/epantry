@@ -1,4 +1,4 @@
-body{
+/* body{
   overflow-x:hidden;
 }
 .Cards {
@@ -9,7 +9,7 @@ body{
   .parentContainer{
     width: 100%;
   }
-  
+   */
   /* @media screen and (max-width: 1200px) {
     .Cards{
       flex-direction: column;
@@ -25,3 +25,19 @@ body{
       width: 90%;
     } */
   /* //} */
+
+
+
+  body{
+    overflow-x:hidden;
+  }
+  .Cards {
+      display: flex;
+      /* grid-gap: 10px;
+      gap: 50px; */
+  justify-content: space-around;
+    }
+  
+    .parentContainer {
+      max-width: 200px;
+  }

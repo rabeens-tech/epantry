@@ -126,7 +126,7 @@ const ConsumeForm = (props) => {
     if (validate()) {
       let req_value = {
         id:values.id,
-        category_id: values.category_id,
+        categoryId: values.categoryId,
         name: values.name,
    frequency:values.frequency,
         depletion_rate:values.depletion_rate,
@@ -147,8 +147,8 @@ const ConsumeForm = (props) => {
       <Grid container item xs={6}>
       <Controls.Select
             label="CategoryName"
-            name="category_id"
-            value={values.category_id}
+            name="categoryId"
+            value={values.categoryId}
             onChange={handleInputChange}
             options={category}
            

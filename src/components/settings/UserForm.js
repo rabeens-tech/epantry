@@ -1,5 +1,5 @@
 
-import React from "react";
+import React,{useState} from "react";
 import { Grid } from "@material-ui/core";
 import { useForm, Form } from "../../components/home/useForm";
 import Controls from "../controls/Controls";
@@ -11,16 +11,16 @@ const initialFValues = {
   password:"",
   userEmail:"",
   confirmpassword:"",
-  userRole:0,
-  isActive:0,
+  //userRole:0,
+  //isActive:0,
 };
 
 const UserForm = (props) => {
 
   const _data = props.data || initialFValues;
-  //const [isVendor, setIsVendor] = useState(0);
+  const [userRole, SetuserRole] = useState(0);
 
- // const [isCustomer, setIsCustomer] = useState(0);
+ const [isActive, SetisActive] = useState(0);
 
   const validate = (fieldValues=values) => {
     let temp = { ...errors }
@@ -83,7 +83,7 @@ const UserForm = (props) => {
               }}
             />
           }
-          label={label}
+          // label={label}
         />
       </FormGroup>
     );
@@ -157,9 +157,26 @@ const UserForm = (props) => {
 
      
      
-            {getSwitch(values.userRole, handleInputChange, "Is Admin")}
-          
-              {getSwitch(values.isActive, handleInputChange, "IsActive")}
+   <div className="row">
+            <div
+              className="col-sm-6"
+              style={{ padding: "8px 16px", marginTop: "8px" }}
+            >
+              <label htmlFor="text" className="col-sm-5 col-form-label">
+                Is Admin User
+              </label>
+              {getSwitch(userRole, SetuserRole)}
+            </div>
+            <div
+              className="col-sm-6"
+              style={{ padding: "8px 16px", marginTop: "8px" }}
+            >
+              <label htmlFor="text" className="col-sm-5 col-form-label">
+                Is Active User
+              </label>
+              {getSwitch(isActive, SetisActive)}
+            </div>
+          </div>
             </Grid>
       <div> 
               <Controls.Button

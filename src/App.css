@@ -25,18 +25,21 @@
   margin-bottom: 0;
   margin-left: 10px;
 }
+
 .slick-arrow {
   background-color: red;
   height: 35px;
   width: 35px;
   border-radius: 100px;
 }
+
 .slick-arrow:hover,
 .slick-arrow:active,
 .slick-arrow:focus {
   background-color: red !important;
 }
-.nav-item > span > div {
+
+.nav-item>span>div {
   background-color: inherit;
 }
 
@@ -54,7 +57,7 @@
 }
 
 
-.MuiAccordion-region > div:last-child .css-1obevt2-MuiAccordionDetails-root {
+.MuiAccordion-region>div:last-child .css-1obevt2-MuiAccordionDetails-root {
   box-shadow: none !important;
 }
 
@@ -91,7 +94,7 @@ svg:not(:root).svg-inline--fa {
 }
 
 .makeStyles-root-16 .MuiFormControl-root,
-.purchaseForm > div > div,
+.purchaseForm>div>div,
 .inventoryProductForm .MuiFormControl-root {
   width: 92% !important;
 }
@@ -133,7 +136,7 @@ svg:not(:root).svg-inline--fa {
 
 
 
-.MuiGrid-item > label,
+.MuiGrid-item>label,
 .MuiGrid-item button[type="submit"] {
   display: block;
   width: 85%;
@@ -152,7 +155,7 @@ svg:not(:root).svg-inline--fa {
   color: #fff !important;
 }
 
-#simple-tabpanel-0 label + .MuiInput-formControl {
+#simple-tabpanel-0 label+.MuiInput-formControl {
   margin-top: 20px !important;
 }
 
@@ -174,6 +177,7 @@ svg:not(:root).svg-inline--fa {
 .coatable-popup .css-26l3qy-menu {
   z-index: 1000;
 }
+
 .MuiInput-underline:before,
 .MuiInput-underline:hover:not(.Mui-disabled):before {
   border-bottom: 1px solid #ced4da !important;
@@ -245,12 +249,14 @@ textarea:focus,
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .main-sidebar {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 .fa-lg {
-  font-size: 1.33333rem !important;
+  font-size: 1.5rem !important;
 }
 
 
@@ -305,6 +311,7 @@ input,
 .pb-40 {
   padding-bottom: 40px;
 }
+
 .printBtn {
   margin: 0 !important;
 }
@@ -328,6 +335,7 @@ input,
 .errorTxt {
   color: red;
 }
+
 .sub {
   margin-top: 50px;
 }
@@ -345,12 +353,6 @@ input,
   border-color: #313131 !important;
   border-width: 1px !important;
 }
-
-
-
-
-
-
 
 
 .pull-right {
@@ -379,14 +381,14 @@ input,
   text-transform: capitalize;
   letter-spacing: 1px;
   word-spacing: 3px;
-  text-align: right;  
+  text-align: right;
   margin-bottom: 10px;
   box-shadow: 0 0.46875rem 2.1875rem rgb(4 9 20 / 3%),
     0 0.9375rem 1.40625rem rgb(4 9 20 / 3%),
     0 0.25rem 0.53125rem rgb(4 9 20 / 5%), 0 0.125rem 0.1875rem rgb(4 9 20 / 3%);
 }
 
-.header-section-right{
+.header-section-right {
   padding: 6px 0;
 }
 
@@ -415,7 +417,7 @@ input,
   transition: all 0.5s ease;
 }
 
-.header-section span:hover + .show-on-hover {
+.header-section span:hover+.show-on-hover, .show-on-hover:hover {
   /* display: block; */
   visibility: visible;
   opacity: 1;
@@ -428,16 +430,29 @@ input,
 .header-section .show-on-hover .card a {
   padding: 11px 15px;
 }
+
 .status {
   padding: 8px;
   border-radius: 9px;
 }
+
 .featured-image {
   width: 200px;
   height: 200px;
-  margin: 0 auto 25px; }
-  .paper-divider {
-    margin: 15px 0 30px; }
+  margin: 0 auto 25px;
+}
+
+.paper-divider {
+  margin: 15px 0 30px;
+}
+
+.productForm .MuiGrid-item>label, .productForm .MuiGrid-item button[type="submit"]{
+margin: 0!important;
+}
+
+.productForm .MuiGrid-item>label>span{
+  padding: 0;
+}
 
 .avataricon{
 display:flex;
@@ -451,4 +466,4 @@ align-items: center;
       margin-right: 10px;
       object-fit: cover;
     }
-  
+   
