@@ -102,29 +102,36 @@ const [File,setFile]=useState(null)
       </Grid>
       
       <Grid container item xs={6}> 
-      <input
-        accept="image/*"
-        className={classes.input}
-        id="faceImage"
-        type="file"
-        onChange={handleCapture1}
-       />
-      {File ? < img src={File} alt="image" width="150" height="150" />: "Select Image"}
-      <Tooltip title="Select Image">
-        <label htmlFor="faceImage">
-          <IconButton
-            className={classes.faceImage}
-            color="primary"
-            aria-label="upload picture"
-            component="span"
-          >
-            <PhotoCamera fontSize="large" />
-          </IconButton>
-        </label>
-      </Tooltip>
+      <div style={{ display: "block" }}>
+            <div style={{ width: "175px", textAlign: "center", margin: "8px", height: "20px" }}>
+              <label>Upload Image</label>
+            </div>
+            <div style={{ border: "1px solid #ddd", maxWidth: "175px", width: "100%", height: "150px", textAlign: "center", margin: "8px" }}>
+              <input
+                accept="image/*"
+                className={classes.input}
+                id="faceImage"
+                type="file"
+                onChange={handleCapture1}
+              />
+              {File ? < img src={File} alt="image" width="175" height="150" /> : "Select Image"}
+              <Tooltip title="Select Image">
+                <label htmlFor="faceImage">
+                  <IconButton
+                    className={classes.faceImage}
+                    color="primary"
+                    aria-label="upload picture"
+                    component="span"
+                  >
+                    <PhotoCamera fontSize="large" />
+                  </IconButton>
+                </label>
+              </Tooltip>
+            </div>
+          </div>
 
       </Grid>
-      <div>
+      <div style={{ width: "100%", textAlign: "right" }}>
       {_data.id ? (
             <Controls.Button
               type="submit" 

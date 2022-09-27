@@ -33,8 +33,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const headCells = [
-  { id: "name", label: "Category Name" },
+  { id: "name", label: "Product Name" },
   { id: "description", label: " Description" },
+  { id: "categoryName", label: "Product Category" },
+  { id: "unit", label: "Product Qty Unit" },
+  { id: "image", label: "Image URL" },
   { id: "actions", label: "Actions", disableSorting: true },
 ];
 
@@ -46,7 +49,7 @@ const product=[
       "id":1,
     "name":"vegsMOMOS",
     "description":"mitho Momos",
-    "categoryname":"momos",
+    "categoryName":"momos",
     "unit":"plate",
     "image":"drive"
   },
@@ -54,7 +57,7 @@ const product=[
     "id":2,
     "name":"pizza",
     "description":"mitho pizzass",
-    "categoryname":"dominos",
+    "categoryName":"dominos",
     "unit":"packet",
     "image":"drive"
   },
@@ -62,7 +65,7 @@ const product=[
     "id":3,
     "name":"cocacola",
     "description":"mitho Coke",
-    "categoryname":"Coke",
+    "categoryName":"Coke",
     "unit":"bottle",
     "image":"drive"
   },
@@ -70,7 +73,7 @@ const product=[
     "id":4,
     "name":"nachos",
     "description":"mithhjh",
-    "categoryname":"crisps",
+    "categoryName":"crisps",
     "unit":"packet",
     "image":"drive"
   },
@@ -286,7 +289,9 @@ const deleteProduct= (id) => {
                    
                       <TableCell>{item.name}</TableCell>
                       <TableCell>{item.description}</TableCell>
-
+                      <TableCell>{item.categoryName}</TableCell>
+                      <TableCell>{item.unit}</TableCell>
+                      <TableCell>{item.image}</TableCell>
                       <TableCell>
                         <Controls.ActionButton
                           color="primary"

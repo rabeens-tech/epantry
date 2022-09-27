@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
 const headCells = [
   { id: "categoryName", label: "Category Name" },
   { id: "categoryDescription", label: " Description", disableSorting: true },
+  { id: "categoryImgUrl", label: "Category Image" },
   { id: "actions", label: "Actions", disableSorting: true },
 ];
 
@@ -46,16 +47,20 @@ const category=[
       "id":1,
     "categoryName":"MOMOS",
     "categoryDescription":"mitho Momos",
+    "categoryImgUrl":"http://placekitten.com/g/150/150",
+
   },
   {
     "id":2,
     "categoryName":"pizza",
     "categoryDescription":"mitho pizzass",
+    "categoryImgUrl":"http://placekitten.com/g/150/150",
   },
   {
     "id":3,
     "categoryName":"Coke",
     "categoryDescription":"mitho Coke",
+    "categoryImgUrl":"http://placekitten.com/g/150/150",
   },
 ]
 
@@ -291,7 +296,7 @@ const deleteProductcategory= (id) => {
                    
                       <TableCell>{item.categoryName}</TableCell>
                       <TableCell>{item.categoryDescription}</TableCell>
-
+                      <TableCell>{item.categoryImgUrl}</TableCell>
                       <TableCell>
                         <Controls.ActionButton
                           color="primary"
