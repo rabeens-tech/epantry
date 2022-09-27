@@ -4,7 +4,7 @@ import Popup from "../home/Popup";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 
 import { Search } from "@material-ui/icons";
-import { makeStyles, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Tooltip} from "@material-ui/core";
+import { makeStyles, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Tooltip,Paper} from "@material-ui/core";
 import Controls from "../controls/Controls";
 
 import AddIcon from "@material-ui/icons/Add";
@@ -151,6 +151,8 @@ export default function StockList1(props) {
             onChange={handleSearch}
           />
         </Toolbar>
+ 
+        <Paper className={classes.pageContent}>
       <div className="row">
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 proCategoryTbl">
           <TblContainer>
@@ -180,7 +182,9 @@ export default function StockList1(props) {
           <TblPagination />
           :null}
         </div>
-      </div>
+        </div>
+        </Paper>
+  
       </div>
   );
 }

@@ -287,8 +287,10 @@ console.log(a)
             onChange={handleSearch}
           />
         </Toolbar>
+   </Paper>
    
-   
+        <Paper className={classes.pageContent}>
+        <div className="row">
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 proCategoryTbl">
           <TblContainer>
             <TblHead />
@@ -342,8 +344,9 @@ console.log(a)
           <TblPagination />
           :null}
         </div>
-        
+        </div>
         </Paper>
+       
 </div>
     </div>
   );

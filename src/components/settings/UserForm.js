@@ -5,48 +5,71 @@ import { useForm, Form } from "../../components/home/useForm";
 import Controls from "../controls/Controls";
 import {Switch }from "@material-ui/core";
 import { FormControl ,FormGroup,FormControlLabel} from '@mui/material';
+
 const initialFValues = {
   
   userName: "",
   password:"",
   userEmail:"",
   confirmpassword:"",
-  //userRole:0,
-  //isActive:0,
+  userRole:[],
+  isActive:"",
 };
 
 const UserForm = (props) => {
-
   const _data = props.data || initialFValues;
-  const [userRole, SetuserRole] = useState(0);
+  const [userRole, SetuserRole] = useState([]);
 
  const [isActive, SetisActive] = useState(0);
+ const checkBoxInputs = [
+  {
+    id: 1,
+    label: "Admin",
+    value: "admin"
+  },
 
+  {
+    id: 2,
+    label: "User",
+    value: "user"
+  }
+];
+  const handleCheckboxChange = (e) => {
+    if (e.target.checked) {
+      if (!userRole.includes(e.target.value)) {
+        SetuserRole([...userRole, e.target.value]);
+      }
+    } else {
+      var filteredRoles = userRole.filter(function (value, index, arr) {
+        return value !== e.target.value;
+      });
+      SetuserRole(filteredRoles);
+    }
+  };
+console.log(userRole);
   const validate = (fieldValues=values) => {
     let temp = { ...errors }
     if ('userName' in fieldValues)
     temp.userName = fieldValues.userName
-    ?fieldValues.userName.length<31
+    ?fieldValues.userName.length<51
     ?fieldValues.userName.match(/^[a-zA-Z0-9 !@#\$%\^\&*\)\(+=._-]+$/g)
       ? ""
         : "Invalid Data" 
-       :"maximum 30 Characters"
+       :"maximum 50 Characters"
     : "This field is required."
     if ('userEmail' in fieldValues)
-    temp.userEmail = fieldValues.userEmail
-    ?fieldValues.userEmail.length<31
-    ?fieldValues.userEmail.match(/^[a-zA-Z0-9 !@#\$%\^\&*\)\(+=._-]+$/g)
+    temp.userEmail = fieldValues.userEmail ?
+    fieldValues.userEmail.match(/^[a-zA-Z0-9 !@#\$%\^\&*\)\(+=._-]+$/g)
       ? ""
         : "Invalid Data" 
-       :"maximum 30 Characters"
+     
     : "This field is required."
     if ('password' in fieldValues)
     temp.password = fieldValues.password
-    ?fieldValues.password.length>5
     ?fieldValues.password.match(/^[a-zA-Z0-9 !\$%\^\&\)\(+=._]+$/g)
       ? ""
         : "Invalid Data" 
-       :"minimun 6 Characters"
+     
     : "This field is required."
     if ('confirmpassword' in fieldValues)
     temp.confirmpassword = fieldValues.confirmpassword
@@ -97,7 +120,7 @@ const UserForm = (props) => {
         name: values.userName,
         userEmail:values.userEmail,
         password:values.password,
-        userRole:"admin",
+        userRole:userRole,
         isActive:values.isActive,
       };
 
@@ -153,26 +176,38 @@ const UserForm = (props) => {
          error={errors.userEmail}
         required={true}
         />
-   
-
-     
-     
-   <div className="row">
-            <div
-              className="col-sm-6"
-              style={{ padding: "8px 16px", marginTop: "8px" }}
-            >
-              <label htmlFor="text" className="col-sm-5 col-form-label">
-                Is Admin User
-              </label>
-              {getSwitch(userRole, SetuserRole)}
+  
+  <div> 
+    <div style={{ width: "175px", textAlign: "center", margin: "8px", height: "20px" }}>
+              <label>Choose user Roles:</label>
             </div>
+  
+      <ul>
+        {checkBoxInputs.map((role, index) => (
+          <li key={index}>
+            <input
+              type="checkbox"
+              id={role.value}
+              name="userRole"
+              value={role.value}
+              // checked={role.value === CheckedValue}
+              onChange={handleCheckboxChange}
+            />
+            <label htmlFor="text">
+              {role.label}
+            </label>
+          </li>
+        ))}
+      </ul>
+    </div>
+   <div className="row">
+            
             <div
               className="col-sm-6"
               style={{ padding: "8px 16px", marginTop: "8px" }}
             >
               <label htmlFor="text" className="col-sm-5 col-form-label">
-                Is Active User
+                IsActiv
               </label>
               {getSwitch(isActive, SetisActive)}
             </div>

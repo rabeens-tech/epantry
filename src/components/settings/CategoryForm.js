@@ -19,9 +19,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const initialFValues = {
-  id:0,
+  id:"",
   categoryName: "",
   categoryDescription:"",
+  categoryImgUrl:""
 };
 
 const CategoryForm = (props) => {
@@ -63,7 +64,7 @@ const [File,setFile]=useState(null)
     e.preventDefault()
     if (validate()) {
       let req_value = {
-        id:values.id,
+       // id:values.id,
         categoryName: values.categoryName,
         categoryDescription:values.categoryDescription,
         categoryImgUrl:"http://placekitten.com/g/150/150",

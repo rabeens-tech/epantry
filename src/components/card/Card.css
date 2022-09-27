@@ -283,3 +283,8 @@
   margin: 0 15px;
   font-size: 4em;
 }
+.check{
+  align-items: center;
+  display: flex;
+  gap: 5px ;
+}

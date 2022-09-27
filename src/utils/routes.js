@@ -14,6 +14,7 @@ import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantity
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import User from "../components/settings/User";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import Productlist from "../components/Inventory/Productlist";
 const routes = [
   {
     path: "/",
@@ -34,6 +35,15 @@ const routes = [
     icon:<CategoryIcon />
 },
 {
+path:"/product/inventory",
+  component:Productlist,
+  exact:true,
+  parent:"INVENTORY",
+  title:"Add Product",
+  showInNav:true,
+  icon:<AddBusinessIcon />
+},
+{
   path:"/settings/User",
   component: User,
   exact:true,
@@ -51,16 +61,16 @@ const routes = [
   showInNav:true,
 icon:<ProductionQuantityLimitsIcon/>
 },
-{
-  path:"/inventory/inventorylist/add",
-  component: InventoryList,
-  exact:true,
-  parent: "INVENTORY",
-  title:"Inventorys",
-  showInNav:true,
+// {
+//   path:"/inventory/inventorylist/add",
+//   component: InventoryList,
+//   exact:true,
+//   parent: "INVENTORY",
+//   title:"Inventorys",
+//   showInNav:true,
  
-  icon:<AddBusinessIcon />
-},
+  
+// },
 {
 path:"/grocery/productlist",
 component: GroceryList,

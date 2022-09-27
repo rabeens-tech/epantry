@@ -6,13 +6,13 @@ import Popup from "../home/Popup";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import CloseIcon from "@material-ui/icons/Close";
 import { Search } from "@material-ui/icons";
-import { makeStyles, TableBody, TableRow, TableCell, Toolbar, InputAdornment,Paper,Tooltip} from "@material-ui/core";
+import { makeStyles, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Tooltip,Paper} from "@material-ui/core";
 import Controls from "../controls/Controls";
 
 import { toast } from "react-toastify";
 import Spinner from "../../utils/spinner";
 //import  PageHeaderTitle from "../home/PageHeaderTitle";
-import CategoryForm from "./CategoryForm";
+import ProductForm from "../settings/ProductForm";
 import AddIcon from "@material-ui/icons/Add";
 
 import ConfirmDialog from "../home/ConfirmDialog";
@@ -33,43 +33,59 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const headCells = [
-  { id: "categoryName", label: "Category Name" },
-  { id: "categoryDescription", label: " Description", disableSorting: true },
-  { id: "categoryImgUrl", label: "Category Image" },
+  { id: "name", label: "Product Name" },
+  { id: "description", label: " Description" },
+  { id: "categoryName", label: "Product Category" },
+  { id: "unit", label: "Product Qty Unit" },
+  { id: "image", label: "Image URL" },
   { id: "actions", label: "Actions", disableSorting: true },
 ];
 
 
 
 
-const category=[
+const product=[
     {
       "id":1,
-    "categoryName":"MOMOS",
-    "categoryDescription":"mitho Momos",
-    "categoryImgUrl":"http://placekitten.com/g/150/150",
-
+    "name":"vegsMOMOS",
+    "description":"mitho Momos",
+    "categoryName":"momos",
+    "unit":"plate",
+    "image":"drive"
   },
   {
     "id":2,
-    "categoryName":"pizza",
-    "categoryDescription":"mitho pizzass",
-    "categoryImgUrl":"http://placekitten.com/g/150/150",
+    "name":"pizza",
+    "description":"mitho pizzass",
+    "categoryName":"dominos",
+    "unit":"packet",
+    "image":"drive"
   },
   {
     "id":3,
+    "name":"cocacola",
+    "description":"mitho Coke",
     "categoryName":"Coke",
-    "categoryDescription":"mitho Coke",
-    "categoryImgUrl":"http://placekitten.com/g/150/150",
+    "unit":"bottle",
+    "image":"drive"
+  },
+  {
+    "id":4,
+    "name":"nachos",
+    "description":"mithhjh",
+    "categoryName":"crisps",
+    "unit":"packet",
+    "image":"drive"
   },
 ]
 
 
-export default function ProductCategory(props) {
+export default function Productlist(props) {
   const classes = useStyles(props);
-  const [records, setRecords] = useState(category);
+  const [records, setRecords] = useState(product);
   const [isNewPopup, setIsNewPopup] = useState(false);
   const [isEditPopup, setIsEditPopup] = useState(false);
+  
   const [confirmDialog, setConfirmDialog] = useState({
     isOpen: false,
     title: "",
@@ -81,7 +97,8 @@ export default function ProductCategory(props) {
     },
   });
 
- 
+  
+
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     UseTable(records, headCells, filterFn);
 
@@ -94,7 +111,7 @@ export default function ProductCategory(props) {
           else
             return items.filter(
               (x) =>
-                (x.categoryName)
+                (x.name )
                   .toLowerCase()
                   .includes(query.toLowerCase())
              
@@ -103,74 +120,10 @@ export default function ProductCategory(props) {
       });
     };
 
-
-
   // useEffect(() => {
-  // load_product_category();
-  //  }, []);
-
-  //  const load_product_category=() => {
-  //   axios.get(`${config.APP_CONFIG}/category/getall`)
-  //   .then((res) => {
-  //     if (res.data.status_code === 200) {
-  //       setRecords(res.data)
-    
-  //     } else if (res.data.status_code === 401) {
-  //       userSessionContext.handleLogout();
-  //     } else if (res.data.status_code === 400) {
-  //       toast.error(res.data.msg);
-  //       setRecords([]);
-  //     }
-  //   })
-  //   .catch((err) => {
-  //     toast.error("Something Went Wrong");
-  //     setRecords([]);
-  //   });
-
-
-  //  }
-
-
-  const addproductcategory = (_data) => {
-    // const URL='http://localhost:8080/category/save'
-    //     axios.post(URL,_data)
-    // // .post(`${config.APP_CONFIG}/users/save`, _data )
-    // .then((res) => {
-    //   if (res.status===200) {
-    //     toast.success("successfully added");
-    //   }
-    //   else{
-    //     toast.error("Something Went Wrong");
-    //   }
-    //   setIsNewPopup(false);
-    // })
- axios.post(`${config.APP_CONFIG}/category/save`, _data,)
-   .then((res) => {
-    console.log(res);
-     if (res.status=== 200) {
-        toast.success("successfully added")
-        setIsNewPopup(false);
-      }
-    
-//       } else if (res.data.status_code === 401) {
-//         userSessionContext.handleLogout();
-//       } else if (res.data.status_code === 400) {
-//         toast.error(res.data.msg);
-//         setRecords([]);
-//       }
-    })
-    .catch((err) => {
-      toast.error("Something Went Wrong");
-     // setRecords([]);
-    });
- 
-// };
-// else{
-//     toast.error("Something Went Wrong");
-//     }
-//   })
-  }
-  const updateproductcategory = (_data) => {
+    //load_product();
+  // }, []);
+  const addproduct= (_data) => {
     //     axios
 //     .post(`${config.APP_CONFIG}/Products/ProductCategory/api`, _data, {
 //       headers: { Authorization: userSessionContext.token },
@@ -178,7 +131,31 @@ export default function ProductCategory(props) {
 //     .then((res) => {
 //       if (res.data.status_code === 200) {
 //         toast.success(res.data.msg || "successfully added");
-    
+      //load_product()
+//       } else if (res.data.status_code === 401) {
+//         userSessionContext.handleLogout();
+//       } else if (res.data.status_code === 400) {
+//         toast.error(res.data.msg);
+//         setRecords([]);
+//       }
+//     })
+//     .catch((err) => {
+//       toast.error("Something Went Wrong");
+//       setRecords([]);
+//     });
+//   setIsNewPopup(false);
+// };
+
+  }
+  const updateproduct= (_data) => {
+    //     axios
+//     .post(`${config.APP_CONFIG}/Products/ProductCategory/api`, _data, {
+//       headers: { Authorization: userSessionContext.token },
+//     })
+//     .then((res) => {
+//       if (res.data.status_code === 200) {
+//         toast.success(res.data.msg || "successfully added");
+           //load_product()
 //       } else if (res.data.status_code === 401) {
 //         userSessionContext.handleLogout();
 //       } else if (res.data.status_code === 400) {
@@ -194,25 +171,25 @@ export default function ProductCategory(props) {
 // };
     
 }
-const deleteProductcategory= (id) => {
-    setConfirmDialog({ ...confirmDialog, isOpen: false });
-    axios
-      .delete(`${config.APP_CONFIG}/api/${id}`)
-      
-      
-      .then((res) => {
-        if (res.data.status_code === 200) {
-          toast.success("Deleted Successfully!");
-         // load_product_category();
-        } else if (res.data.status_code === 401) {
-         // userSessionContext.handleLogout();
-        } else {
-          toast.error("Delete Unsuccessful");
-        }
-      })
-      .catch((err) => {
-        toast.error("Error");
-      });
+const deleteProduct= (id) => {
+    // setConfirmDialog({ ...confirmDialog, isOpen: false });
+    // axios
+    //   .delete(`${config.APP_CONFIG}/api/${id}`, {
+    //     headers: { Authorization: userSessionContext.token },
+    //   })
+    //   .then((res) => {
+    //     if (res.data.status_code === 200) {
+    //       toast.success("Deleted Successfully!");
+    //      //load_product()
+    //     } else if (res.data.status_code === 401) {
+    //       userSessionContext.handleLogout();
+    //     } else {
+    //       toast.error("delete unsuccessful");
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     toast.error("Error");
+    //   });
   
     
 }
@@ -234,24 +211,24 @@ const deleteProductcategory= (id) => {
         >
           {isNewPopup ? (
             <Popup
-              title="Add Category"
+              title="Add Product"
               openPopup={isNewPopup}
               setPopups={setIsNewPopup}
             >
-              <CategoryForm handleSubmit={addproductcategory} />
+              <ProductForm handleSubmit={addproduct} />
             </Popup>
           ) : null}
 
           {isEditPopup ? (
             <Popup
-              title="Edit Category"
+              title="Edit Product"
               openPopup={isEditPopup === false ? false : true}
               setPopups={() => {
                 setIsEditPopup(false);
               }}
             >
-              <CategoryForm 
-                handleSubmit={updateproductcategory}
+              <ProductForm 
+                handleSubmit={updateproduct}
                 data={records.filter((x) => x.id === isEditPopup)[0] || null}
               />
             </Popup>
@@ -260,18 +237,18 @@ const deleteProductcategory= (id) => {
             confirmDialog={confirmDialog}
             setConfirmDialog={setConfirmDialog}
           />
-      <Paper className={classes.pageContent}>
+ <Paper className={classes.pageContent}>
           <div>
-    
+         
             <div>
               <div>            
               <span
-              style={{ fontSize:"30px"}}>Product Category</span>
+              style={{ fontSize:"30px"}}>Product</span>
               </div>
              
               <div className="addButton">
                 <Controls.Button
-                  text="Add Category"
+                  text="Add Product"
                   variant="outlined"
                   startIcon={<AddIcon />}
                   className={classes.newButton}
@@ -284,6 +261,7 @@ const deleteProductcategory= (id) => {
             </div>
           </div>
          
+
 
           <Toolbar>
           <Controls.Input
@@ -309,9 +287,11 @@ const deleteProductcategory= (id) => {
                   {recordsAfterPagingAndSorting().map((item, index) => (
                     <TableRow key={item.id}>
                    
+                      <TableCell>{item.name}</TableCell>
+                      <TableCell>{item.description}</TableCell>
                       <TableCell>{item.categoryName}</TableCell>
-                      <TableCell>{item.categoryDescription}</TableCell>
-                      <TableCell>{item.categoryImgUrl}</TableCell>
+                      <TableCell>{item.unit}</TableCell>
+                      <TableCell>{item.image}</TableCell>
                       <TableCell>
                         <Controls.ActionButton
                           color="primary"
@@ -328,10 +308,10 @@ const deleteProductcategory= (id) => {
                           onClick={() => {
                             setConfirmDialog({
                               isOpen: true,
-                              title: "Are you sure to delete this Category?",
+                              title: "Are you sure to delete this Product?",
                               subTitle: "You can't undo this operation",
                               onConfirm: () => {
-                                deleteProductcategory(item.id);
+                                deleteProduct(item.id);
                               },
                             });
                           }}
@@ -344,10 +324,12 @@ const deleteProductcategory= (id) => {
                   ))}
                 </TableBody>
               </TblContainer>
-              <TblPagination />
+              {records.length>1 ?
+          <TblPagination />
+          :null}
             </div>
           </div>
-          </Paper>
+</Paper>
         </div>
       </div>
     </div>

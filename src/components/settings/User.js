@@ -139,7 +139,7 @@ export default function User(props) {
           else
             return items.filter(
               (x) =>
-                (x.name )
+                (x.userName)
                   .toLowerCase()
                   .includes(query.toLowerCase())
              
@@ -175,24 +175,22 @@ export default function User(props) {
   //  }
 
   const adduser = (_data) => {
-        axios
-    .post(`${config.APP_CONFIG}/users/save`, _data )
+    // const URL='http://localhost:8080/users/save'
+    //     axios.post(URL,_data)
+    axios.post(`${config.APP_CONFIG}/users/save`, _data )
     .then((res) => {
-      if (res.data.status_code === 200) {
+      if (res.status===200) {
         toast.success("successfully added");
-    
-      } else if (res.data.status_code === 401) {
-        // userSessionContext.handleLogout();
-      } else if (res.data.status_code === 400) {
-        toast.error(res.data.msg);
-        setRecords([]);
+           setIsNewPopup(false);
       }
+   
+      setIsNewPopup(false);
     })
     .catch((err) => {
       toast.error("Something Went Wrong");
      setRecords([]);
      });
-  setIsNewPopup(false);
+  
 };
 
   
@@ -277,8 +275,8 @@ const  deleteuser = (id) => {
             onChange={handleSearch}
           />
         </Toolbar>
-        {/* </Paper>
-        <Paper className={classes.pageContent}> */}
+         </Paper>
+        <Paper className={classes.pageContent}> 
           <div className="row">
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
               <Table className={classes.table}>

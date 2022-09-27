@@ -136,7 +136,7 @@ export default function InventoryList(props) {
       // useEffect(() => {
     //load_inventory();
   // }, []);
-  const addCategory = (_data) => {
+  const addinventory = (_data) => {
 //     axios
 //     .post(`${config.APP_CONFIG}/inventory/save`, _data, {
 //       headers: { Authorization: userSessionContext.token },
@@ -161,7 +161,7 @@ export default function InventoryList(props) {
    
   };
 
-  const updateCategory = (_data) => {
+  const updateinventory = (_data) => {
 //     axios
 //     .put(`${config.APP_CONFIG}/inventory/change/${_data.id}`,  {
 //       headers: { Authorization: userSessionContext.token },
@@ -220,7 +220,7 @@ export default function InventoryList(props) {
           openPopup={isNewPopup}
           setPopups={setIsNewPopup}
         >
-          <ProductForm handleSubmit={addCategory} />
+          <InventoryCategoryForm handleSubmit={addinventory} />
         </Popup>
       ) : null}
 
@@ -233,7 +233,7 @@ export default function InventoryList(props) {
           }}
         >
           <InventoryCategoryForm
-            handleSubmit={updateCategory}
+            handleSubmit={updateinventory}
             data={records.filter((x) => x.id === isEditPopup)[0] || null}
           />
         </Popup>
