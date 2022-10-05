@@ -44,45 +44,45 @@ const headCells = [
 
 
 
-const product=[
-    {
-      "id":1,
-    "name":"vegsMOMOS",
-    "description":"mitho Momos",
-    "categoryName":"momos",
-    "unit":"plate",
-    "image":"drive"
-  },
-  {
-    "id":2,
-    "name":"pizza",
-    "description":"mitho pizzass",
-    "categoryName":"dominos",
-    "unit":"packet",
-    "image":"drive"
-  },
-  {
-    "id":3,
-    "name":"cocacola",
-    "description":"mitho Coke",
-    "categoryName":"Coke",
-    "unit":"bottle",
-    "image":"drive"
-  },
-  {
-    "id":4,
-    "name":"nachos",
-    "description":"mithhjh",
-    "categoryName":"crisps",
-    "unit":"packet",
-    "image":"drive"
-  },
-]
+// const product=[
+//     {
+//       "id":1,
+//     "name":"vegsMOMOS",
+//     "description":"mitho Momos",
+//     "categoryName":"momos",
+//     "unit":"plate",
+//     "image":"drive"
+//   },
+//   {
+//     "id":2,
+//     "name":"pizza",
+//     "description":"mitho pizzass",
+//     "categoryName":"dominos",
+//     "unit":"packet",
+//     "image":"drive"
+//   },
+//   {
+//     "id":3,
+//     "name":"cocacola",
+//     "description":"mitho Coke",
+//     "categoryName":"Coke",
+//     "unit":"bottle",
+//     "image":"drive"
+//   },
+//   {
+//     "id":4,
+//     "name":"nachos",
+//     "description":"mithhjh",
+//     "categoryName":"crisps",
+//     "unit":"packet",
+//     "image":"drive"
+//   },
+// ]
 
 
 export default function ProductPage(props) {
   const classes = useStyles(props);
-  const [records, setRecords] = useState(product);
+  const [records, setRecords] = useState();
   const [isNewPopup, setIsNewPopup] = useState(false);
   const [isEditPopup, setIsEditPopup] = useState(false);
   
@@ -111,7 +111,7 @@ export default function ProductPage(props) {
           else
             return items.filter(
               (x) =>
-                (x.name )
+                (x.inventoryName )
                   .toLowerCase()
                   .includes(query.toLowerCase())
              
@@ -120,33 +120,53 @@ export default function ProductPage(props) {
       });
     };
 
-  // useEffect(() => {
-    //load_product();
-  // }, []);
-  const addproduct= (_data) => {
-    //     axios
-//     .post(`${config.APP_CONFIG}/Products/ProductCategory/api`, _data, {
-//       headers: { Authorization: userSessionContext.token },
-//     })
-//     .then((res) => {
-//       if (res.data.status_code === 200) {
-//         toast.success(res.data.msg || "successfully added");
-      //load_product()
-//       } else if (res.data.status_code === 401) {
-//         userSessionContext.handleLogout();
-//       } else if (res.data.status_code === 400) {
-//         toast.error(res.data.msg);
-//         setRecords([]);
-//       }
-//     })
-//     .catch((err) => {
-//       toast.error("Something Went Wrong");
-//       setRecords([]);
-//     });
-//   setIsNewPopup(false);
-// };
+  useEffect(() => {
+    load_product();
+  }, []);
 
-  }
+  const load_product = () =>{
+    axios
+    .get(`${config.APP_CONFIG}inventory/getall`)
+    .then((res) => {
+      if (res.status === 200) {
+        console.log(res.data)
+        setRecords(res.data)    
+      } else if (res.status === 401) {
+        // userSessionContext.handleLogout();
+      } else if (res.status === 400) {
+        toast.error(res.data);
+        setRecords([]);
+      }
+    })
+    .catch((err) => {
+      toast.error("Something Went Wrong");
+      setRecords([]);
+    });
+ }
+
+  const addproduct= (_data) => {
+    // console.log(_data)
+    axios
+    .post(`${config.APP_CONFIG}inventory/saveall`, _data )
+    .then((res) => {
+      if (res.status === 200) {
+        toast.success(res.data || "successfully added");
+      load_product()
+      } else if (res.status === 401) {
+        // userSessionContext.handleLogout();
+      } else if (res.status === 400) {
+        toast.error(res.data);
+        // setRecords([]);
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+      toast.error("Something Went Wrong");
+      setRecords([]);
+    });
+  // setIsNewPopup(false);
+};
+
   const updateproduct= (_data) => {
     //     axios
 //     .post(`${config.APP_CONFIG}/Products/ProductCategory/api`, _data, {
@@ -173,23 +193,21 @@ export default function ProductPage(props) {
 }
 const deleteProduct= (id) => {
     // setConfirmDialog({ ...confirmDialog, isOpen: false });
-    // axios
-    //   .delete(`${config.APP_CONFIG}/api/${id}`, {
-    //     headers: { Authorization: userSessionContext.token },
-    //   })
-    //   .then((res) => {
-    //     if (res.data.status_code === 200) {
-    //       toast.success("Deleted Successfully!");
-    //      //load_product()
-    //     } else if (res.data.status_code === 401) {
-    //       userSessionContext.handleLogout();
-    //     } else {
-    //       toast.error("delete unsuccessful");
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     toast.error("Error");
-    //   });
+    axios
+      .delete(`${config.APP_CONFIG}inventory/remove/${id}`)
+      .then((res) => {
+        if (res.status === 200) {
+          toast.success("Deleted Successfully!");
+         load_product()
+        } else if (res.status === 401) {
+          // userSessionContext.handleLogout();
+        } else {
+          toast.error("delete unsuccessful");
+        }
+      })
+      .catch((err) => {
+        toast.error("Error");
+      });
   
     
 }
@@ -215,7 +233,11 @@ const deleteProduct= (id) => {
               openPopup={isNewPopup}
               setPopups={setIsNewPopup}
             >
-              <ProductForm handleSubmit={addproduct} />
+              <ProductForm handleSubmit={e=>{
+                  alert("test")
+                 addproduct(e) 
+                }} 
+              />
             </Popup>
           ) : null}
 
@@ -287,11 +309,11 @@ const deleteProduct= (id) => {
                   {recordsAfterPagingAndSorting().map((item, index) => (
                     <TableRow key={item.id}>
                    
-                      <TableCell>{item.name}</TableCell>
+                      <TableCell>{item.inventoryName}</TableCell>
                       <TableCell>{item.description}</TableCell>
                       <TableCell>{item.categoryName}</TableCell>
-                      <TableCell>{item.unit}</TableCell>
-                      <TableCell>{item.image}</TableCell>
+                      <TableCell>{item.unitName}</TableCell>
+                      <TableCell>{item.inventoryImgUrl}</TableCell>
                       <TableCell>
                         <Controls.ActionButton
                           color="primary"

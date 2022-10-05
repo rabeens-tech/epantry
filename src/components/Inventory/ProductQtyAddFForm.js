@@ -15,8 +15,6 @@ import {
 } from "@material-ui/core";
 import { PhotoCamera } from "@material-ui/icons";
 
-import units from '../../utils/units'
-
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -39,13 +37,42 @@ const initialFValues = {
   image: ""
 };
 
+const units = [
+  {
+    "id": 1,
+    "title": "kg",
 
+  },
+  {
+    "id": 2,
+    "title": "gram",
 
+  },
+  {
+    "id": 3,
+    "title": "ml",
+
+  },
+  {
+    "id": 4,
+    "title": "litre",
+
+  },
+  {
+    "id": 5,
+    "title": "piece",
+
+  },
+  {
+    "id": 6,
+    "title": "packet",
+
+  },
+]
 
 const ProductForm = (props) => {
   const classes = useStyles();
-  // console.log(props.data)
-  const _data = props.data || {};
+  const _data = props.data || initialFValues;
 
   const [allCat, setAllCat] = React.useState()
 
@@ -85,11 +112,6 @@ const ProductForm = (props) => {
 
 
   React.useEffect(()=>{
-    load_categories()
-  },[])
-
-
-  const load_categories = () =>{
     axios
     .get(`${config.APP_CONFIG}category/getall`)
     .then((res) => {
@@ -112,7 +134,7 @@ const ProductForm = (props) => {
       toast.error("Something Went Wrong");
       setAllCat([]);
     });
-  }
+  },[])
 
   const handleCapture = (e) => {
     setSelectedFile(e.target.files[0]);
@@ -143,8 +165,7 @@ const ProductForm = (props) => {
         unitName: values.unit,
         inventoryImgUrl: "http://placekitten.com/g/150/150",
       };
-      // console.log(values)
-      // console.log(req_value)
+
       props.handleSubmit(req_value);
     }
 
@@ -170,7 +191,7 @@ const ProductForm = (props) => {
           <Controls.Input
             name="name"
             label="Name"
-            value={values.inventoryName}
+            value={values.name}
             onChange={handleInputChange}
 
             required={true}
@@ -179,12 +200,7 @@ const ProductForm = (props) => {
           <Controls.Select
             label="unit"
             name="unit"
-            initialValue={{
-              id:units.filter(x=>{
-
-              })
-            }}
-            value={values.unitName}
+            value={values.unit}
             onChange={handleInputChange}
             options={units}
 

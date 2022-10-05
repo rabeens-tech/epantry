@@ -81,13 +81,9 @@ public class InventoryController {
           return new ResponseEntity<>("Unable to update data "+ex.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
-
-    @RequestMapping(path="/invsummary",method = RequestMethod.GET)
-    public InventorySummary getInventorySummary(){
-    Map<String,InventorySummary> mymap = new HashMap<>();
-    Iterable<Inventory> allInv= inventoryRepo.findAll();
-    return new InventorySummary();
-    }
-
     
+    @RequestMapping(path="/invsummary",method = RequestMethod.GET)
+    public Map<String,InventorySummary>  getInventorySummary(){
+      return inventoryManagement.generateSummary(inventoryRepo.findAll());
+    }    
 }

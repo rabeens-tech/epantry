@@ -14,11 +14,15 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.estock.mystockmgr.services.CustomUserDetailsServiceManager;
 
 @Configuration
 @EnableWebSecurity
+@EnableWebMvc
 public class SpringWebsecConfigurer {
 
     @Autowired
@@ -37,7 +41,7 @@ public class SpringWebsecConfigurer {
             }
         }
             );
-            http.csrf().disable();
+            http.cors().and().csrf().disable();
         return http.build();
     }
 
@@ -54,6 +58,22 @@ public class SpringWebsecConfigurer {
         return authProvider;
     }
 
+@Bean
+public WebMvcConfigurer CORSConfigurer() {
+    return new WebMvcConfigurer() {
+        @Override
+        public void addCorsMappings(CorsRegistry registry) {
+            registry.addMapping("/**")
+                    .allowedOrigins("*")
+                    .allowedHeaders("*")
+                    .allowedMethods("*") //.allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD")
+                    .maxAge(-1)   // add maxAge
+                    .allowCredentials(false);
+        }
+    };
+}
+
+    
 
     // @Bean
     // public UserDetailsManager users(DataSource dataSource) {
@@ -68,5 +88,6 @@ public class SpringWebsecConfigurer {
         return new BCryptPasswordEncoder();
     }
 
+    
 
 }

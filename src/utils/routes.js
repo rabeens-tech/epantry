@@ -18,7 +18,7 @@ import Productlist from "../components/Inventory/Productlist";
 const routes = [
   {
     path: "/",
-    component: Home,
+    component: Productlist,
     exact: true,
     title: "Dashboard",
     showInNav: true,
@@ -26,38 +26,38 @@ const routes = [
   },
 
   {
-    path:"/settings/productCategory",
+    path:"/settings/categories",
     component: ProductCategory,
     exact:true,
-    parent: "SETTINGS",
-    title:" manage category",
+    parent: "MASTER",
+    title:"categories",
     showInNav:true,
     icon:<CategoryIcon />
 },
 {
-path:"/product/inventory",
+path:"/inventory",
   component:Productlist,
   exact:true,
   parent:"INVENTORY",
-  title:"Add Product",
+  title:"Product",
   showInNav:true,
   icon:<AddBusinessIcon />
 },
 {
-  path:"/settings/User",
+  path:"/settings/users",
   component: User,
   exact:true,
-  parent: "SETTINGS",
+  parent: "MASTER",
   title:" User",
   showInNav:true,
   icon:<ManageAccountsIcon />
 },
 {
-  path:"/settings/productSKU",
+  path:"/settings/products",
   component: ProductPage,
   exact:true,
-  parent: "SETTINGS",
-  title:"productSKU",
+  parent: "MASTER",
+  title:"products",
   showInNav:true,
 icon:<ProductionQuantityLimitsIcon/>
 },
@@ -72,16 +72,16 @@ icon:<ProductionQuantityLimitsIcon/>
   
 // },
 {
-path:"/grocery/productlist",
+path:"/grocerylist",
 component: GroceryList,
 exact:true,
 parent: "GROCERY",
-title:"GroceryList",
+title:"Grocery List",
 showInNav:true,
 icon:<LocalGroceryStoreIcon/>,
 },
 {
-  path:"/stock/stockproductlist/add",
+  path:"/stock",
   component: StockList1,
   exact:true,
   parent: "STOCK",
@@ -91,7 +91,7 @@ icon:<LocalGroceryStoreIcon/>,
 
   },
 {
-  path:"/consumption/productlist",
+  path:"/consumption",
   component: ConsumptionPage,
   exact:true,
   parent: "CONSUMPTION",

@@ -133,9 +133,30 @@ export default function InventoryList(props) {
       });
     };
 
-      // useEffect(() => {
-    //load_inventory();
-  // }, []);
+
+  const load_inventory = () => {
+    axios
+    .get(`${config.APP_CONFIG}/inventory/getall`)
+    .then((res) => {
+      if (res.status === 200) {
+        setRecords(res.data)    
+      } else if (res.status === 401) {
+        // userSessionContext.handleLogout();
+      } else if (res.status === 400) {
+        toast.error(res.data);
+        setRecords([]);
+      }
+    })
+    .catch((err) => {
+      toast.error("Something Went Wrong");
+      setRecords([]);
+    });
+  setIsNewPopup(false);
+};
+   
+
+
+
   const addinventory = (_data) => {
 //     axios
 //     .post(`${config.APP_CONFIG}/inventory/save`, _data, {
@@ -208,8 +229,14 @@ export default function InventoryList(props) {
   
   };
 
+
+  React.useEffect(() => {
+    load_inventory()
+  }, []);
+
+
   if (records === undefined) {
-    return <Spinner />;
+    return <Spinner />
   }
  
   return (

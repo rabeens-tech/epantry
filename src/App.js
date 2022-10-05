@@ -51,7 +51,7 @@ export default function App() {
   if (token === true) {
     return (
       <div>
-        <ToastContainer rtl />
+        <ToastContainer  />
         <Login setToken={save_token}></Login>
       </div>
     );

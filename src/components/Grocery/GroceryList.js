@@ -30,15 +30,6 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
     zIndex:4
   },
-//   status: {
-//     fontWeight: 'bold',
-//     fontSize: '0.75rem',
-//     color: 'white',
-//     backgroundColor: 'grey',
-//     borderRadius: 8,
-//     padding: '3px 10px',
-//     display: 'inline-block'
-// }
 
 }));
 
@@ -66,100 +57,13 @@ const makeStyle=(days)=>{
     }
   }
 }
-const product=[
-  {
-    id:1,
-  "name":"vegsMOMOS",
-  "days":0,
-  "categoryname":"momos",
-  "qty":"3",
-  "unit":"plate",
-  "consume_rate":"2gram/day",
-  "imgUrl":"https://i.imgur.com/VVuoqig.jpg",
-},
-{
-  id:2,
-  "name":"pizza",
-  "days":"4",
-  "categoryname":"dominos",
-  "qty":"3",
-  "unit":"packet",
-  "consume_rate":"2piece/week",
-  "imgUrl":"https://i.imgur.com/VVuoqig.jpg",
-},
-{
-  id:3,
-  "name":"cocacola",
-  "days":"7",
-  "categoryname":"Coke",
-  "unit":"bottle",
-  "qty":"3",
-  "consume_rate":"2bootle/day",
-  "imgUrl":"https://i.imgur.com/VVuoqig.jpg",
-},
-{
-  id:4,
-  "name":"nachos",
-  "days":"3",
-  "categoryname":"crisps",
-  "unit":"packet",
-  "qty":"3",
-  "consume_rate":"200gram/week",
-  "imgUrl":"https://i.imgur.com/VVuoqig.jpg",
-},
-]
-const product_stock=[
-  {
-    id:1,
-  "name":"vegsMOMOS",
-  "description":"mitho Momos",
-  "categoryname":"momos",
-  qtyi:5,
-  "unit":"plate",
-  "last_replenished":"3",
-  "left_unit":"bottle",
-  "left_qty":"3",
 
-},
-{
-  id:2,
-  "name":"pizza",
-  "description":"mitho pizzass",
-  "categoryname":"dominos",
-  qtyi:3,
-  "unit":"packet",
-  "last_replenished":"4",
-  "left_unit":"bottle",
-  "left_qty":"3",
-},
-{
-  id:3,
-  "name":"cocacola",
-  "description":"mitho Coke",
-  "categoryname":"Coke",
-  "unit":"bottle",
-  "qtyi":"3",
-  "last_replenished":"75",
-  "left_unit":"bottle",
-  "left_qty":"3",
-},
-{
-  id:4,
-  "name":"nachos",
-  "description":"mithhjh",
-  "categoryname":"crisps",
-  "unit":"packet",
-  "qty":"3",
-  "left_unit":"bottle",
-  "left_qty":"3",
-  "last_replenished":"7"
-},
-]
+
 const headCells = [
   { id: "name", label: "Item" },
-  { id: "categoryname", label: " Category", disableSorting: true },
+  // { id: "categoryName", label: " Category", disableSorting: true },
   { id: "qty", label: " Qty Left", disableSorting: true },
-  { id: "unit", label: " UOM", disableSorting: true },
+  // { id: "unit", label: " UOM", disableSorting: true },
   { id: "days", label: "Days to Deplete", disableSorting: true },
   { id: "actions", label: "Actions", disableSorting: true },
 ];
@@ -168,8 +72,8 @@ export default function GroceryList(props) {
 
 
   const classes = useStyles(props);
-  const [records, setRecords] = useState(product);
-  const [data, setData] = useState(product_stock);
+  const [records, setRecords] = useState();
+  const [data, setData] = useState();
 
   const [filterFn, setFilterFn] = useState({
     fn: (items) => {
@@ -177,8 +81,7 @@ export default function GroceryList(props) {
     },
   });
  
-  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
-    UseTable(records, headCells, filterFn);
+  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } = UseTable(records, headCells, filterFn);
 
     const handleSearch = (e) => {
       let query = e.target.value;
@@ -186,84 +89,99 @@ export default function GroceryList(props) {
       setFilterFn({
         fn: (items) => {
           if (query === "") return items;
-          else
+          else{
+              
             return items.filter(
               (x) =>
-                (x.name+x.categoryname )
+                (x.name+x.inventoryName )
                   .toLowerCase()
                   .includes(query.toLowerCase())
              
             );
+          }
         },
       });
     };
 
-  const addCategory = (_data) => {
-   //     axios
-//     .post(`${config.APP_CONFIG}/Products/ProductCategory/api`, _data, {
-//       headers: { Authorization: userSessionContext.token },
-//     })
-//     .then((res) => {
-//       if (res.data.status_code === 200) {
-//         toast.success(res.data.msg || "successfully added");
-    
-//       } else if (res.data.status_code === 401) {
-//         userSessionContext.handleLogout();
-//       } else if (res.data.status_code === 400) {
-//         toast.error(res.data.msg);
-//         setRecords([]);
-//       }
-//     })
-//     .catch((err) => {
-//       toast.error("Something Went Wrong");
-//       setRecords([]);
-//     });
-//   setIsNewPopup(false);
-// };
-  };
+    React.useEffect(()=>{
+      load_summary()
+      load_products()
+    },[])
 
-  const updateCategory = (_data) => {
-    //     axios
-//     .post(`${config.APP_CONFIG}/Products/ProductCategory/api`, _data, {
-//       headers: { Authorization: userSessionContext.token },
-//     })
-//     .then((res) => {
-//       if (res.data.status_code === 200) {
-//         toast.success(res.data.msg || "successfully added");
+    const load_products = () =>{
+    axios
+    .get(`${config.APP_CONFIG}inventory/getall`)
+    .then((res) => {
+      if (res.status === 200) {
+        console.log(res)
+
+        setRecords(res.data)
+        // toast.success(res.data || "successfully added");
     
-//       } else if (res.data.status_code === 401) {
-//         userSessionContext.handleLogout();
-//       } else if (res.data.status_code === 400) {
-//         toast.error(res.data.msg);
-//         setRecords([]);
-//       }
-//     })
-//     .catch((err) => {
-//       toast.error("Something Went Wrong");
-//       setRecords([]);
-//     });
-//   setIsNewPopup(false);
-// };
-   
-  };
+      } else if (res.status === 401) {
+        // userSessionContext.handleLogout();
+      } else if (res.status === 400) {
+        toast.error(res.data || "error loading data");
+        setRecords([]);
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+      toast.error("Something Went Wrong");
+      setRecords([]);
+    });
+    }
+
+
+    const load_summary = () =>{
+      axios
+    .get(`${config.APP_CONFIG}inventory/invsummary`)
+    .then((res) => {
+      if (res.status === 200) {
+        console.log(res)
+
+        setData(res.data)
+        // toast.success(res.data || "successfully added");
+    
+      } else if (res.status === 401) {
+        // userSessionContext.handleLogout();
+      } else if (res.status === 400) {
+        toast.error(res.data || "error loading data");
+        setData([]);
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+      toast.error("Something Went Wrong");
+      setData([]);
+    });
+    }
 
 
   if (records === undefined) {
     return <Spinner />;
   }
- console.log(data)
+
+  if (data === undefined) {
+    return <Spinner />;
+  }
+ // console.log(data)
+ 
+
  const check=(id)=>{
   let a={};
-   a =data.filter((x)=> x.id===id)
-console.log(a)
+  // console.log(records)
+   a =records.filter((x)=> x.id===id)
+// console.log(a)
     return <div>{a[0]["qtyi"]}{a[0]["unit"]}</div>
  }
-// console.log(a);
+
   return (
     <div>
   
-<Cards/>
-      <div>
+      <Cards data = {data}/>
+    <div>
+    
       <Paper className={classes.pageContent}>
 
         <div className="row proCategoryPage">
@@ -288,25 +206,23 @@ console.log(a)
           />
         </Toolbar>
    </Paper>
-   
-        <Paper className={classes.pageContent}>
+    
+  <Paper className={classes.pageContent}>
         <div className="row">
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 proCategoryTbl">
           <TblContainer>
             <TblHead />
             <TableBody>
-              {recordsAfterPagingAndSorting() &&
-                recordsAfterPagingAndSorting().map((item) => (
-                  <TableRow key={item.id}>
-                                        <TableCell><div className="avataricon">
-<img alt={item.name} src={item.imgUrl}className="avt"/>
-{item.name}
-</div>
-                      </TableCell>
-                    <TableCell>{item.categoryname}</TableCell>
-                    <TableCell>{item.qty}</TableCell>
-                    <TableCell>{item.unit}</TableCell>
-                    <TableCell>{item.days}</TableCell>
+              {recordsAfterPagingAndSorting().map((item) => {
+                console.log(item)
+                return <TableRow key={item.id}>
+                  <TableCell><div className="avataricon">
+                      <img alt={item.name} src={item.imgUrl}className="avt"/>
+                      {item.inventoryName}
+                      </div>
+                    </TableCell>
+                    <TableCell>{item.quantity + " " + item.unitName}</TableCell>
+                    <TableCell>{item.daysToDeplete}</TableCell>
                    
               
   
@@ -337,7 +253,7 @@ console.log(a)
                     
                 
                   </TableRow>
-                ))}
+                })}
             </TableBody>
           </TblContainer>
           {records.length>1 ?

@@ -2,12 +2,18 @@ import React, { useState, useEffect } from "react";
 import UseTable from "../home/UseTable";
 import Popup from "../home/Popup";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
-
+import Spinner from '../../utils/spinner';
 import { Search } from "@material-ui/icons";
 import { makeStyles, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Tooltip,Paper} from "@material-ui/core";
 import Controls from "../controls/Controls";
 
 import AddIcon from "@material-ui/icons/Add";
+
+
+import axios from "axios";
+import { toast } from "react-toastify";
+import config from "../../utils/config";
+
 
 import NewCard from "../card/NewCard";
 import CardsStock from "../cards/CardsStock";
@@ -26,56 +32,6 @@ const useStyles = makeStyles((theme) => ({
     zIndex:4
   },
 }));
-const product=[
-  {
-    "id":1,
-  "name":"vegsMOMOS",
-  "description":"mitho Momos",
-  "categoryname":"momos",
-  "qty":"3",
-  "unit":"plate",
-  "last_replenished":"3",
-  "left_unit":"bottle",
-  "left_qty":"3",
-  "imgUrl":"https://i.imgur.com/VVuoqig.jpg",
-},
-{
-  "id":2,
-  "name":"pizza",
-  "description":"mitho pizzass",
-  "categoryname":"dominos",
-  "qty":"3",
-  "unit":"packet",
-  "last_replenished":"4",
-  "left_unit":"bottle",
-  "left_qty":"3",
-  "imgUrl":"https://i.imgur.com/VVuoqig.jpg",
-},
-{
-  "id":3,
-  "name":"cocacola",
-  "description":"mitho Coke",
-  "categoryname":"Coke",
-  "unit":"bottle",
-  "qty":"3",
-  "last_replenished":"75",
-  "left_unit":"bottle",
-  "left_qty":"3",
-  "imgUrl":"https://i.imgur.com/VVuoqig.jpg",
-},
-{
-  "id":4,
-  "name":"nachos",
-  "description":"mithhjh",
-  "categoryname":"crisps",
-  "unit":"packet",
-  "qty":"3",
-  "left_unit":"bottle",
-  "left_qty":"3",
-  "last_replenished":"7",
-  "imgUrl":"https://i.imgur.com/VVuoqig.jpg",
-},
-]
  
 const headCells = [
   { id: "categoryname", label: "CategoryName", disableSorting: true },
@@ -92,7 +48,8 @@ export default function StockList1(props) {
 
 
   const classes = useStyles(props);
-  const [records, setRecords] = useState(product);
+  const [records, setRecords] = useState();
+  const [categories, setCategories] = useState();
  
 
   const [filterFn, setFilterFn] = useState({
@@ -113,7 +70,7 @@ export default function StockList1(props) {
           else
             return items.filter(
               (x) =>
-                (x.name +x.categoryname)
+                x.categoryname
                   .toLowerCase()
                   .includes(query.toLowerCase())
              
@@ -122,7 +79,72 @@ export default function StockList1(props) {
       });
     };
 
+    React.useEffect(()=>{
+      load_products()
+      load_categories()
+    },[])
 
+
+
+const load_categories = () =>{
+    axios
+    .get(`${config.APP_CONFIG}category/getall`)
+    .then((res) => {
+      if (res.status === 200) {
+        console.log(res)
+
+        setCategories(res.data)
+        // toast.success(res.data || "successfully added");
+    
+      } else if (res.status === 401) {
+        // userSessionContext.handleLogout();
+      } else if (res.status === 400) {
+        toast.error(res.data || "error loading data");
+        setCategories([]);
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+      toast.error("Something Went Wrong");
+      setCategories([]);
+    });
+    }
+
+
+
+
+
+    const load_products = () =>{
+    axios
+    .get(`${config.APP_CONFIG}inventory/getall`)
+    .then((res) => {
+      if (res.status === 200) {
+        // console.log(res)
+        setRecords(res.data)
+        // toast.success(res.data || "successfully added");
+    
+      } else if (res.status === 401) {
+        // userSessionContext.handleLogout();
+      } else if (res.status === 400) {
+        toast.error(res.data || "error loading data");
+        setRecords([]);
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+      toast.error("Something Went Wrong");
+      setRecords([]);
+    });
+    }
+
+
+    if(records === undefined ){
+      return <Spinner />
+    }
+
+    if(categories === undefined ){
+      return <Spinner />
+    }
 
 
 
@@ -130,12 +152,14 @@ export default function StockList1(props) {
     <div>
   <div>
   {/* <CardsStock/>  */}
-  <NewCard/>
+  <NewCard
+    data = {categories}
+  />
   </div>
 
   <div>
           
-          <PageHeaderTitle title="Grocery" />
+{/*          <PageHeaderTitle title="Grocery" /> */}
         </div>
         <Toolbar>
           <Controls.Input
@@ -163,11 +187,11 @@ export default function StockList1(props) {
                   <TableRow key={item.id}>
                  
                     <TableCell><div className="avataricon">
-<img alt={item.name} src={item.imgUrl}className="avt"/>
-{item.name}
-</div>
-                      </TableCell>
-                      <TableCell>{item.categoryname}</TableCell>
+                      <img alt={item.name} src={item.imgUrl}className="avt"/>
+                      {item.inventoryName}
+                      </div>
+                    </TableCell>
+                    <TableCell>{item.inventoryName}</TableCell>
                     <TableCell>{item.qty}</TableCell>
                     <TableCell>{item.unit}</TableCell>
                     <TableCell>{item.left_qty}</TableCell>

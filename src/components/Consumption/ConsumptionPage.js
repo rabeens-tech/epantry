@@ -34,50 +34,21 @@ const useStyles = makeStyles((theme) => ({
 
 const headCells = [
   { id: "name", label: "item" },
-  { id: "categoryname", label: " CategoryName" },
+  // { id: "categoryname", label: " CategoryName" },
   { id: "frequency", label: " Consumptionfrequency" },
   { id: "depletion_rate", label: " Avg Qty Consumption" },
-  { id: "unit", label: " UOM", disableSorting: true },
+  // { id: "unit", label: " UOM", disableSorting: true },
   { id: "actions", label: "Actions", disableSorting: true },
 ];
 
 
 
 
-const category=[
-    {
-      "id":1,
-    "name":"vegMOMOS",
-    "categoryname":"momos",
-    "frequency":"daily",
-    "depletion_rate":"0.1",
-    "unit":"kg",
-    "imgUrl":"https://i.imgur.com/VVuoqig.jpg",
-  },
-  {
-    "id":2,
-    "name":"pizza",
-    "categoryname":"dominoss",
-    "frequency":"daily",
-    "depletion_rate":"0.5",
-    "unit":"gram",
-    "imgUrl":"https://i.imgur.com/VVuoqig.jpg",
-  },
-  {
-    "id":3,
-    "name":"fanta",
-    "categoryname":"cocacola",
-    "frequency":"weekly",
-    "depletion_rate":"200",
-    "unit":"ml",
-    "imgUrl":"https://i.imgur.com/VVuoqig.jpg",
-  },
-]
 
 
 export default function ConsumeptionPage(props) {
   const classes = useStyles(props);
-  const [records, setRecords] = useState(category);
+  const [records, setRecords] = useState();
   const [isNewPopup, setIsNewPopup] = useState(false);
   const [isEditPopup, setIsEditPopup] = useState(false);
   const [confirmDialog, setConfirmDialog] = useState({
@@ -104,7 +75,7 @@ export default function ConsumeptionPage(props) {
           else
             return items.filter(
               (x) =>
-                (x.name )
+                (x.inventoryName )
                   .toLowerCase()
                   .includes(query.toLowerCase())
              
@@ -115,29 +86,29 @@ export default function ConsumeptionPage(props) {
 
 
 
-    // useEffect(() => {
-    //   load_consume();
-    //    }, []);
-    //    const load_consume = () => {
+    useEffect(() => {
+      load_consume();
+       }, []);
+       const load_consume = () => {
        
-    //        axios.get(`${config.APP_CONFIG}/users/getall`)
-    //         .then((res) => {
-    //           if (res.data.status_code === 200) {
-    //             setRecords(res.data.msg)
+           axios.get(`${config.APP_CONFIG}inventory/getall`)
+            .then((res) => {
+              if (res.status === 200) {
+                setRecords(res.data)
             
-    //           } else if (res.data.status_code === 401) {
-    //            // userSessionContext.handleLogout();
-    //           } else if (res.data.status_code === 400) {
-    //             toast.error(res.data.msg);
-    //             setRecords([]);
-    //           }
-    //         })
-    //         .catch((err) => {
-    //           toast.error("Something Went Wrong");
-    //           setRecords([]);
-    //         });
+              } else if (res.status === 401) {
+               // userSessionContext.handleLogout();
+              } else if (res.status === 400) {
+                toast.error(res.data);
+                setRecords([]);
+              }
+            })
+            .catch((err) => {
+              toast.error("Something Went Wrong");
+              setRecords([]);
+            });
     
-    //    }
+       }
   const addconsume = (_data) => {
    //     axios
 //     .post(`${config.APP_CONFIG}/`, _data, {
@@ -229,7 +200,9 @@ const deleteconsume= (id) => {
               openPopup={isNewPopup}
               setPopups={setIsNewPopup}
             >
-              <ConsumeForm handleSubmit={addconsume} />
+              <ConsumeForm
+                actionType={"new"} 
+                handleSubmit={addconsume} />
             </Popup>
           ) : null}
 
@@ -242,6 +215,7 @@ const deleteconsume= (id) => {
               }}
             >
               <ConsumeForm 
+                actionType={"edit"}
                 handleSubmit={updateconsume}
                 data={records.filter((x) => x.id === isEditPopup)[0] || null}
               />
@@ -260,18 +234,22 @@ const deleteconsume= (id) => {
               style={{ fontSize:"30px"}}>Consumption Summary</span>
               </div>
              
-              <div className="addButton">
-                <Controls.Button
-                  text="Add New"
-                  variant="outlined"
-                  startIcon={<AddIcon />}
-                  className={classes.newButton}
-                  onClick={() => {
-                    setIsNewPopup(!isNewPopup);
-                  }}
-                />
-              </div>
-             
+             {
+
+              /*
+              // <div className="addButton">
+              //   <Controls.Button
+              //     text="Add New"
+              //     variant="outlined"
+              //     startIcon={<AddIcon />}
+              //     className={classes.newButton}
+              //     onClick={() => {
+              //       setIsNewPopup(!isNewPopup);
+              //     }}
+              //   />
+              // </div>
+             */
+           }
             </div>
           </div>
          
@@ -302,14 +280,12 @@ const deleteconsume= (id) => {
                     <TableRow key={item.id}>
                    
                       <TableCell><div className="avataricon">
-<img alt={item.name} src={item.imgUrl}className="avt"/>
-{item.name}
-</div>
+                        <img alt={item.name} src={item.imgUrl}className="avt"/>
+                        {item.inventoryName}
+                        </div>
                       </TableCell>
-                      <TableCell>{item.categoryname}</TableCell>
-                      <TableCell>{item.frequency}</TableCell>
-                      <TableCell>{item.depletion_rate}</TableCell>
-                      <TableCell>{item.unit}</TableCell>
+                      <TableCell>{item.consumptionType}</TableCell>
+                      <TableCell>{item.consumptionRate}</TableCell>
 
                       <TableCell>
                         <Controls.ActionButton
@@ -321,7 +297,8 @@ const deleteconsume= (id) => {
                           <EditOutlinedIcon fontSize="small" /></Tooltip>
                         </Controls.ActionButton>
                        
-                      
+                        {
+                        /*                      
                          <Controls.ActionButton
                           color="secondary"
                           onClick={() => {
@@ -337,7 +314,8 @@ const deleteconsume= (id) => {
                         >
                           <CloseIcon fontSize="small" />
                         </Controls.ActionButton> 
-                    
+                        */
+                      }
                       </TableCell>
                     </TableRow>
                   ))}

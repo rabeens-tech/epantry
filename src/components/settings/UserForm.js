@@ -117,11 +117,11 @@ console.log(userRole);
     if (validate()) {
       let req_value = {
         id:values.id,
-        name: values.userName,
+        userName: values.userName,
         userEmail:values.userEmail,
         password:values.password,
         userRole:userRole,
-        isActive:values.isActive,
+        isActive:parseInt(values.isActive) || 0,
       };
 
       props.handleSubmit(req_value);

@@ -44,7 +44,7 @@ const TopLevelNavItems = [
   { name: "GROCERY", icon: <FontAwesomeIcon icon={ faCartPlus} size="lg" /> },
   { name: "STOCK", icon: <FontAwesomeIcon icon={faLock} size="lg" /> },
   { name: "CONSUMPTION",  icon: <FontAwesomeIcon icon={faCookie} size="lg" />},
-  { name: "SETTINGS", icon: <FontAwesomeIcon icon={faCog} size="lg" /> },
+  { name: "MASTER", icon: <FontAwesomeIcon icon={faCog} size="lg" /> },
 ];
 
 const max_width = "250px";
@@ -82,6 +82,30 @@ const Sidebar = () => {
       }}
       className="main-sidebar sidebar-dark-primary elevation-4 "
     >
+
+      
+      {
+        /*
+
+      <Link to="">
+            
+            <Typography
+              color="white"
+              margin="20px"
+              display="inline-block"
+              float="left"
+            >
+            <FontAwesomeIcon icon={ faBuilding} size="lg" />
+            Add Inventory 
+             
+            </Typography>
+          </Link>
+
+        */
+      }
+
+
+
       <div
         style={{
           cursor: "pointer",

@@ -1,5 +1,8 @@
 package com.estock.mystockmgr.services;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -8,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.estock.mystockmgr.dto.InventoryPayload;
+import com.estock.mystockmgr.dto.InventorySummary;
 import com.estock.mystockmgr.modal.Inventory;
 import com.estock.mystockmgr.modal.InventoryCategory;
 import com.estock.mystockmgr.repository.InventoryCategoryRepo;
@@ -54,4 +58,30 @@ public class InventoryManagement {
         }
         return true;
     }
+
+
+    public Map<String, InventorySummary> generateSummary(Iterable<Inventory> allInv){
+        Map<String,InventorySummary> mymap = new HashMap<>();
+        int ordernowCount=0;
+        int ordersoonCount=0;
+        int orderLaterCount=0;
+        for (Inventory inventory : allInv){
+            float days=inventory.getDaysToDeplete();
+            if (days<3){
+            ordernowCount++;
+            }else if (days <=5){
+            ordersoonCount++;
+            }else if (days>5){
+            orderLaterCount++;
+            }else{
+            //unknown status
+            }
+        }
+        mymap.put("NOW", new InventorySummary(ordernowCount,"Item(s) to be order now."));
+        mymap.put("SOON", new InventorySummary(ordersoonCount,"Item(s) to be order soon."));
+        mymap.put("LATER", new InventorySummary(orderLaterCount,"Item(s) to be order later."));
+        return mymap;
+    }
+
+    
 }

@@ -4,65 +4,20 @@ import { Grid } from "@material-ui/core";
 import { useForm, Form } from "../../components/home/useForm";
 import Controls from "../controls/Controls";
 import { right } from "@popperjs/core";
+import { toast } from "react-toastify";
+import Spinner from "../../utils/spinner";
+import config from "../../utils/config";
+import axios from 'axios';
+import units from '../../utils/units'
+// const initialFValues = {
+//   id:"",
+//   category_id:"",
+//   name: "",
+//   depletion_rate:"",
+//   unit:"",
+//   frequency:"",
+// };
 
-const initialFValues = {
-  id:"",
-  category_id:"",
-  name: "",
-  depletion_rate:"",
-  unit:"",
-  frequency:"",
-};
-const category=[
-    {
-      "id":1,
-    "title":"MOMOS",
-   
-  },
-  {
-    "id":2,
-    "title":"pizza",
-   
-  },
-  {
-    "id":3,
-    "title":"Coke",
-  
-  },
-]
-
-const units=[
-    {
-      "id":1,
-    "title":"kg",
-    
-  },
-  {
-    "id":2,
-    "title":"gram",
-   
-  },
-  {
-    "id":3,
-    "title":"ml",
- 
-  },
-  {
-    "id":4,
-  "title":"litre",
-  
-},
-{
-  "id":5,
-  "name":"piece",
- 
-},
-{
-  "id":6,
-  "name":"packet",
-
-},
-]
 
 const frequency=[{
   "id":1,
@@ -88,7 +43,41 @@ const frequency=[{
 ]
 const ConsumeForm = (props) => {
 
-  const _data = props.data || initialFValues;
+  const [categories, setCategories] = React.useState()
+
+  const _data = props.data || {};
+
+  React.useEffect(()=>{
+    load_inventory()
+  },[])
+
+  const load_inventory = () => {
+    axios
+    .get(`${config.APP_CONFIG}category/getall`)
+    .then((res) => {
+      if (res.status === 200) {
+        let _data = res.data.map((_i, i)=>{
+          return {
+            id:_i["id"]|| i,
+            title:_i["categoryName"] || i
+          }
+        })
+        setCategories(_data)    
+      } else if (res.status === 401) {
+        // userSessionContext.handleLogout();
+      } else if (res.status === 400) {
+        toast.error(res.data);
+        setCategories([]);
+      }
+    })
+    .catch((err) => {
+      toast.error("Something Went Wrong");
+      setCategories([]);
+    });
+};
+   
+
+
 
   const validate = (fieldValues=values) => {
     let temp = { ...errors }
@@ -139,32 +128,29 @@ const ConsumeForm = (props) => {
  
   }
 
+  if(categories == undefined){
+    return <Spinner />
+  }
 
+  console.log(values)
 
   return (
     <Form  onSubmit={handleSubmission}>
         <Grid container>
       <Grid container item xs={6}>
-      <Controls.Select
-            label="CategoryName"
-            name="categoryId"
-            value={values.categoryId}
-            onChange={handleInputChange}
-            options={category}
-           
-          />
+      
         <Controls.Input
          name="name"
          label="Name"
-         value={values.name}
+         value={values.inventoryName}
          onChange={handleInputChange} 
-      
-        required={true}
+          disabled={props.actionType&&props.actionType==="new"?false:true}
+        required={props.actionType&&props.actionType==="new"?true:false}
         />
               <Controls.Select
             label="Consumption Frequency"
             name="frequency"
-            value={values.frequency}
+            value={values.consumptionType}
             onChange={handleInputChange}
             options={frequency}
         />
@@ -172,21 +158,23 @@ const ConsumeForm = (props) => {
       
       <Grid container item xs={6}> 
       <Controls.Input
+          type="number"
          name="depletion_rate"     
          label="Avg Qty"
-         value={values.depletion_rate}
+         value={values.consumptionRate || 0}
          onChange={handleInputChange} 
          required={true}
          
         
         />
-      <Controls.Select
+      <Controls.Input
             label="unit"
             name="unit"
             value={values.unit}
             onChange={handleInputChange}
             options={units}
-            required={true}
+            required={props.actionType&&props.actionType==="new"?true:false}
+            disabled={props.actionType&&props.actionType==="new"?false:true}
           />
      
 

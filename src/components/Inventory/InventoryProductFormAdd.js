@@ -15,8 +15,6 @@ import {
 } from "@material-ui/core";
 import { PhotoCamera } from "@material-ui/icons";
 
-import units from '../../utils/units'
-
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -31,20 +29,44 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const initialFValues = {
-  category_id: "",
-  name: "",
-  description: "",
-  unit: "",
-  image: ""
-};
 
 
+const units = [
+  {
+    "id": 1,
+    "title": "kg",
 
+  },
+  {
+    "id": 2,
+    "title": "gram",
 
-const ProductForm = (props) => {
+  },
+  {
+    "id": 3,
+    "title": "ml",
+
+  },
+  {
+    "id": 4,
+    "title": "litre",
+
+  },
+  {
+    "id": 5,
+    "title": "piece",
+
+  },
+  {
+    "id": 6,
+    "title": "packet",
+
+  },
+]
+
+const InventoryProductFormAdd = (props) => {
   const classes = useStyles();
-  // console.log(props.data)
+  console.log(props.data)
   const _data = props.data || {};
 
   const [allCat, setAllCat] = React.useState()
@@ -85,34 +107,8 @@ const ProductForm = (props) => {
 
 
   React.useEffect(()=>{
-    load_categories()
+    // load_categories()
   },[])
-
-
-  const load_categories = () =>{
-    axios
-    .get(`${config.APP_CONFIG}category/getall`)
-    .then((res) => {
-      if (res.status === 200) {
-        let _res= res.data.map((x,i)=>{
-          return {
-            id:x["categoryId"],
-            title:x["categoryName"]
-          }
-        })
-        setAllCat(_res)    
-      } else if (res.status === 401) {
-        // userSessionContext.handleLogout();
-      } else if (res.status === 400) {
-        toast.error(res.data || "Cannot load categories");
-        setAllCat([]);
-      }
-    })
-    .catch((err) => {
-      toast.error("Something Went Wrong");
-      setAllCat([]);
-    });
-  }
 
   const handleCapture = (e) => {
     setSelectedFile(e.target.files[0]);
@@ -135,44 +131,32 @@ const ProductForm = (props) => {
       let req_value = {
         id: values.id,
         inventoryAdded:"",
-        consumptionRate:0,
-        quantity:0,
-        inventoryName: values.name,
+        consumptionRate:values.consumptionRate,
+        quantity:values.quantity,
+        inventoryName: values.inventoryName,
         description: values.description,
-        category_id: values.category_id,
-        unitName: values.unit,
+        categoryId: values.categoryId,
+        unitName: values.unitName,
         inventoryImgUrl: "http://placekitten.com/g/150/150",
       };
-      // console.log(values)
-      // console.log(req_value)
+
       props.handleSubmit(req_value);
     }
-
   }
 
 
-  if(allCat === undefined){
-    return <Spinner />
-  }
 
   return (
     <Form onSubmit={handleSubmission}>
       <Grid container>
         <Grid container item xs={6}>
-          <Controls.Select
-            label="CategoryName"
-            name="category_id"
-            value={values.category_id}
-            onChange={handleInputChange}
-            options={allCat}
 
-          />
           <Controls.Input
-            name="name"
+            name="inventoryName"
             label="Name"
             value={values.inventoryName}
             onChange={handleInputChange}
-
+            disabled={true}
             required={true}
           />
 
@@ -187,48 +171,23 @@ const ProductForm = (props) => {
             value={values.unitName}
             onChange={handleInputChange}
             options={units}
-
+            disabled={true}
           />
 
         </Grid>
 
         <Grid container item xs={6}>
           <Controls.Input
-            name="description"
-            multiline
-            row={5}
-            label="Description"
-            value={values.description}
+            type="number"
+            name="quantity"
+            label="Quantity"
+            value={values.quantity}
             onChange={handleInputChange}
+            required={true}
           />
-          <div style={{ display: "block" }}>
-            <div style={{ width: "175px", textAlign: "center", margin: "8px", height: "20px" }}>
-              <label>Upload Image</label>
-            </div>
-            <div style={{ border: "1px solid #ddd", maxWidth: "175px", width: "100%", height: "150px", textAlign: "center", margin: "8px" }}>
-              <input
-                accept="image/*"
-                className={classes.input}
-                id="faceImage"
-                type="file"
-                onChange={handleCapture1}
-              />
-              {File ? < img src={File} alt="image" width="175" height="150" /> : "Select Image"}
-              <Tooltip title="Select Image">
-                <label htmlFor="faceImage">
-                  <IconButton
-                    className={classes.faceImage}
-                    color="primary"
-                    aria-label="upload picture"
-                    component="span"
-                  >
-                    <PhotoCamera fontSize="large" />
-                  </IconButton>
-                </label>
-              </Tooltip>
-            </div>
-          </div>
         </Grid>
+
+
         <div style={{ width: "100%", textAlign: "right" }}>
           {_data.id ? (
             <Controls.Button
@@ -248,5 +207,5 @@ const ProductForm = (props) => {
 
   );
 };
-export default ProductForm;
+export default InventoryProductFormAdd;
 

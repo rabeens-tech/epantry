@@ -7,6 +7,7 @@ import CloseIcon from "@material-ui/icons/Close";
 
 const Cardd = (props) => {
   const [expanded, setExpanded] = useState(false);
+  return <CompactCard param={props} setExpanded={() => setExpanded(true)} />
   return (
     <div>
     {/* ////<AnimateSharedLayout> */}
@@ -30,7 +31,7 @@ function CompactCard({ param, setExpanded }) {
         background: param.color.backGround,
         boxShadow: param.color.boxShadow,
       }}
-      layoutId="expandableCard"
+      layoutid="expandableCard"
       onClick={setExpanded}
     >
       <div className="radialBar">
@@ -108,7 +109,7 @@ function ExpandedCard({ param, setExpanded }) {
         background: param.color.backGround,
         boxShadow: param.color.boxShadow,
       }}
-      layoutId="expandableCard"
+      layoutid="expandableCard"
     >
       <div style={{ alignSelf: "flex-end", cursor: "pointer", color: "white" }}>
         <CloseIcon onClick={setExpanded} /> 

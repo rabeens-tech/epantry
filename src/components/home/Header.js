@@ -45,7 +45,7 @@ const Header = () => {
                     });
                 }}
               >
-                <FontAwesomeIcon size="md" color="#444" icon={faSignOutAlt} />
+                <FontAwesomeIcon size="sm" color="#444" icon={faSignOutAlt} />
                 &nbsp;
                 Log Out
               </Link>

@@ -58,61 +58,61 @@ const headCells = [
 
 
 
-const users=[
-    {
-      "id":1,
-    "username":"suraj",
-    "userEmail":"surajgmail.com",
-    "is_admin":"1",
-    "active":"0",
+// const users=[
+//     {
+//       "id":1,
+//     "username":"suraj",
+//     "userEmail":"surajgmail.com",
+//     "is_admin":"1",
+//     "active":"0",
     
-  },
-  {
-    "id":2,
-    "username":"pizza",
-    "userEmail":"mithopizzass@gmail.com",
-    "is_admin":"1",
-    "active":"1",
+//   },
+//   {
+//     "id":2,
+//     "username":"pizza",
+//     "userEmail":"mithopizzass@gmail.com",
+//     "is_admin":"1",
+//     "active":"1",
     
-  },
-  {
-    "id":3,
-    "username":"Coke",
-    "userEmail":"mithoCoke@gmail.com",
-    "is_admin":"0",
-    "active":"0",
+//   },
+//   {
+//     "id":3,
+//     "username":"Coke",
+//     "userEmail":"mithoCoke@gmail.com",
+//     "is_admin":"0",
+//     "active":"0",
     
-  },
-  {
-    "id":4,
-  "username":"suraj",
-  "userEmail":"surajgmail.com",
-  "is_admin":"1",
-  "active":"0",
+//   },
+//   {
+//     "id":4,
+//   "username":"suraj",
+//   "userEmail":"surajgmail.com",
+//   "is_admin":"1",
+//   "active":"0",
   
-},
-{
-  "id":5,
-  "username":"pizza",
-  "userEmail":"mithopizzass@gmail.com",
-  "is_admin":"1",
-  "active":"1",
+// },
+// {
+//   "id":5,
+//   "username":"pizza",
+//   "userEmail":"mithopizzass@gmail.com",
+//   "is_admin":"1",
+//   "active":"1",
   
-},
-{
-  "id":6,
-  "username":"Coke",
-  "userEmail":"mithoCoke@gmail.com",
-  "is_admin":"0",
-  "active":"0",
+// },
+// {
+//   "id":6,
+//   "username":"Coke",
+//   "userEmail":"mithoCoke@gmail.com",
+//   "is_admin":"0",
+//   "active":"0",
   
-},
-]
+// },
+// ]
 
 
 export default function User(props) {
   const classes = useStyles(props);
-  const [records, setRecords] = useState(users);
+  const [records, setRecords] = useState();
   const [isNewPopup, setIsNewPopup] = useState(false);
 
   const [confirmDialog, setConfirmDialog] = useState({
@@ -150,34 +150,37 @@ export default function User(props) {
 
 
 
-  //  useEffect(() => {
-  // load_user();
-  //  }, []);
-  //  const load_user = () => {
+   useEffect(() => {
+    // console.log(config)
+  load_user();
+   }, []);
+   const load_user = () => {
    
-  //      axios.get(`${config.APP_CONFIG}/users/getall`)
-  //       .then((res) => {
-  //         if (res.data.status_code === 200) {
-  //           setRecords(res.data)
-        
-  //         } else if (res.data.status_code === 401) {
-  //           userSessionContext.handleLogout();
-  //         } else if (res.data.status_code === 400) {
-  //           toast.error(res.data.msg);
-  //           setRecords([]);
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         toast.error("Something Went Wrong");
-  //         setRecords([]);
-  //       });
+       axios(`${config.APP_CONFIG}users/getall`)
+        .then((res) => {
+          console.log(res)
+          console.log(res.data)
+          if (res.status === 200) {
+            setRecords(res.data)
+          } else if (res.status === 401) {
+            // userSessionContext.handleLogout();
+          } else if (res.status === 400) {
+            toast.error(res.data.msg);
+            setRecords([]);
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+          toast.error("Something Went Wrong");
+          setRecords([]);
+        });
 
-  //  }
+   }
 
   const adduser = (_data) => {
     // const URL='http://localhost:8080/users/save'
     //     axios.post(URL,_data)
-    axios.post(`${config.APP_CONFIG}/users/save`, _data )
+    axios.post(`${config.APP_CONFIG}users/save`, _data )
     .then((res) => {
       if (res.status===200) {
         toast.success("successfully added");
@@ -185,6 +188,7 @@ export default function User(props) {
       }
    
       setIsNewPopup(false);
+      load_user()
     })
     .catch((err) => {
       toast.error("Something Went Wrong");
@@ -196,11 +200,11 @@ export default function User(props) {
   
 const  deleteuser = (id) => {
     setConfirmDialog({ ...confirmDialog, isOpen: false });
-    axios.delete(`${config.APP_CONFIG}/users/remove/${id}`)
+    axios.delete(`${config.APP_CONFIG}users/remove/${id}`)
       .then((res) => {
-        if (res.data.status_code === 200) {
+        if (res.status === 200) {
           toast.success("Deleted Successfully!");
-        //  load_user();
+         load_user();
         } else if (res.data.status_code === 401) {
           // .handluserSessionContexteLogout();
         } else {
@@ -287,14 +291,14 @@ const  deleteuser = (id) => {
                     <TableRow key={item.id}>
 
                       <TableCell>
-<div className="avataricon">
-<Avatar alt={item.username} src='.' className="avt"/>
-{item.username}
-</div>
+                        <div className="avataricon">
+                        <Avatar alt={item.username} src='.' className="avt"/>
+                        {item.userName}
+                        </div>
                       {/* <CardHeader
                       avatar={
                           <Avatar alt={item.username} src='.' className={classes.avatar}/>}
-                       title= {item.username}
+                       title= {item.userName}
                    />
                    */}
                  

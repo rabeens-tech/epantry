@@ -39,11 +39,11 @@ const [File,setFile]=useState(null)
     let temp = { ...errors }
     if ('categoryName' in fieldValues)
     temp.categoryName = fieldValues.categoryName
-    ?fieldValues.categoryName.length<16
+    ?fieldValues.categoryName.length<100
     ?fieldValues.categoryName.match(/^[a-zA-Z0-9 !@#\$%\^\&*\)\(+=._-]+$/g)
       ? ""
         : "Invalid Data" 
-       :"maximum 16 Characters"
+       :"maximum 100 Characters"
     : "This field is required."
 
     if ('categoryDescription' in fieldValues)

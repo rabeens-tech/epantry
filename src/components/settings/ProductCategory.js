@@ -42,32 +42,32 @@ const headCells = [
 
 
 
-const category=[
-    {
-      "id":1,
-    "categoryName":"MOMOS",
-    "categoryDescription":"mitho Momos",
-    "categoryImgUrl":"http://placekitten.com/g/150/150",
+// const category=[
+//     {
+//       "id":1,
+//     "categoryName":"MOMOS",
+//     "categoryDescription":"mitho Momos",
+//     "categoryImgUrl":"http://placekitten.com/g/150/150",
 
-  },
-  {
-    "id":2,
-    "categoryName":"pizza",
-    "categoryDescription":"mitho pizzass",
-    "categoryImgUrl":"http://placekitten.com/g/150/150",
-  },
-  {
-    "id":3,
-    "categoryName":"Coke",
-    "categoryDescription":"mitho Coke",
-    "categoryImgUrl":"http://placekitten.com/g/150/150",
-  },
-]
+//   },
+//   {
+//     "id":2,
+//     "categoryName":"pizza",
+//     "categoryDescription":"mitho pizzass",
+//     "categoryImgUrl":"http://placekitten.com/g/150/150",
+//   },
+//   {
+//     "id":3,
+//     "categoryName":"Coke",
+//     "categoryDescription":"mitho Coke",
+//     "categoryImgUrl":"http://placekitten.com/g/150/150",
+//   },
+// ]
 
 
 export default function ProductCategory(props) {
   const classes = useStyles(props);
-  const [records, setRecords] = useState(category);
+  const [records, setRecords] = useState();
   const [isNewPopup, setIsNewPopup] = useState(false);
   const [isEditPopup, setIsEditPopup] = useState(false);
   const [confirmDialog, setConfirmDialog] = useState({
@@ -105,30 +105,29 @@ export default function ProductCategory(props) {
 
 
 
-  // useEffect(() => {
-  // load_product_category();
-  //  }, []);
+  useEffect(() => {
+  load_product_category();
+   }, []);
 
-  //  const load_product_category=() => {
-  //   axios.get(`${config.APP_CONFIG}/category/getall`)
-  //   .then((res) => {
-  //     if (res.data.status_code === 200) {
-  //       setRecords(res.data)
-    
-  //     } else if (res.data.status_code === 401) {
-  //       userSessionContext.handleLogout();
-  //     } else if (res.data.status_code === 400) {
-  //       toast.error(res.data.msg);
-  //       setRecords([]);
-  //     }
-  //   })
-  //   .catch((err) => {
-  //     toast.error("Something Went Wrong");
-  //     setRecords([]);
-  //   });
+   const load_product_category=() => {
+    axios.get(`${config.APP_CONFIG}category/getall`)
+    .then((res) => {
+      if (res.status === 200) {
+        setRecords(res.data)
+      } else if (res.status === 401) {
+        // userSessionContext.handleLogout();
+      } else if (res.status === 400) {
+        toast.error(res.data);
+        setRecords([]);
+      }
+    })
+    .catch((err) => {
+      toast.error("Something Went Wrong");
+      setRecords([]);
+    });
 
 
-  //  }
+   }
 
 
   const addproductcategory = (_data) => {
@@ -144,13 +143,14 @@ export default function ProductCategory(props) {
     //   }
     //   setIsNewPopup(false);
     // })
- axios.post(`${config.APP_CONFIG}/category/save`, _data,)
+ axios.post(`${config.APP_CONFIG}category/save`, _data,)
    .then((res) => {
-    console.log(res);
+    // console.log(res);
      if (res.status=== 200) {
         toast.success("successfully added")
         setIsNewPopup(false);
       }
+      load_product_category()
     
 //       } else if (res.data.status_code === 401) {
 //         userSessionContext.handleLogout();
@@ -197,14 +197,14 @@ export default function ProductCategory(props) {
 const deleteProductcategory= (id) => {
     setConfirmDialog({ ...confirmDialog, isOpen: false });
     axios
-      .delete(`${config.APP_CONFIG}/api/${id}`)
+      .delete(`${config.APP_CONFIG}category/remove/${id}`)
       
       
       .then((res) => {
-        if (res.data.status_code === 200) {
-          toast.success("Deleted Successfully!");
-         // load_product_category();
-        } else if (res.data.status_code === 401) {
+        if (res.status === 200) {
+          toast.success("Deleted Successfully!"); 
+         load_product_category();
+        } else if (res.status === 401) {
          // userSessionContext.handleLogout();
         } else {
           toast.error("Delete Unsuccessful");
@@ -307,7 +307,7 @@ const deleteProductcategory= (id) => {
                 <TblHead />
                 <TableBody>
                   {recordsAfterPagingAndSorting().map((item, index) => (
-                    <TableRow key={item.id}>
+                    <TableRow key={index}>
                    
                       <TableCell>{item.categoryName}</TableCell>
                       <TableCell>{item.categoryDescription}</TableCell>
@@ -331,7 +331,7 @@ const deleteProductcategory= (id) => {
                               title: "Are you sure to delete this Category?",
                               subTitle: "You can't undo this operation",
                               onConfirm: () => {
-                                deleteProductcategory(item.id);
+                                deleteProductcategory(item.categoryId);
                               },
                             });
                           }}
