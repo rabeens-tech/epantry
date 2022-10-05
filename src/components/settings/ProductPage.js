@@ -234,7 +234,6 @@ const deleteProduct= (id) => {
               setPopups={setIsNewPopup}
             >
               <ProductForm handleSubmit={e=>{
-                  alert("test")
                  addproduct(e) 
                 }} 
               />
