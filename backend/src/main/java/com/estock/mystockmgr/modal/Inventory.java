@@ -46,6 +46,9 @@ public class Inventory {
   @JsonIgnore
   private InventoryCategory inventoryCategory;
 
+  @Transient
+  private int categoryId;
+
   public Inventory(){}
   
   public Inventory(String inventoryName,float consumptionRate, int quantity,String unitName,String consumptionType){
@@ -81,4 +84,7 @@ public class Inventory {
     return Math.round((float)this.quantity/this.consumptionRate);
   }
 
+  public int getCategoryId(){
+    return this.inventoryCategory.getCategoryId();
+  }
 }

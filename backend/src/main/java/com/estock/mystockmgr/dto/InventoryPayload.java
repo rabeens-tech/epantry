@@ -17,5 +17,4 @@ public class InventoryPayload {
     private String inventoryImgUrl;
     private String unitName;
     private String consumptionType;
-
 }

@@ -41,7 +41,7 @@ public class SpringWebsecConfigurer {
             }
         }
             );
-            http.cors().and().csrf().disable();
+            http.csrf().disable();
         return http.build();
     }
 
@@ -58,17 +58,19 @@ public class SpringWebsecConfigurer {
         return authProvider;
     }
 
-@Bean
+    @Bean
 public WebMvcConfigurer CORSConfigurer() {
     return new WebMvcConfigurer() {
         @Override
         public void addCorsMappings(CorsRegistry registry) {
             registry.addMapping("/**")
                     .allowedOrigins("*")
-                    .allowedHeaders("*")
-                    .allowedMethods("*") //.allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD")
+                    .allowedHeaders("Content-Type", "Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Authorization", "X-Requested-With", "requestId", "Correlation-Id")
+                    // .allowedHeaders("*")
+                    .allowedMethods("*")
                     .maxAge(-1)   // add maxAge
                     .allowCredentials(false);
+                    
         }
     };
 }
