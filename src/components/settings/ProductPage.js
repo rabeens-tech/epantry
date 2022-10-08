@@ -14,6 +14,8 @@ import Spinner from "../../utils/spinner";
 //import  PageHeaderTitle from "../home/PageHeaderTitle";
 import ProductForm from "./ProductForm";
 import AddIcon from "@material-ui/icons/Add";
+import units from '../../utils/units'
+
 
 import ConfirmDialog from "../home/ConfirmDialog";
 const useStyles = makeStyles((theme) => ({
@@ -41,43 +43,6 @@ const headCells = [
   { id: "actions", label: "Actions", disableSorting: true },
 ];
 
-
-
-
-// const product=[
-//     {
-//       "id":1,
-//     "name":"vegsMOMOS",
-//     "description":"mitho Momos",
-//     "categoryName":"momos",
-//     "unit":"plate",
-//     "image":"drive"
-//   },
-//   {
-//     "id":2,
-//     "name":"pizza",
-//     "description":"mitho pizzass",
-//     "categoryName":"dominos",
-//     "unit":"packet",
-//     "image":"drive"
-//   },
-//   {
-//     "id":3,
-//     "name":"cocacola",
-//     "description":"mitho Coke",
-//     "categoryName":"Coke",
-//     "unit":"bottle",
-//     "image":"drive"
-//   },
-//   {
-//     "id":4,
-//     "name":"nachos",
-//     "description":"mithhjh",
-//     "categoryName":"crisps",
-//     "unit":"packet",
-//     "image":"drive"
-//   },
-// ]
 
 
 export default function ProductPage(props) {

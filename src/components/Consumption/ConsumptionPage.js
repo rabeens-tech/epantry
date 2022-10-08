@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 const headCells = [
   { id: "name", label: "item" },
   // { id: "categoryname", label: " CategoryName" },
-  { id: "frequency", label: " Consumptionfrequency" },
+  { id: "frequency", label: " Consumption Frequency" },
   { id: "depletion_rate", label: " Avg Qty Consumption" },
   // { id: "unit", label: " UOM", disableSorting: true },
   { id: "actions", label: "Actions", disableSorting: true },
@@ -134,28 +134,29 @@ export default function ConsumeptionPage(props) {
 
   }
   const updateconsume= (_data) => {
-    //     axios
-//     .post(`${config.APP_CONFIG}/`, _data, {
-//       headers: { Authorization: userSessionContext.token },
-//     })
-//     .then((res) => {
-//       if (res.data.status_code === 200) {
-//         toast.success(res.data.msg || "successfully added");
-    
-//       } else if (res.data.status_code === 401) {
-//         userSessionContext.handleLogout();
-//       } else if (res.data.status_code === 400) {
-//         toast.error(res.data.msg);
-//         setRecords([]);
-//       }
-//     })
-//     .catch((err) => {
-//       toast.error("Something Went Wrong");
-//       setRecords([]);
-//     });
-//   setIsNewPopup(false);
-// };
-}
+    // console.log("_data")
+    console.log(_data)
+
+    axios
+      .put(`${config.APP_CONFIG}inventory/change/${_data.id}`, _data)
+      .then((res) => {
+        if (res.status === 200) {
+          toast.success(res.data || "Successfully updated!");
+      
+        } else if (res.status === 401) {
+          // userSessionContext.handleLogout();
+        } else if (res.status === 400) {
+          toast.error(res.data.msg);
+          // setRecords([]);
+        }
+      })
+      .catch((err) => {
+        toast.error("Something Went Wrong");
+        // setRecords([]);
+      });
+    setIsEditPopup(false);
+  };
+
 const deleteconsume= (id) => {
     // setConfirmDialog({ ...confirmDialog, isOpen: false });
     // axios
@@ -217,7 +218,7 @@ const deleteconsume= (id) => {
               <ConsumeForm 
                 actionType={"edit"}
                 handleSubmit={updateconsume}
-                data={records.filter((x) => x.id === isEditPopup)[0] || null}
+                data={records.filter((x) => x.id === isEditPopup)[0] || {}}
               />
             </Popup>
           ) : null}
@@ -281,11 +282,11 @@ const deleteconsume= (id) => {
                    
                       <TableCell><div className="avataricon">
                         <img alt={item.name} src={item.imgUrl}className="avt"/>
-                        {item.inventoryName}
+                        {item.inventoryName || ""}
                         </div>
                       </TableCell>
-                      <TableCell>{item.consumptionType}</TableCell>
-                      <TableCell>{item.consumptionRate}</TableCell>
+                      <TableCell>{item.consumptionType || "-"}</TableCell>
+                      <TableCell>{item.consumptionRate || "-"}</TableCell>
 
                       <TableCell>
                         <Controls.ActionButton

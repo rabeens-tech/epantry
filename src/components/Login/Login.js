@@ -7,6 +7,9 @@ import { Grid,Paper, Avatar ,makeStyles} from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Controls from "../controls/Controls";
 import { toast } from "react-toastify";
+import axios from 'axios';
+
+
 const useStyles = makeStyles((theme) => ({
   pageContent: {
     margin: theme.spacing(5),
@@ -57,17 +60,15 @@ export default function Login(props) {
          password:values.password,
       };
 
-      fetch(`${config.APP_CONFIG}/Login/api`, {
-      
-        mode: 'cors', // no-cors, *cors, same-origin
-    cache: 'no-cache',
-
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-          },
-          timeout: 8000,
-      body: JSON.stringify(req_value)
+      axios(`${config.APP_CONFIG}login`, {
+        // mode: 'no-cors', // no-cors, *cors, same-origin
+        cache: 'no-cache',
+        method: 'POST',
+        headers: {
+          // 'Content-Type': 'application/json'
+        },
+        timeout: 8000,
+        body: JSON.stringify(req_value)
     })
     .then(data=>{
    

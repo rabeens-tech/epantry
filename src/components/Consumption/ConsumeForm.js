@@ -47,8 +47,10 @@ const ConsumeForm = (props) => {
 
   const _data = props.data || {};
 
+  console.log(_data)
+
   React.useEffect(()=>{
-    load_inventory()
+    // load_inventory()
   },[])
 
   const load_inventory = () => {
@@ -111,28 +113,36 @@ const ConsumeForm = (props) => {
   const { values, handleInputChange, errors, setErrors } =useForm(_data,true,validate);
   
   const handleSubmission = e => {
-    e.preventDefault()
-    if (validate()) {
-      let req_value = {
-        id:values.id,
-        categoryId: values.categoryId,
-        name: values.name,
-   frequency:values.frequency,
-        depletion_rate:values.depletion_rate,
-        unit:values.unit,
-       
-      };
 
+    const curr_consumption_type = frequency.filter(x=>x["id"] === values.consumptionType)
+
+    if(curr_consumption_type.length === 0){
+      toast.error("Invalid Consumption type selected!")
+      return
+    } 
+    e.preventDefault()
+    if (true) {
+      let req_value = {
+        id:_data.id,
+        consumptionRate:values.consumptionRate,
+        quantity:values.quantity,
+        inventoryName: values.inventoryName,
+        description: values.description,
+        categoryId: values.categoryId || 14,
+        unitName: values.unitName,
+        inventoryImgUrl: "http://placekitten.com/g/150/150",
+        consumptionType:curr_consumption_type[0]["title"].toUpperCase(),       
+      };
       props.handleSubmit(req_value);
     }
  
   }
 
-  if(categories == undefined){
-    return <Spinner />
-  }
+  // if(categories == undefined){
+  //   return <Spinner />
+  // }
 
-  console.log(values)
+  // console.log(values)
 
   return (
     <Form  onSubmit={handleSubmission}>
@@ -147,26 +157,7 @@ const ConsumeForm = (props) => {
           disabled={props.actionType&&props.actionType==="new"?false:true}
         required={props.actionType&&props.actionType==="new"?true:false}
         />
-              <Controls.Select
-            label="Consumption Frequency"
-            name="frequency"
-            value={values.consumptionType}
-            onChange={handleInputChange}
-            options={frequency}
-        />
-      </Grid>
-      
-      <Grid container item xs={6}> 
-      <Controls.Input
-          type="number"
-         name="depletion_rate"     
-         label="Avg Qty"
-         value={values.consumptionRate || 0}
-         onChange={handleInputChange} 
-         required={true}
-         
-        
-        />
+
       <Controls.Input
             label="unit"
             name="unit"
@@ -176,6 +167,27 @@ const ConsumeForm = (props) => {
             required={props.actionType&&props.actionType==="new"?true:false}
             disabled={props.actionType&&props.actionType==="new"?false:true}
           />
+
+      </Grid>
+      
+      <Grid container item xs={6}> 
+
+        <Controls.Select
+          label="Consumption Frequency"
+          name="consumptionType"
+          value={values.consumptionType || 1}
+          onChange={handleInputChange}
+          options={frequency}
+        />
+        <Controls.Input
+          type="number"
+           name="consumptionRate"     
+           label="Avg Qty"
+           value={values.consumptionRate || 0}
+           onChange={handleInputChange} 
+           required={true}    
+        />
+
      
 
       </Grid>

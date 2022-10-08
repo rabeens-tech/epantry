@@ -47,6 +47,13 @@ const ProductForm = (props) => {
   // console.log(props.data)
   const _data = props.data || {};
 
+  if(_data.unitName!==undefined){
+    let defaultUnit = units.filter(x=>x["title"].toUpperCase() === (_data.unitName|| "").toUpperCase())
+    if(defaultUnit.length > 0){
+      _data.unitId = defaultUnit[0]["id"]
+    }
+  }
+
   const [allCat, setAllCat] = React.useState()
 
   const [selectedFile, setSelectedFile] = React.useState(null);
@@ -129,8 +136,21 @@ const ProductForm = (props) => {
   const { values, handleInputChange, errors, setErrors } = useForm(_data, true, validate);
 
   const handleSubmission = e => {
-    // alert("handle")
     e.preventDefault()
+    // alert("handle")
+    
+    let curr_unit = units.filter(x=> (x["id"] === values.unitId))
+    let curr_category = allCat.filter(x=>x["id"]===values.category_id)
+    console.log(values, units, curr_unit)
+    if(curr_unit.length===0){
+      toast.error("Invalid Unit type selected ")
+      return
+    }
+    if(curr_category.length===0){
+      toast.error("Invalid Product Category selected")
+      return
+    }
+    
     if (validate()) {
       let req_value = {
         id: values.id,
@@ -139,14 +159,16 @@ const ProductForm = (props) => {
         quantity:0,
         inventoryName: values.name,
         description: values.description,
-        category_id: values.category_id,
-        unitName: values.unit,
+        // category_id: values.category_id,
+        unitName: curr_unit[0]["title"],
         inventoryImgUrl: "http://placekitten.com/g/150/150",
+        inventoryCategory:curr_category[0]["id"]
       };
       // console.log(values)
-      // console.log(req_value)
-      props.handleSubmit(req_value);
+      console.log(req_value)
+      // props.handleSubmit(req_value);
     }
+    return
 
   }
 
@@ -154,7 +176,8 @@ const ProductForm = (props) => {
   if(allCat === undefined){
     return <Spinner />
   }
-
+ console.log(_data)
+  console.log(values)
   return (
     <Form onSubmit={handleSubmission}>
       <Grid container>
@@ -177,14 +200,9 @@ const ProductForm = (props) => {
           />
 
           <Controls.Select
-            label="unit"
-            name="unit"
-            initialValue={{
-              id:units.filter(x=>{
-
-              })
-            }}
-            value={values.unitName}
+            label="Unit"
+            name="unitId"    
+            value={values.unitId}
             onChange={handleInputChange}
             options={units}
 

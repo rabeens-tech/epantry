@@ -27,7 +27,7 @@ export default function App() {
 
   const save_token = (e) => {
     window.localStorage.setItem("ERP_TOKEN", e);
-    console.log(e);
+    // console.log(e);
     setToken(e);
   };
 
@@ -42,13 +42,13 @@ export default function App() {
 
     if (_token === undefined || _token === null) {
       setToken("1234")
-      //(false);
+      // setToken(false);
     } else {
       setToken(token);
     }
   }, [token]);
 
-  if (token === true) {
+  if (token === "true") {
     return (
       <div>
         <ToastContainer  />

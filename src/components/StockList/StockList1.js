@@ -4,6 +4,7 @@ import Popup from "../home/Popup";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import Spinner from '../../utils/spinner';
 import { Search } from "@material-ui/icons";
+import ClearIcon from '@mui/icons-material/Clear';
 import { makeStyles, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Tooltip,Paper} from "@material-ui/core";
 import Controls from "../controls/Controls";
 
@@ -50,7 +51,7 @@ export default function StockList1(props) {
   const classes = useStyles(props);
   const [records, setRecords] = useState();
   const [categories, setCategories] = useState();
- 
+  const [filters, setFilters] = React.useState()
 
   const [filterFn, setFilterFn] = useState({
     fn: (items) => {
@@ -146,13 +147,16 @@ const load_categories = () =>{
       return <Spinner />
     }
 
-
+console.log(filters)
 
   return (
     <div>
   <div>
   {/* <CardsStock/>  */}
   <NewCard
+    setFilters = {e=>{
+      setFilters(e)
+    }}
     data = {categories}
   />
   </div>
@@ -162,6 +166,21 @@ const load_categories = () =>{
 {/*          <PageHeaderTitle title="Grocery" /> */}
         </div>
         <Toolbar>
+
+        {filters===undefined?null:
+          <Controls.Button
+            variant="contained"
+            endIcon={<ClearIcon />}
+            onClick={e=>{
+              setFilters()
+            }}
+            color = "error"
+            text={filters.categoryName.substr(0,25)}
+          />
+        }
+
+
+
           <Controls.Input
             label="Search"
             className={classes.searchInput}
@@ -174,8 +193,9 @@ const load_categories = () =>{
             }}
             onChange={handleSearch}
           />
+
         </Toolbar>
- 
+        
         <Paper className={classes.pageContent}>
       <div className="row">
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 proCategoryTbl">
