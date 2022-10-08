@@ -35,12 +35,12 @@ const useStyles = makeStyles((theme) => ({
 }));
  
 const headCells = [
-  { id: "categoryname", label: "CategoryName", disableSorting: true },
-  { id: "name", label: "Item" , disableSorting: true },
-  { id: "qty", label: "QTY", disableSorting: true },
-  { id: "unit", label: "UOM", disableSorting: true },
-  { id: "left_qty", label: " LeftQTY", disableSorting: true },
-  { id: "left_unit", label: "Left UOM", disableSorting: true },
+  { id: "inventoryName", label: "Item" , disableSorting: true },
+  // { id: "categoryname", label: "CategoryName", disableSorting: true },
+ 
+  { id: "qty", label: "Replenished Qty", disableSorting: true },
+
+  { id: "Qty_left", label: "QTY Left", disableSorting: true },
  
   { id: "last_replenished", label: "Last Replenished", disableSorting: true },
 ];
@@ -148,6 +148,7 @@ const load_categories = () =>{
     }
 
 console.log(filters)
+console.log(records)
 
   return (
     <div>
@@ -207,15 +208,14 @@ console.log(filters)
                   <TableRow key={item.id}>
                  
                     <TableCell><div className="avataricon">
-                      <img alt={item.name} src={item.imgUrl}className="avt"/>
+                      <img alt={item.inventoryName} src={item.inventoryImgUrl}className="avt"/>
                       {item.inventoryName}
                       </div>
                     </TableCell>
-                    <TableCell>{item.inventoryName}</TableCell>
-                    <TableCell>{item.qty}</TableCell>
+                    {/* <TableCell>{item.categoryName}</TableCell> */}
+                    <TableCell>{`${item.quantity || 0} ${item.unitName} `}</TableCell>
                     <TableCell>{item.unit}</TableCell>
-                    <TableCell>{item.left_qty}</TableCell>
-                    <TableCell>{item.left_unit}</TableCell>
+                   
                     <TableCell>{item.last_replenished}{"  days ago"}</TableCell>
 
                   </TableRow>

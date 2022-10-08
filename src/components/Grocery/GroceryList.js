@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 const makeStyle=(days)=>{
-  if(days ===0)
+  if(days <2)
   {
     return {
       background: 'rgb(145 254 159 / 47%)',
@@ -60,11 +60,11 @@ const makeStyle=(days)=>{
 
 
 const headCells = [
-  { id: "name", label: "Item" },
+  { id: "inventoryName", label: "Item" },
   // { id: "categoryName", label: " Category", disableSorting: true },
   { id: "qty", label: " Qty Left", disableSorting: true },
   // { id: "unit", label: " UOM", disableSorting: true },
-  { id: "days", label: "Days to Deplete", disableSorting: true },
+  { id: "daysToDeplete", label: "Days to Deplete", disableSorting: true },
   { id: "actions", label: "Actions", disableSorting: true },
 ];
 
@@ -172,7 +172,7 @@ export default function GroceryList(props) {
   let a={};
   // console.log(records)
    a =records.filter((x)=> x.id===id)
-// console.log(a)
+console.log(a)
     return <div>{a[0]["qtyi"]}{a[0]["unit"]}</div>
  }
 
@@ -214,20 +214,21 @@ export default function GroceryList(props) {
             <TblHead />
             <TableBody>
               {recordsAfterPagingAndSorting().map((item) => {
-                console.log(item)
+             
                 return <TableRow key={item.id}>
                   <TableCell><div className="avataricon">
-                      <img alt={item.name} src={item.imgUrl}className="avt"/>
+                      <img alt={item.inventoryName} src={item.inventoryImgUrl}className="avt"/>
                       {item.inventoryName}
                       </div>
                     </TableCell>
+                    {/* <TableCell>{item.categoryName}</TableCell> */}
                     <TableCell>{item.quantity + " " + item.unitName}</TableCell>
                     <TableCell>{item.daysToDeplete}</TableCell>
                    
               
   
                     <TableCell align="left">
-                    <span className="status" style={makeStyle(item.days)}>{"Repeat Last Purchase -"} {check(item.id)}{"Order Now"}
+                    <span className="status" style={makeStyle(item.days)}>{"Repeat Last Purchase -"} {check(item.id)}{"Order"}
                       
                       {/* {("Repeat Last Purchase -")+({data.filter((x)=> x.id===item.id).map((y,i)=>
                       {

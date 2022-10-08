@@ -31,10 +31,10 @@ const useStyles = makeStyles((theme) => ({
 
 const initialFValues = {
   category_id: "",
-  name: "",
+  inventoryName : "",
   description: "",
   unit: "",
-  image: ""
+  inventoryImgUrl: ""
 };
 
 const units = [
@@ -70,7 +70,7 @@ const units = [
   },
 ]
 
-const ProductForm = (props) => {
+const ProductQtyAddForm= (props) => {
   const classes = useStyles();
   const _data = props.data || initialFValues;
 
@@ -82,27 +82,15 @@ const ProductForm = (props) => {
   const validate = (fieldValues = values) => {
     return true
     let temp = { ...errors }
-    if ('name' in fieldValues)
-      temp.name = fieldValues.name
-        ? fieldValues.name.length < 26
-          ? fieldValues.name.match(/^[a-zA-Z0-9 !@#\$%\^\&*\)\(+=_-]+$/g)
+    if ('inventoryName' in fieldValues)
+      temp.name = fieldValues.inventoryName
+        ? fieldValues.inventoryName.length < 26
+          ? fieldValues.inventoryName.match(/^[a-zA-Z0-9 !@#\$%\^\&*\)\(+=_-]+$/g)
             ? ""
             : "Invalid Data"
           : "maximum 25 Characters"
         : "This field is required."
 
-    if ('description' in fieldValues)
-      temp.description = fieldValues.description
-        ? fieldValues.description.match(/^[a-zA-Z0-9 !@#\$%\^\&*\)\(+=.]+$/g)
-          ? ""
-          : "Invalid Data"
-        : "This field is required."
-    if ('image' in fieldValues)
-      temp.image = fieldValues.image
-        ? fieldValues.image.match(/^[a-zA-Z0-9 !@#\$%\^\&*\)\(+=._-]+$/g)
-          ? ""
-          : "Invalid Data"
-        : "This field is required."
     setErrors({
       ...temp
     })
@@ -159,8 +147,8 @@ const ProductForm = (props) => {
         inventoryAdded:"",
         consumptionRate:0,
         quantity:0,
-        inventoryName: values.name,
-        description: values.description,
+        inventoryName: values.inventoryName,
+        //description: values.description,
         category_id: values.category_id,
         unitName: values.unit,
         inventoryImgUrl: "http://placekitten.com/g/150/150",
@@ -189,9 +177,9 @@ const ProductForm = (props) => {
 
           />
           <Controls.Input
-            name="name"
+            name="inventoryName"
             label="Name"
-            value={values.name}
+            value={values.inventoryName}
             onChange={handleInputChange}
 
             required={true}
@@ -208,7 +196,7 @@ const ProductForm = (props) => {
 
         </Grid>
 
-        <Grid container item xs={6}>
+        {/* <Grid container item xs={6}>
           <Controls.Input
             name="description"
             multiline
@@ -241,10 +229,10 @@ const ProductForm = (props) => {
                     <PhotoCamera fontSize="large" />
                   </IconButton>
                 </label>
-              </Tooltip>
-            </div>
+              </Tooltip> */}
+            {/* </div>
           </div>
-        </Grid>
+        </Grid> */}
         <div style={{ width: "100%", textAlign: "right" }}>
           {_data.id ? (
             <Controls.Button
@@ -264,5 +252,5 @@ const ProductForm = (props) => {
 
   );
 };
-export default ProductForm;
+export default ProductQtyAddForm;
 

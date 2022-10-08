@@ -1,7 +1,6 @@
 package com.estock.mystockmgr.services;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
 
@@ -46,6 +45,7 @@ public class InventoryManagement {
             invdata.setInventoryName(inventoryPayload.getInventoryName());
             invdata.setInventoryImgUrl(inventoryPayload.getInventoryImgUrl());
             invdata.setConsumptionRate(inventoryPayload.getConsumptionRate());
+            invdata.setConsumptionType(inventoryPayload.getConsumptionType());
             invdata.setQuantity(inventoryPayload.getQuantity());
             invdata.setInventoryCategory(category.get());
             inventoryRepo.save(invdata);
@@ -81,6 +81,11 @@ public class InventoryManagement {
         mymap.put("SOON", new InventorySummary(ordersoonCount,"Item(s) to be order soon."));
         mymap.put("LATER", new InventorySummary(orderLaterCount,"Item(s) to be order later."));
         return mymap;
+    }
+
+    public boolean removeInventory(int inventoryId) {
+        inventoryRepo.deleteById(inventoryId);
+        return true;
     }
 
     

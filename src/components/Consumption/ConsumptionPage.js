@@ -281,7 +281,8 @@ const deleteconsume= (id) => {
                     <TableRow key={item.id}>
                    
                       <TableCell><div className="avataricon">
-                        <img alt={item.name} src={item.imgUrl}className="avt"/>
+                        <img alt={item.inventoryName} src={item.inventoryImgUrl
+}className="avt"/>
                         {item.inventoryName || ""}
                         </div>
                       </TableCell>

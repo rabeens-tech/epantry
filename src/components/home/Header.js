@@ -30,20 +30,21 @@ const Header = () => {
                 to=""
                 onClick={(e) => {
                   e.preventDefault();
-                  axios
-                    .post(`${config.APP_CONFIG}/logout/userlogout`, {
-                      headers: { Authorization: userSessionContext.token },
-                    })
-                    .then((res) => {
-                      if (res.data.status_code === 401) {
-                        //userSessionContext.handleLogOut();
-                      }
-                    })
-                    .catch((err) => {
-                      toast.error("cannot Logout");
-                      //setPermissions([]);
-                    });
-                }}
+                  userSessionContext.handleLogOut();
+                //   axios
+                //     .post(`${config.APP_CONFIG}logout`, {
+                //       headers: { Authorization: userSessionContext.token },
+                //     })
+                //     .then((res) => {
+                //       if (res.data.status_code === 401) {
+                //         //userSessionContext.handleLogOut();
+                //       }
+                //     })
+                //     .catch((err) => {
+                //       toast.error("cannot Logout");
+                //       //setPermissions([]);
+                //     });
+                 }}
               >
                 <FontAwesomeIcon size="sm" color="#444" icon={faSignOutAlt} />
                 &nbsp;

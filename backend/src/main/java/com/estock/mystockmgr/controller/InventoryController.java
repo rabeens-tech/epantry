@@ -1,6 +1,5 @@
 package com.estock.mystockmgr.controller;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,6 +81,18 @@ public class InventoryController {
         }
     }
     
+    @RequestMapping(value="/remove/{inventoryId}",method = RequestMethod.DELETE)
+    @ResponseBody
+    public ResponseEntity<String> removeInventory(@PathVariable("inventoryId") int inventoryId){
+      try{
+      inventoryManagement.removeInventory(inventoryId);
+      return new ResponseEntity<>("Inventory removed successfully",HttpStatus.OK);
+      }
+      catch(Exception ex){
+        return new ResponseEntity<>("Unable to remove:: "+ex.getMessage(),HttpStatus.BAD_REQUEST);
+      }
+    }
+
     @RequestMapping(path="/invsummary",method = RequestMethod.GET)
     public Map<String,InventorySummary>  getInventorySummary(){
       return inventoryManagement.generateSummary(inventoryRepo.findAll());

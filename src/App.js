@@ -8,9 +8,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { CssBaseline } from "@material-ui/core";
 import "react-toastify/dist/ReactToastify.css";
-
-
-//import Footer from "./components/home/Footer";
+import UserSessionContext from "./contexts/UserSessionContext";
 import NotFound from "./components/pages/NotFound";
 import routes from "./utils/routes";
 //import axios from "axios";
@@ -26,19 +24,19 @@ export default function App() {
 
 
   const save_token = (e) => {
-    window.localStorage.setItem("ERP_TOKEN", e);
+    window.localStorage.setItem("PANTRY_TOKEN", e);
     // console.log(e);
     setToken(e);
   };
 
   const handleLogOut = (e) => {
-    window.localStorage.removeItem("ERP_TOKEN");
+    window.localStorage.removeItem("PANTRY_TOKEN");
     // console.log(e)
     setToken(false);
   };
 
   useEffect(() => {
-    let _token = window.localStorage.getItem("ERP_TOKEN");
+    let _token = window.localStorage.getItem("PANTRY_TOKEN");
 
     if (_token === undefined || _token === null) {
       setToken("1234")
@@ -47,8 +45,8 @@ export default function App() {
       setToken(token);
     }
   }, [token]);
-
   if (token === "true") {
+  // if (token === false) {
     return (
       <div>
         <ToastContainer  />
@@ -59,7 +57,12 @@ export default function App() {
 
     return (
       <div>
-      
+       <UserSessionContext.Provider
+        value={{
+        //  token: token,
+          handleLogOut: handleLogOut,
+        }}
+      >
               <div
                 style={{
                   display: "flex",
@@ -108,7 +111,7 @@ export default function App() {
                 </Router>
               </div>
               <CssBaseline />
-           
+              </UserSessionContext.Provider>
       </div>
     );
   }

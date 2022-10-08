@@ -220,6 +220,7 @@ const  deleteuser = (id) => {
   if (records === undefined) {
     return <Spinner />;
   }
+  console.log(records)
   return (
     <div>
    
@@ -288,6 +289,7 @@ const  deleteuser = (id) => {
                 <TblHead />
                 <TableBody>
                   {recordsAfterPagingAndSorting().map((item, index) => (
+                 
                     <TableRow key={item.id}>
 
                       <TableCell>
@@ -305,7 +307,7 @@ const  deleteuser = (id) => {
                  
                       </TableCell>
                       <TableCell>{item.userEmail}</TableCell>
-                      <TableCell>{item.is_admin===1?"Yes":"No"}</TableCell>
+                      <TableCell>{item.userRole[0]==="admin"?"Yes":"No"}</TableCell>
                       <TableCell>{item.active===1?"Yes":"No"}</TableCell>
                       <TableCell>
                   

@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const headCells = [
-  { id: "name", label: "Product Name" },
+  { id: "inventoryName", label: "Product Name" },
   { id: "description", label: " Description" },
   { id: "categoryName", label: "Product Category" },
   { id: "unit", label: "Product Qty Unit" },
@@ -109,14 +109,35 @@ export default function ProductPage(props) {
     });
  }
 
-  const addproduct= (_data) => {
-    // console.log(_data)
-    axios
-    .post(`${config.APP_CONFIG}inventory/saveall`, _data )
+ const addproduct= (_data) => {
+  axios
+  .post(`${config.APP_CONFIG}inventory/saveall`, _data)
+  .then((res) => {
+    if (res.status === 200) {
+      toast.success(res.data || "successfully added");
+    load_product()
+    } else if (res.status === 401) {
+      // userSessionContext.handleLogout();
+    } else if (res.status === 400) {
+      toast.error(res.data);
+      // setRecords([]);
+    }
+  })
+  .catch((err) => {
+    toast.error("Something went wrong while adding product");
+    // setRecords([]);
+  });
+setIsNewPopup(false);
+};
+
+const updateproduct= (_data) => {
+  // console.log(_data)
+  axios
+    .put(`${config.APP_CONFIG}inventory/change/${_data["id"]}`, _data)
     .then((res) => {
       if (res.status === 200) {
         toast.success(res.data || "successfully added");
-      load_product()
+           load_product()
       } else if (res.status === 401) {
         // userSessionContext.handleLogout();
       } else if (res.status === 400) {
@@ -125,39 +146,15 @@ export default function ProductPage(props) {
       }
     })
     .catch((err) => {
-      console.log(err)
       toast.error("Something Went Wrong");
-      setRecords([]);
+      // setRecords([]);
     });
-  // setIsNewPopup(false);
+  setIsNewPopup(false);
 };
+  
 
-  const updateproduct= (_data) => {
-    //     axios
-//     .post(`${config.APP_CONFIG}/Products/ProductCategory/api`, _data, {
-//       headers: { Authorization: userSessionContext.token },
-//     })
-//     .then((res) => {
-//       if (res.data.status_code === 200) {
-//         toast.success(res.data.msg || "successfully added");
-           //load_product()
-//       } else if (res.data.status_code === 401) {
-//         userSessionContext.handleLogout();
-//       } else if (res.data.status_code === 400) {
-//         toast.error(res.data.msg);
-//         setRecords([]);
-//       }
-//     })
-//     .catch((err) => {
-//       toast.error("Something Went Wrong");
-//       setRecords([]);
-//     });
-//   setIsNewPopup(false);
-// };
-    
-}
 const deleteProduct= (id) => {
-    // setConfirmDialog({ ...confirmDialog, isOpen: false });
+     setConfirmDialog({ ...confirmDialog, isOpen: false });
     axios
       .delete(`${config.APP_CONFIG}inventory/remove/${id}`)
       .then((res) => {
@@ -273,10 +270,14 @@ const deleteProduct= (id) => {
                   {recordsAfterPagingAndSorting().map((item, index) => (
                     <TableRow key={item.id}>
                    
-                      <TableCell>{item.inventoryName}</TableCell>
+                      <TableCell> <span className="avataricon">
+                          <img alt={item.inventoryName} src={item.inventoryImgUrl}className="avt"/>
+                        {item.inventoryName}
+                        </span>
+                        </TableCell>
                       <TableCell>{item.description}</TableCell>
                       <TableCell>{item.categoryName}</TableCell>
-                      <TableCell>{item.unitName}</TableCell>
+                      <TableCell>{`${item.quantity || 0} ${item.unitName} `}</TableCell>
                       <TableCell>{item.inventoryImgUrl}</TableCell>
                       <TableCell>
                         <Controls.ActionButton

@@ -66,8 +66,14 @@ const units = [
 
 const InventoryProductFormAdd = (props) => {
   const classes = useStyles();
-  console.log(props.data)
+
   const _data = props.data || {};
+  if(_data.unitName!==undefined){
+    let defaultUnit = units.filter(x=>x["title"].toUpperCase() === (_data.unitName|| "").toUpperCase())
+    if(defaultUnit.length > 0){
+      _data.unitId = defaultUnit[0]["id"]
+    }
+  }
 
   const [allCat, setAllCat] = React.useState()
 
@@ -77,27 +83,27 @@ const InventoryProductFormAdd = (props) => {
   const validate = (fieldValues = values) => {
     return true
     let temp = { ...errors }
-    if ('name' in fieldValues)
-      temp.name = fieldValues.name
-        ? fieldValues.name.length < 26
-          ? fieldValues.name.match(/^[a-zA-Z0-9 !@#\$%\^\&*\)\(+=_-]+$/g)
+    if ('inventoryName' in fieldValues)
+      temp.inventoryName = fieldValues.inventoryName
+        ? fieldValues.inventoryName.length < 51
+          ? fieldValues.inventoryName.match(/^[a-zA-Z0-9 !@#\$%\^\&*\)\(+=_-]+$/g)
             ? ""
             : "Invalid Data"
-          : "maximum 25 Characters"
+          : "maximum 50 Characters"
         : "This field is required."
 
-    if ('description' in fieldValues)
-      temp.description = fieldValues.description
-        ? fieldValues.description.match(/^[a-zA-Z0-9 !@#\$%\^\&*\)\(+=.]+$/g)
-          ? ""
-          : "Invalid Data"
-        : "This field is required."
-    if ('image' in fieldValues)
-      temp.image = fieldValues.image
-        ? fieldValues.image.match(/^[a-zA-Z0-9 !@#\$%\^\&*\)\(+=._-]+$/g)
-          ? ""
-          : "Invalid Data"
-        : "This field is required."
+    // if ('description' in fieldValues)
+    //   temp.description = fieldValues.description
+    //     ? fieldValues.description.match(/^[a-zA-Z0-9 !@#\$%\^\&*\)\(+=.]+$/g)
+    //       ? ""
+    //       : "Invalid Data"
+    //     : "This field is required."
+    // if ('image' in fieldValues)
+    //   temp.image = fieldValues.image
+    //     ? fieldValues.image.match(/^[a-zA-Z0-9 !@#\$%\^\&*\)\(+=._-]+$/g)
+    //       ? ""
+    //       : "Invalid Data"
+    //     : "This field is required."
     setErrors({
       ...temp
     })
@@ -126,6 +132,18 @@ const InventoryProductFormAdd = (props) => {
 
   const handleSubmission = e => {
     // alert("handle")
+    let curr_unit = units.filter(x=> (x["id"] === values.unitId))
+    ////let curr_category = allCat.filter(x=>x["id"]===values.category_id)
+    //console.log(values, units, curr_unit)
+    if(curr_unit.length===0){
+      toast.error("Invalid Unit type selected ")
+      return
+    }
+    // if(curr_category.length===0){
+    //   toast.error("Invalid Product Category selected")
+    //   return
+    // }
+    
     e.preventDefault()
     if (validate()) {
       let req_value = {
@@ -136,10 +154,11 @@ const InventoryProductFormAdd = (props) => {
         inventoryName: values.inventoryName,
         description: values.description,
         categoryId: values.categoryId,
-        unitName: values.unitName,
+      //  unitName: values.unitName,
+      unitName: curr_unit[0]["title"],
         inventoryImgUrl: "http://placekitten.com/g/150/150",
       };
-
+console.log(req_value)
       props.handleSubmit(req_value);
     }
   }
@@ -150,7 +169,7 @@ const InventoryProductFormAdd = (props) => {
     <Form onSubmit={handleSubmission}>
       <Grid container>
         <Grid container item xs={6}>
-
+        {_data.id ? (
           <Controls.Input
             name="inventoryName"
             label="Name"
@@ -159,21 +178,44 @@ const InventoryProductFormAdd = (props) => {
             disabled={true}
             required={true}
           />
-
+      ):
+      <Controls.Input
+            name="inventoryName"
+            label="Name"
+            value={values.inventoryName}
+            onChange={handleInputChange}
+            ////disabled={true}
+           // required={true}
+          />
+      
+      }
+         {_data.id ? (
           <Controls.Select
             label="unit"
-            name="unit"
+            name="unitId"
             initialValue={{
               id:units.filter(x=>{
 
               })
             }}
-            value={values.unitName}
+            value={values.unitId}
             onChange={handleInputChange}
             options={units}
             disabled={true}
           />
+):<Controls.Select
+label="unit"
+name="unitId"
+initialValue={{
+  id:units.filter(x=>{
 
+  })
+}}
+value={values.unitId}
+onChange={handleInputChange}
+options={units}
+// disabled={true}
+/>}
         </Grid>
 
         <Grid container item xs={6}>

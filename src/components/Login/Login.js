@@ -12,12 +12,12 @@ import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
-    margin: theme.spacing(5),
-    padding: theme.spacing(3),
+    margin: theme.spacing(3),
+    padding: theme.spacing(1),
   },
-  paperStyle:{padding :20,height:'70vh',width:280, margin:"20px auto"},
+  paperStyle:{padding :20,height:'50vh',width:350, margin:"80px auto"},
   avatarStyle:{backgroundColor:'#1bbd7e'},
-  btnstyle:{margin:'8px 0'},
+  btnstyle:{margin:'10px 0',width:100,textAlign:"center"},
 }));
 
 const initialFValues = {
@@ -53,7 +53,7 @@ export default function Login(props) {
   
   const handleSubmission = e => {
     e.preventDefault();
-    // if (validate()) {
+  
      let req_value = {
   
          name: values.username,
@@ -70,14 +70,14 @@ export default function Login(props) {
         timeout: 8000,
         body: JSON.stringify(req_value)
     })
-    .then(data=>{
-   
-     if(data.status_code===200){
-       props.setToken(data.msg)
+    .then(res=>{
+   console.log(res);
+     if(res.status===200){
+       props.setToken(res.msg)
 
      }
-     else if(data.status_code===400){
-       toast.warn(data.msg)
+     else if(res.status===400){
+       toast.warn(res.msg)
       
    
      }
@@ -103,8 +103,7 @@ export default function Login(props) {
        value={values.username}
        onChange={handleInputChange}
        name="username"
-      // fullWidth 
-      // required
+     
       />
         <div style={{paddingTop:"20px"}}>
         <Controls.Input
@@ -115,9 +114,9 @@ export default function Login(props) {
           value={values.password}
           onChange={handleInputChange}
           variant="outlined" 
-          fullWidth
+      
           
-          required/>
+          />
   </div>
   <div style={{paddingTop:"20px"}}>
   <Controls.Button

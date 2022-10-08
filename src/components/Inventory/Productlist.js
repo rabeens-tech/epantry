@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const headCells = [
-  { id: "name", label: "Item" },
+  { id: "inventoryName", label: "Item" },
   { id: "quantity", label: "Quantity" },
   { id: "unit", label: "Unit" },
   { id: "actions", label: "", disableSorting: true },
@@ -193,17 +193,17 @@ const deleteProduct= (id) => {
         >
           {isNewPopup ? (
             <Popup
-              title="Add Product"
+              title="Add Product Inventory"
               openPopup={isNewPopup}
               setPopups={setIsNewPopup}
             >
-              <ProductForm handleSubmit={addproduct} />
+              <InventoryProductFormAdd handleSubmit={addproduct} />
             </Popup>
           ) : null}
 
           {isEditPopup ? (
             <Popup
-              title="Edit Product"
+              title="Edit Product Inventory"
               openPopup={isEditPopup === false ? false : true}
               setPopups={() => {
                 setIsEditPopup(false);
@@ -265,10 +265,10 @@ const deleteProduct= (id) => {
                    
                       <TableCell>
                         <span className="avataricon">
-                          <img alt={item.name} src={item.inventoryImgUrl}className="avt"/>
-                        {item.name}
-                        </span>
+                          <img alt={item.inventoryName} src={item.inventoryImgUrl}className="avt"/>
                         {item.inventoryName}
+                        </span>
+                        
                       </TableCell>
                       
                       <TableCell>{`${item.quantity || 0} ${item.unitName} `}</TableCell>
@@ -284,7 +284,21 @@ const deleteProduct= (id) => {
                         ><Tooltip title="Edit">
                           <EditOutlinedIcon fontSize="small" /></Tooltip>
                         </Controls.ActionButton>
-                       
+                        <Controls.ActionButton
+                          color="secondary"
+                          onClick={() => {
+                            setConfirmDialog({
+                              isOpen: true,
+                              title: "Are you sure to delete this Product?",
+                              subTitle: "You can't undo this operation",
+                              onConfirm: () => {
+                                deleteProduct(item.id);
+                              },
+                            });
+                          }}
+                        >
+                          <CloseIcon fontSize="small" />
+                        </Controls.ActionButton> 
                       
 
                     

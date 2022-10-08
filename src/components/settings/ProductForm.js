@@ -33,9 +33,9 @@ const useStyles = makeStyles((theme) => ({
 
 const initialFValues = {
   category_id: "",
-  name: "",
+  inventoryName: "",
   description: "",
-  unit: "",
+  unitId: "",
   image: ""
 };
 
@@ -71,18 +71,18 @@ const ProductForm = (props) => {
           : "maximum 25 Characters"
         : "This field is required."
 
-    if ('description' in fieldValues)
-      temp.description = fieldValues.description
-        ? fieldValues.description.match(/^[a-zA-Z0-9 !@#\$%\^\&*\)\(+=.]+$/g)
-          ? ""
-          : "Invalid Data"
-        : "This field is required."
-    if ('image' in fieldValues)
-      temp.image = fieldValues.image
-        ? fieldValues.image.match(/^[a-zA-Z0-9 !@#\$%\^\&*\)\(+=._-]+$/g)
-          ? ""
-          : "Invalid Data"
-        : "This field is required."
+    // if ('description' in fieldValues)
+    //   temp.description = fieldValues.description
+    //     ? fieldValues.description.match(/^[a-zA-Z0-9 !@#\$%\^\&*\)\(+=.]+$/g)
+    //       ? ""
+    //       : "Invalid Data"
+    //     : "This field is required."
+    // if ('image' in fieldValues)
+    //   temp.image = fieldValues.image
+    //     ? fieldValues.image.match(/^[a-zA-Z0-9 !@#\$%\^\&*\)\(+=._-]+$/g)
+    //       ? ""
+    //       : "Invalid Data"
+    //     : "This field is required."
     setErrors({
       ...temp
     })
@@ -191,12 +191,12 @@ const ProductForm = (props) => {
 
           />
           <Controls.Input
-            name="name"
+            name="inventoryName"
             label="Name"
             value={values.inventoryName}
             onChange={handleInputChange}
 
-            required={true}
+            // required={true}
           />
 
           <Controls.Select
@@ -214,7 +214,7 @@ const ProductForm = (props) => {
           <Controls.Input
             name="description"
             multiline
-            row={5}
+            rows={3}
             label="Description"
             value={values.description}
             onChange={handleInputChange}
