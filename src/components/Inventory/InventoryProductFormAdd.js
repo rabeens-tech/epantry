@@ -40,13 +40,28 @@ const InventoryProductFormAdd = (props) => {
   const classes = useStyles();
 
   const _data = props.data || {};
+  console.log(_data)
+  const [allProducts, setAllproducts] = React.useState()
+  
+  const [product, setProduct] = React.useState(()=>{
+    if(_data === undefined){
+      return
+    }
+    if(Object.keys(_data).length === 0){
+      return
+    }
+    return {
+      value:_data.inventory.id,
+      label:_data.inventory.inventoryName
+
+    }
+  })
+  // const [selectedFile, setSelectedFile] = React.useState(null);
+  // const [unit, setUnit] = React.useState({});
+  // const [inv, setInv] = React.useState([])
  
 
-  const [allproducts, setAllproducts] = React.useState()
-  const [Products, setProducts] = React.useState()
-  const [selectedFile, setSelectedFile] = React.useState(null);
-  const [unit, setUnit] = React.useState({});
-  const [inv, setInv] = React.useState();
+
   React.useEffect(() => {
     load_product();
   }, []);
@@ -55,18 +70,13 @@ const InventoryProductFormAdd = (props) => {
     axios.get(`${config.APP_CONFIG}inventory/getall`)
     .then((res) => {
   
-      console.log(res)
+      // console.log(res)
       if (res.status === 200) {
-        console.log(res.data)
-setAllproducts(res.data);
-         let _res= res.data.map((x,i)=>{
-          return {
-            value:x["id"],
-            label:x["inventoryName"]
-          }
-        })
-         console.log(_res);
-        setProducts(_res) ;  
+        // console.log(res.data)
+        setAllproducts(res.data);
+         
+         // console.log(_res);
+        // setProducts(_res)  ;  
       } else if (res.status === 401) {
         // userSessionContext.handleLogout();
       } else if (res.status === 400) {
@@ -91,6 +101,8 @@ setAllproducts(res.data);
             : "Invalid Data"
           : "maximum 50 Characters"
         : "This field is required."
+        if ('newAdded' in fieldValues)
+        temp.newAdded = fieldValues.newAdded?"" : "This field is required."
     setErrors({
       ...temp
     })
@@ -116,14 +128,12 @@ setAllproducts(res.data);
     e.preventDefault()
     if (validate()) {
       let req_value = {
-        id: values.id,
-        inventoryAdded:"",
-      
-        quantity:values.quantity,
+        inventoryId: product.value,
+        newAdded:values.newAdded,
        
       
       //unitName: curr_unit[0]["title"],
-        inventoryImgUrl: "http://placekitten.com/g/150/150",
+        //inventoryImgUrl: "http://placekitten.com/g/150/150",
       };
 
       props.handleSubmit(req_value);
@@ -131,51 +141,68 @@ setAllproducts(res.data);
   }
 
 
+  if(allProducts==undefined){
+    return <Spinner />
+  }
+
 
   return (
     <Form onSubmit={handleSubmission}>
       <Grid container>
-        <Grid container item xs={8}>
+        <Grid container xs={8}>
        
         <div style={{width: '469px'}}> 
        <Select
           type="text"
           placeholder={"Search product...."}
-          options={Products}
+          options={allProducts.map((x,i)=>{
+              return {
+                value:x["id"],
+                label:x["inventoryName"]
+              }
+            })
+          }
           styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
           menuPortalTarget={document.body}
-          value={inv}
+          value={product}
           
           onChange={(e) => {
-          setInv(e.value)
+            // console.log(e)
+            setProduct(e)
           }}
         
         />
-         </div>
-         {inv?
-        <div style={{paddingTop:"20px",width: '502px'}}>
-        <Controls.Input
-            type="number"
-            name="quantity"
-            label="Quantity"
-            value={values.quantity}
-            onChange={handleInputChange}
-            required={true}
-          />
         </div>
+      
+        <div style={{
+          width:"500px",paddingTop:'20px'
+        }}>
+           {product!==undefined?
+        <Controls.Input
          
-         :null}
-         
+          type="number"
+          name="newAdded"
+          label="Quantity"
+          value={values.newAdded}
+          onChange={handleInputChange}
+          required={true}
+        />
+        :null
+      }
+      </div>
         </Grid>
 
-        <Grid container item xs={3}>
-        {inv?
-        <div>
-          <span>{"value"}</span>
-        </div> 
-        :null}
+        
+        <Grid container item xs={4}>
+          {
+            product!==undefined?
+          
+            <div>
+              <span>Unit Name :{allProducts.filter(x=>(x["id"]===product["value"]) )[0]["unitName"] || "--"}</span>
+            </div>
+            :null
+          }
         </Grid>
-
 
         <div style={{ width: "90%", textAlign: "left" }}>
           {_data.id ? (

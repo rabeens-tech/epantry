@@ -114,7 +114,7 @@ export default function Productlist(props) {
 
   const addproduct= (_data) => {
     axios
-    .post(`${config.APP_CONFIG}inventory/saveall`, _data)
+    .post(`${config.APP_CONFIG}saveall`, _data)
     .then((res) => {
       if (res.status === 200) {
         toast.success(res.data || "successfully added");
@@ -134,9 +134,11 @@ export default function Productlist(props) {
 };
 
   const updateproduct= (_data) => {
-    // console.log(_data)
+    // console.log(isEditPopup)
+    toast.info("update has issue. ")
+    return
     axios
-      .put(`${config.APP_CONFIG}inventory/change/${_data["id"]}`, _data)
+      .put(`${config.APP_CONFIG}change/${isEditPopup}`, _data)
       .then((res) => {
         if (res.status === 200) {
           toast.success(res.data || "successfully added");
@@ -159,11 +161,11 @@ export default function Productlist(props) {
 const deleteProduct= (id) => {
     setConfirmDialog({ ...confirmDialog, isOpen: false });
     axios
-      .delete(`${config.APP_CONFIG}inventory/remove/${id}`)
+      .delete(`${config.APP_CONFIG}remove/${id}`)
       .then((res) => {
         if (res.status === 200) {
           toast.success("Product deleted successfully!");
-         //load_product()
+         load_product()
         } else if (res.status === 401) {
           // userSessionContext.handleLogout();
         } else {
@@ -212,7 +214,7 @@ const deleteProduct= (id) => {
             >
               <InventoryProductFormAdd 
                 handleSubmit={updateproduct}
-                data={records.filter((x) => x.id === isEditPopup)[0] || null}
+                data={records.filter((x) => x.replishmentId === isEditPopup)[0] || null}
               />
             </Popup>
           ) : null}
@@ -261,13 +263,18 @@ const deleteProduct= (id) => {
               <TblContainer>
                 <TblHead />
                 <TableBody>
-                  {recordsAfterPagingAndSorting().map((item, index) => (
-                    <TableRow key={item.id}>
+                  {recordsAfterPagingAndSorting().map((item, index) => {
+                    console.log(item)
+                    return <TableRow key={item.id}>
                    
                       <TableCell>
                         <span className="avataricon">
-                          <img alt={item.inventoryName} src={item.inventoryImgUrl}className="avt"/>
-                        {item.inventory.inventoryName}
+                          <img 
+                            alt={ ""} 
+                            src={item.inventory.inventoryImgUrl} 
+                            className="avt"
+                          />
+                            {item.inventory.inventoryName || ""}
                         </span>
                         
                       </TableCell>
@@ -280,7 +287,7 @@ const deleteProduct= (id) => {
                         <Controls.ActionButton
                           color="primary"
                           onClick={(e) => {
-                            setIsEditPopup(item.id);
+                            setIsEditPopup(item.replishmentId);
                           }}
                         ><Tooltip title="Edit">
                           <EditOutlinedIcon fontSize="small" /></Tooltip>
@@ -293,7 +300,7 @@ const deleteProduct= (id) => {
                               title: "Are you sure to delete this Product?",
                               subTitle: "You can't undo this operation",
                               onConfirm: () => {
-                                deleteProduct(item.id);
+                                deleteProduct(item.replishmentId);
                               },
                             });
                           }}
@@ -305,7 +312,7 @@ const deleteProduct= (id) => {
                     
                       </TableCell>
                     </TableRow>
-                  ))}
+                  })}
                 </TableBody>
               </TblContainer>
               {records.length>1 ?
