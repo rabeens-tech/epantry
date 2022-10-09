@@ -135,13 +135,14 @@ export default function ConsumeptionPage(props) {
   }
   const updateconsume= (_data) => {
     // console.log("_data")
-    console.log(_data)
+    // console.log(_data)
 
     axios
       .put(`${config.APP_CONFIG}inventory/change/${_data.id}`, _data)
       .then((res) => {
         if (res.status === 200) {
           toast.success(res.data || "Successfully updated!");
+          load_consume()
       
         } else if (res.status === 401) {
           // userSessionContext.handleLogout();

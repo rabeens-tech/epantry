@@ -71,7 +71,7 @@ export default function StockList1(props) {
           else
             return items.filter(
               (x) =>
-                x.categoryname
+                x.inventoryName
                   .toLowerCase()
                   .includes(query.toLowerCase())
              

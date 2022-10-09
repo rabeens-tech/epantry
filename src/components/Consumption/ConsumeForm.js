@@ -19,38 +19,18 @@ import units from '../../utils/units'
 // };
 
 
-const frequency=[{
-  "id":1,
-"title":"Daily",
+import frequency from '../../utils/frequency';
 
-},
-{
-"id":2,
-"title":"Weekly",
-
-},
-{
-"id":3,
-"title":"Monthly",
-
-},
-{
-  "id":4,
-  "title":"Yearly",
-
-},
-
-]
 const ConsumeForm = (props) => {
 
   const [categories, setCategories] = React.useState()
 
   const _data = props.data || {};
 
-  console.log(_data)
+  // console.log(_data)
 
   React.useEffect(()=>{
-    // load_inventory()
+    load_inventory()
   },[])
 
   const load_inventory = () => {
@@ -82,6 +62,7 @@ const ConsumeForm = (props) => {
 
 
   const validate = (fieldValues=values) => {
+    return true
     let temp = { ...errors }
     if ('name' in fieldValues)
     temp.name = fieldValues.name
@@ -112,15 +93,32 @@ const ConsumeForm = (props) => {
   }
   const { values, handleInputChange, errors, setErrors } =useForm(_data,true,validate);
   
-  const handleSubmission = e => {
+  values.unitId = 1
+  // values.consumptionTypeId = 0
+  let current_unit = units.filter(x=>(x["title"].toUpperCase() === values.unitName.toUpperCase()) )
+  if(current_unit.length!==0){
+    values.unitId = current_unit[0]["id"]
+  }
+  if(values.consumptionTypeId === undefined){
 
-    const curr_consumption_type = frequency.filter(x=>x["id"] === values.consumptionType)
+    let current_consumption = frequency.filter(x=>(x["title"].toUpperCase() === values.consumptionType.toUpperCase()) )
+    if(current_consumption.length!==0){
+      values.consumptionTypeId = current_consumption[0]["id"]
+    }
+  }
+
+
+  const handleSubmission = e => {
+    e.preventDefault()
+    const curr_consumption_type = frequency.filter(x=>x["id"] === values.consumptionTypeId)
 
     if(curr_consumption_type.length === 0){
       toast.error("Invalid Consumption type selected!")
       return
     } 
-    e.preventDefault()
+    console.log(values)
+    console.log(curr_consumption_type)
+    
     if (true) {
       let req_value = {
         id:_data.id,
@@ -128,19 +126,21 @@ const ConsumeForm = (props) => {
         quantity:values.quantity,
         inventoryName: values.inventoryName,
         description: values.description,
-        categoryId: values.categoryId || 14,
+        categoryId: values.categoryId,
         unitName: values.unitName,
         inventoryImgUrl: "http://placekitten.com/g/150/150",
         consumptionType:curr_consumption_type[0]["title"].toUpperCase(),       
       };
+      // console.log(req_value)
       props.handleSubmit(req_value);
     }
  
   }
 
-  // if(categories == undefined){
-  //   return <Spinner />
-  // }
+  if(categories == undefined){
+    return <Spinner />
+  }
+
 
   // console.log(values)
 
@@ -150,7 +150,7 @@ const ConsumeForm = (props) => {
       <Grid container item xs={6}>
       
         <Controls.Input
-         name="name"
+         name="inventoryName"
          label="Name"
          value={values.inventoryName}
          onChange={handleInputChange} 
@@ -158,10 +158,10 @@ const ConsumeForm = (props) => {
         required={props.actionType&&props.actionType==="new"?true:false}
         />
 
-      <Controls.Input
+      <Controls.Select
             label="unit"
             name="unit"
-            value={values.unit}
+            value={values.unitId}
             onChange={handleInputChange}
             options={units}
             required={props.actionType&&props.actionType==="new"?true:false}
@@ -174,8 +174,8 @@ const ConsumeForm = (props) => {
 
         <Controls.Select
           label="Consumption Frequency"
-          name="consumptionType"
-          value={values.consumptionType || 1}
+          name="consumptionTypeId"
+          value={values.consumptionTypeId}
           onChange={handleInputChange}
           options={frequency}
         />
