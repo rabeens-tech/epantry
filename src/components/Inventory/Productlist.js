@@ -52,7 +52,7 @@ export default function Productlist(props) {
   const [products, setProducts] = useState();
   const [isNewPopup, setIsNewPopup] = useState(false);
   const [isEditPopup, setIsEditPopup] = useState(false);
-  
+  const [allCat, setAllCat] = useState();
   const [confirmDialog, setConfirmDialog] = useState({
     isOpen: false,
     title: "",
@@ -64,7 +64,50 @@ export default function Productlist(props) {
     },
   });
 
+  useEffect(() => {
+    load_categories();
+    load_product();
+  }, []);
+
+  const load_categories = async() =>{
+     await axios.get(`${config.APP_CONFIG}category/getall`)
+    .then((res) => {
+      if (res.status === 200) {
+       
+        setAllCat(res.data)   
+      } else if (res.status === 401) {
+        // userSessionContext.handleLogout();
+      } else if (res.status === 400) {
+        toast.error(res.data || "Cannot load categories");
+        setAllCat([]);
+      }
+    })
+    .catch((err) => {
+      toast.error("Something Went Wrong");
+      setAllCat([]);
+    });
+  }
+ 
+  const load_product = () => {
+    axios
+    .get(`${config.APP_CONFIG}getall`)
+    .then((res) => {
+      if (res.status === 200) {
+        console.log(res.data)
+        setRecords(res.data)    
+      } else if (res.status === 401) {
+        // userSessionContext.handleLogout();
+      } else if (res.status === 400) {
+        toast.error(res.data);
+        setRecords([]);
+      }
+    })
+    .catch((err) => {
+      toast.error("Something Went Wrong");
+      setRecords([]);
+    });
   
+};
 
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     UseTable(records, headCells, filterFn);
@@ -87,29 +130,7 @@ export default function Productlist(props) {
       });
     };
 
-  useEffect(() => {
-    load_product();
-  }, []);
 
-  const load_product = () => {
-    axios
-    .get(`${config.APP_CONFIG}getall`)
-    .then((res) => {
-      if (res.status === 200) {
-        setRecords(res.data)    
-      } else if (res.status === 401) {
-        // userSessionContext.handleLogout();
-      } else if (res.status === 400) {
-        toast.error(res.data);
-        setRecords([]);
-      }
-    })
-    .catch((err) => {
-      toast.error("Something Went Wrong");
-      setRecords([]);
-    });
-  setIsNewPopup(false);
-};
 
 
   const addproduct= (_data) => {
@@ -118,7 +139,8 @@ export default function Productlist(props) {
     .then((res) => {
       if (res.status === 200) {
         toast.success(res.data || "successfully added");
-      load_product()
+      load_product();
+      setIsNewPopup(false);
       } else if (res.status === 401) {
         // userSessionContext.handleLogout();
       } else if (res.status === 400) {
@@ -141,8 +163,8 @@ export default function Productlist(props) {
       .put(`${config.APP_CONFIG}change/${isEditPopup}`, _data)
       .then((res) => {
         if (res.status === 200) {
-          toast.success(res.data || "successfully added");
-             load_product()
+          toast.success(res.data || "successfully updated");
+             load_product();
         } else if (res.status === 401) {
           // userSessionContext.handleLogout();
         } else if (res.status === 400) {
@@ -154,7 +176,7 @@ export default function Productlist(props) {
         toast.error("Something Went Wrong");
         // setRecords([]);
       });
-    setIsNewPopup(false);
+    setIsEditPopup(false);
   };
     
 
@@ -180,12 +202,23 @@ const deleteProduct= (id) => {
 }
 
   
-  if (records === undefined) {
+  if (records === undefined){
     return <Spinner />;
   }
+  if(allCat===undefined) {
+    return <Spinner />;
+  }
+  const cat_name= (cat_id) => {
+  let curr_cat = allCat.filter(x=>(x["categoryId"] ===cat_id))
+  console.log(curr_cat);
+ //let curr_cat_id = 0
+  if(curr_cat.length!==0){
+    return  curr_cat[0]["categoryName"] 
+    //curr_cat_id = 
+ }
+  }
 
-  
-
+console.log(allCat);
   return (
     <div>
       <div className="">
@@ -264,7 +297,7 @@ const deleteProduct= (id) => {
                 <TblHead />
                 <TableBody>
                   {recordsAfterPagingAndSorting().map((item, index) => {
-                    console.log(item)
+                   
                     return <TableRow key={item.id}>
                    
                       <TableCell>
@@ -274,7 +307,9 @@ const deleteProduct= (id) => {
                             src={item.inventory.inventoryImgUrl} 
                             className="avt"
                           />
-                            {item.inventory.inventoryName || ""}
+                            {item.inventory.inventoryName || ""} <br/>
+                            { cat_name( item.inventory.categoryId)||0 }
+                            
                         </span>
                         
                       </TableCell>

@@ -36,8 +36,7 @@ const useStyles = makeStyles((theme) => ({
 
 const headCells = [
   { id: "inventoryName", label: "Product Name" },
-  // { id: "description", label: " Description" },
-  { id: "categoryName", label: "Product Category" },
+
   { id: "unit", label: "Product Qty Unit" },
   { id: "image", label: "Image URL" },
   { id: "actions", label: "Actions", disableSorting: true },
@@ -311,10 +310,12 @@ const deleteProduct= (id) => {
                    
                       <TableCell> <span className="avataricon">
                           <img alt={item.inventoryName} src={item.inventoryImgUrl}className="avt"/>
-                        {item.inventoryName}
+                        {item.inventoryName}<br/>
+                         {curr_cat_id}
+                      
                         </span>
                         </TableCell>
-                      <TableCell>{curr_cat_id}</TableCell>
+                      {/* <TableCell>{curr_cat_id}</TableCell> */}
                       <TableCell>{`${item.quantity || 0} ${item.unitName} `}</TableCell>
                       <TableCell>{item.inventoryImgUrl.substr(0,20)}</TableCell>
                       <TableCell>
