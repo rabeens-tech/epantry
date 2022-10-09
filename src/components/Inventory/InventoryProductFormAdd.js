@@ -15,6 +15,9 @@ import {
 } from "@material-ui/core";
 import { PhotoCamera } from "@material-ui/icons";
 
+import units from '../../utils/units'
+
+
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -31,38 +34,6 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-const units = [
-  {
-    "id": 1,
-    "title": "kg",
-
-  },
-  {
-    "id": 2,
-    "title": "gram",
-
-  },
-  {
-    "id": 3,
-    "title": "ml",
-
-  },
-  {
-    "id": 4,
-    "title": "litre",
-
-  },
-  {
-    "id": 5,
-    "title": "piece",
-
-  },
-  {
-    "id": 6,
-    "title": "packet",
-
-  },
-]
 
 const InventoryProductFormAdd = (props) => {
   const classes = useStyles();
@@ -81,7 +52,7 @@ const InventoryProductFormAdd = (props) => {
   const [File, setFile] = React.useState(null);
   
   const validate = (fieldValues = values) => {
-    return true
+    // return true
     let temp = { ...errors }
     if ('inventoryName' in fieldValues)
       temp.inventoryName = fieldValues.inventoryName
@@ -158,7 +129,7 @@ const InventoryProductFormAdd = (props) => {
       unitName: curr_unit[0]["title"],
         inventoryImgUrl: "http://placekitten.com/g/150/150",
       };
-console.log(req_value)
+// console.log(req_value)
       props.handleSubmit(req_value);
     }
   }
@@ -203,19 +174,19 @@ console.log(req_value)
             options={units}
             disabled={true}
           />
-):<Controls.Select
-label="unit"
-name="unitId"
-initialValue={{
-  id:units.filter(x=>{
+          ):<Controls.Select
+          label="unit"
+          name="unitId"
+          initialValue={{
+            id:units.filter(x=>{
 
-  })
-}}
-value={values.unitId}
-onChange={handleInputChange}
-options={units}
-// disabled={true}
-/>}
+            })
+          }}
+          value={values.unitId}
+          onChange={handleInputChange}
+          options={units}
+          disabled={true}
+        />}
         </Grid>
 
         <Grid container item xs={6}>

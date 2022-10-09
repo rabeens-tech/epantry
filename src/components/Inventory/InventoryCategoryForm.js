@@ -24,29 +24,29 @@ const qtyList=[
   {id:3,"name":"litre"},
   {id:4,"name":"ml"},
 ]
-const categoryList=[
-  {
-    "id":1,
-  "name":"MOMOS",
-  "description":"mitho Momos",
-},
-{
-  "id":2,
-  "name":"pizza",
-  "description":"mitho pizzass",
-},
-{
-  "id":3,
-  "name":"Coke",
-  "description":"mitho Coke",
-},
-]
+// const categoryList=[
+//   {
+//     "id":1,
+//   "name":"MOMOS",
+//   "description":"mitho Momos",
+// },
+// {
+//   "id":2,
+//   "name":"pizza",
+//   "description":"mitho pizzass",
+// },
+// {
+//   "id":3,
+//   "name":"Coke",
+//   "description":"mitho Coke",
+// },
+// ]
 
 
 export default function InventoryCategoryForm(props) {
   const userSessionContext = React.useContext(UserSessionContext);
 
-  const [categoryList, setCategoryList] = useState(categoryList);
+  const [categoryList, setCategoryList] = useState();
   const validate = (fieldValues=values) => {
     let temp = { ...errors }
     if ('inventoryName' in fieldValues)

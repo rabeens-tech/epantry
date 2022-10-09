@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 
 const headCells = [
   { id: "inventoryName", label: "Product Name" },
-  { id: "description", label: " Description" },
+  // { id: "description", label: " Description" },
   { id: "categoryName", label: "Product Category" },
   { id: "unit", label: "Product Qty Unit" },
   { id: "image", label: "Image URL" },
@@ -48,6 +48,8 @@ const headCells = [
 export default function ProductPage(props) {
   const classes = useStyles(props);
   const [records, setRecords] = useState();
+  const [allCat, setAllCat] = useState();
+
   const [isNewPopup, setIsNewPopup] = useState(false);
   const [isEditPopup, setIsEditPopup] = useState(false);
   
@@ -87,6 +89,7 @@ export default function ProductPage(props) {
 
   useEffect(() => {
     load_product();
+    load_categories()
   }, []);
 
   const load_product = () =>{
@@ -108,6 +111,31 @@ export default function ProductPage(props) {
       setRecords([]);
     });
  }
+
+  const load_categories = () =>{
+    axios
+    .get(`${config.APP_CONFIG}category/getall`)
+    .then((res) => {
+      if (res.status === 200) {
+        let _res= res.data.map((x,i)=>{
+          return {
+            id:x["categoryId"],
+            title:x["categoryName"]
+          }
+        })
+        setAllCat(_res)    
+      } else if (res.status === 401) {
+        // userSessionContext.handleLogout();
+      } else if (res.status === 400) {
+        toast.error(res.data || "Cannot load categories");
+        setAllCat([]);
+      }
+    })
+    .catch((err) => {
+      toast.error("Something Went Wrong");
+      setAllCat([]);
+    });
+  }
 
  const addproduct= (_data) => {
   axios
@@ -175,9 +203,10 @@ const deleteProduct= (id) => {
 }
 
   
-  if (records === undefined) {
+  if (records === undefined || allCat === undefined) {
     return <Spinner />;
   }
+
 
   
 
@@ -195,7 +224,9 @@ const deleteProduct= (id) => {
               openPopup={isNewPopup}
               setPopups={setIsNewPopup}
             >
-              <ProductForm handleSubmit={e=>{
+              <ProductForm 
+                categories = {allCat}
+                handleSubmit={e=>{
                  addproduct(e) 
                 }} 
               />
@@ -211,6 +242,7 @@ const deleteProduct= (id) => {
               }}
             >
               <ProductForm 
+                categories = {allCat}
                 handleSubmit={updateproduct}
                 data={records.filter((x) => x.id === isEditPopup)[0] || null}
               />
@@ -267,18 +299,23 @@ const deleteProduct= (id) => {
               <TblContainer>
                 <TblHead />
                 <TableBody>
-                  {recordsAfterPagingAndSorting().map((item, index) => (
-                    <TableRow key={item.id}>
+                  {recordsAfterPagingAndSorting().map((item, index) => {
+                    console.log(item)
+                    let curr_cat = allCat.filter(x=>(x["id"] === item.categoryId))
+                    let curr_cat_id = 0
+                    if(curr_cat.length!==0){
+                      curr_cat_id = curr_cat[0]["title"] 
+                    }
+                    return <TableRow key={item.id}>
                    
                       <TableCell> <span className="avataricon">
                           <img alt={item.inventoryName} src={item.inventoryImgUrl}className="avt"/>
                         {item.inventoryName}
                         </span>
                         </TableCell>
-                      <TableCell>{item.description}</TableCell>
-                      <TableCell>{item.categoryName}</TableCell>
+                      <TableCell>{curr_cat_id}</TableCell>
                       <TableCell>{`${item.quantity || 0} ${item.unitName} `}</TableCell>
-                      <TableCell>{item.inventoryImgUrl}</TableCell>
+                      <TableCell>{item.inventoryImgUrl.substr(0,20)}</TableCell>
                       <TableCell>
                         <Controls.ActionButton
                           color="primary"
@@ -308,7 +345,7 @@ const deleteProduct= (id) => {
                     
                       </TableCell>
                     </TableRow>
-                  ))}
+                  })}
                 </TableBody>
               </TblContainer>
               {records.length>1 ?

@@ -92,7 +92,7 @@ export default function Productlist(props) {
 
   const load_product = () => {
     axios
-    .get(`${config.APP_CONFIG}inventory/getall`)
+    .get(`${config.APP_CONFIG}getall`)
     .then((res) => {
       if (res.status === 200) {
         setRecords(res.data)    
@@ -266,14 +266,14 @@ const deleteProduct= (id) => {
                       <TableCell>
                         <span className="avataricon">
                           <img alt={item.inventoryName} src={item.inventoryImgUrl}className="avt"/>
-                        {item.inventoryName}
+                        {item.inventory.inventoryName}
                         </span>
                         
                       </TableCell>
                       
-                      <TableCell>{`${item.quantity || 0} ${item.unitName} `}</TableCell>
+                      <TableCell>{`${item.newAdded || 0} ${item.inventory.unitName} `}</TableCell>
                       
-                      <TableCell>{`${item.consumptionRate|| 0} ${item.unit || "unit"}/${item.consumptionType || "day"}`}</TableCell>
+                      <TableCell>{`${item.inventory.consumptionRate|| 0} ${item.inventory.unitName || "unit"}/${item.consumptionType || "day"}`}</TableCell>
                       
                       <TableCell>
                         <Controls.ActionButton

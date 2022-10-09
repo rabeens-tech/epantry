@@ -6,6 +6,7 @@ import axios from "axios";
 import Spinner from '../../utils/spinner'
 import { toast } from "react-toastify";
 import config from "../../utils/config";
+
 import {
   Button, Divider, Paper, Typography,
   IconButton,
@@ -54,7 +55,7 @@ const ProductForm = (props) => {
     }
   }
 
-  const [allCat, setAllCat] = React.useState()
+  const [allCat, setAllCat] = React.useState(props.categories || [])
 
   const [selectedFile, setSelectedFile] = React.useState(null);
   const [File, setFile] = React.useState(null);
@@ -92,7 +93,7 @@ const ProductForm = (props) => {
 
 
   React.useEffect(()=>{
-    load_categories()
+    // load_categories()
   },[])
 
 
@@ -140,7 +141,7 @@ const ProductForm = (props) => {
     // alert("handle")
     
     let curr_unit = units.filter(x=> (x["id"] === values.unitId))
-    let curr_category = allCat.filter(x=>x["id"]===values.category_id)
+    let curr_category = allCat.filter(x=>x["id"]===values.categoryId)
     console.log(values, units, curr_unit)
     if(curr_unit.length===0){
       toast.error("Invalid Unit type selected ")
@@ -157,16 +158,16 @@ const ProductForm = (props) => {
         inventoryAdded:"",
         consumptionRate:0,
         quantity:0,
-        inventoryName: values.name,
+        inventoryName: values.inventoryName,
         description: values.description,
-        // category_id: values.category_id,
+        categoryId: values.categoryId,
         unitName: curr_unit[0]["title"],
         inventoryImgUrl: "http://placekitten.com/g/150/150",
         inventoryCategory:curr_category[0]["id"]
       };
       // console.log(values)
-      console.log(req_value)
-      // props.handleSubmit(req_value);
+      // console.log(req_value)
+      props.handleSubmit(req_value);
     }
     return
 
@@ -184,8 +185,8 @@ const ProductForm = (props) => {
         <Grid container item xs={6}>
           <Controls.Select
             label="CategoryName"
-            name="category_id"
-            value={values.category_id}
+            name="categoryId"
+            value={values.categoryId}
             onChange={handleInputChange}
             options={allCat}
 
