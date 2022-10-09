@@ -14,7 +14,7 @@ import Spinner from "../../utils/spinner";
 import ProductForm from "../settings/ProductForm";
 import AddIcon from "@material-ui/icons/Add";
 import InventoryProductFormAdd from './InventoryProductFormAdd'
-
+import Select from "react-select";
 
 import ConfirmDialog from "../home/ConfirmDialog";
 
@@ -49,6 +49,7 @@ const headCells = [
 export default function Productlist(props) {
   const classes = useStyles(props);
   const [records, setRecords] = useState();
+  const [products, setProducts] = useState();
   const [isNewPopup, setIsNewPopup] = useState(false);
   const [isEditPopup, setIsEditPopup] = useState(false);
   

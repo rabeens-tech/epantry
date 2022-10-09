@@ -38,22 +38,25 @@ const makeStyle=(days)=>{
   if(days <2)
   {
     return {
-      background: 'rgb(145 254 159 / 47%)',
-      color: 'red',
+      //background: 'rgb(145 254 159 / 47%)',
+      background: "linear-gradient(180deg, #FF919D 0%, #FC929D 100%)",
+     // color: 'red',
     }
   }
-  else if(days <4)
+  else if(days>3 && days<7)
   {
     return{
       background: '#ffadad8f',
-      color: 'yellow',
+    // backGround: "linear-gradient(rgb(248, 212, 154) -146.42%, rgb(255 202 113) -46.42%)",
+     // color: 'yellow',
     }
   }
-  if(days >5)
+  if(days >7)
   {
     return{
-      background: '#59bfff',
-      color: 'green',
+      background: '#bb67ff',
+     // backGround: "linear-gradient(180deg, #bb67ff 0%, #c484f3 100%)",
+      //color: 'green',
     }
   }
 }
@@ -167,15 +170,42 @@ export default function GroceryList(props) {
   }
  // console.log(data)
  
+ function getDuration(milli){
+  let minutes = Math.floor(milli / 60000);
+  let hours = Math.round(minutes / 60);
+  let days = Math.round(hours / 24);
 
+  return (
+    (days && {value: days, unit: 'days'}) ||
+    (hours && {value: hours, unit: 'hours'}) ||
+    {value: minutes, unit: 'minutes'}
+  )
+
+//console.log(tDuration.value + ': ' + tDuration.unit);
+};
  const check=(id)=>{
   let a={};
-  // console.log(records)
+  
    a =records.filter((x)=> x.id===id)
-console.log(a)
-    return <div>{a[0]["qtyi"]}{a[0]["unit"]}</div>
+console.log(a);
+    return <span>{a[0]["quantity"]}{" "}{a[0]["unitName"]}</span>
  }
+ const check_status=(days)=>{
+ 
+  if(days <3)
+  {
+    return <span>{"Order Now"}</span>
+  }
 
+  if(days>3 &&days<7)
+  {
+    return <span>{"Order Soon"}</span>
+  }
+  if(days >7)
+  {
+    return <span>{"Order Later"}</span>
+  }
+ }
   return (
     <div>
   
@@ -223,13 +253,13 @@ console.log(a)
                     </TableCell>
                     {/* <TableCell>{item.categoryName}</TableCell> */}
                     <TableCell>{item.quantity + " " + item.unitName}</TableCell>
-                    <TableCell>{item.daysToDeplete}</TableCell>
+                    <TableCell>{( getDuration(item.daysToDeplete)).value}</TableCell>
                    
               
   
-                    <TableCell align="left">
-                    <span className="status" style={makeStyle(item.days)}>{"Repeat Last Purchase -"} {check(item.id)}{"Order"}
-                      
+                   <TableCell align="left">
+                   <span className="status" style={makeStyle(getDuration(item.daysToDeplete).value)}>{"Repeat Last Purchase -"} {check(item.id)}<span>{check_status(item.daysToDeplete)}</span>
+                     
                       {/* {("Repeat Last Purchase -")+({data.filter((x)=> x.id===item.id).map((y,i)=>
                       {
   console.log(y);

@@ -6,6 +6,7 @@ import axios from "axios";
 import Spinner from '../../utils/spinner'
 import { toast } from "react-toastify";
 import config from "../../utils/config";
+import Select from "react-select";
 import {
   Button, Divider, Paper, Typography,
   IconButton,
@@ -46,11 +47,11 @@ const InventoryProductFormAdd = (props) => {
     }
   }
 
-  const [allCat, setAllCat] = React.useState()
-
+  const [allproducts, setAllproducts] = React.useState()
+  const [Products, setProducts] = React.useState()
   const [selectedFile, setSelectedFile] = React.useState(null);
-  const [File, setFile] = React.useState(null);
-  
+  const [unit, setUnit] = React.useState({});
+  const [inv, setInv] = React.useState([])
   const validate = (fieldValues = values) => {
     // return true
     let temp = { ...errors }
@@ -83,22 +84,49 @@ const InventoryProductFormAdd = (props) => {
   }
 
 
-  React.useEffect(()=>{
-    // load_categories()
-  },[])
+  React.useEffect(() => {
+    load_product();
+  }, []);
 
-  const handleCapture = (e) => {
-    setSelectedFile(e.target.files[0]);
-    setFile(URL.createObjectURL(e.target.files[0]));
-  };
-  const handleCapture1 = (e) => {
-    //    const formData = new FormData();
-    // formData.append("File", File);
-    setFile(URL.createObjectURL(e.target.files[0]));
-  };
+  const load_product = () => {
+    axios.get(`${config.APP_CONFIG}inventory/getall`)
+    .then((res) => {
+  
+      console.log(res)
+      if (res.status === 200) {
+        console.log(res.data)
+setAllproducts(res.data);
+         let _res= res.data.map((x,i)=>{
+          return {
+            value:x["id"],
+            label:x["inventoryName"]
+          }
+        })
+         console.log(_res);
+        setProducts(_res)  ;  
+      } else if (res.status === 401) {
+        // userSessionContext.handleLogout();
+      } else if (res.status === 400) {
+        toast.error(res.data);
+       // setRecords([]);
+      }
+    })
+    .catch((err) => {
+      toast.error("Something Went Wrong");
+     // setRecords([]);
+    });
+  //setIsNewPopup(false);
+};
+  // const handleCapture = (e) => {
+  //   setSelectedFile(e.target.files[0]);
+  //   setFile(URL.createObjectURL(e.target.files[0]));
+  // };
+  // const handleCapture1 = (e) => {
+   
+  //   setFile(URL.createObjectURL(e.target.files[0]));
+  // };
 
-  // console.log(selectedFile);
-  // console.log(File);
+
   const { values, handleInputChange, errors, setErrors } = useForm(_data, true, validate);
 
   const handleSubmission = e => {
@@ -120,11 +148,12 @@ const InventoryProductFormAdd = (props) => {
       let req_value = {
         id: values.id,
         inventoryAdded:"",
-        consumptionRate:values.consumptionRate,
+       // consumptionRate:values.consumptionRate,
         quantity:values.quantity,
-        inventoryName: values.inventoryName,
-        description: values.description,
-        categoryId: values.categoryId,
+        inventoryName:inv.label,
+        // values.inventoryName,
+       // description: values.description,
+        //categoryId: values.categoryId,
       //  unitName: values.unitName,
       unitName: curr_unit[0]["title"],
         inventoryImgUrl: "http://placekitten.com/g/150/150",
@@ -140,27 +169,43 @@ const InventoryProductFormAdd = (props) => {
     <Form onSubmit={handleSubmission}>
       <Grid container>
         <Grid container item xs={6}>
-        {_data.id ? (
+       
+        <div style={{width: '388px'}}> 
+       <Select
+          type="text"
+          placeholder={"Search product...."}
+          options={Products}
+          styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
+          menuPortalTarget={document.body}
+          value={inv}
+          
+          onChange={(e) => {
+            setInv(e);
+            console.log(e.value)
+            let temp=allproducts.filter((x) => {return x.id === parseInt(e.value)})
+            console.log(temp);
+            setUnit(temp)
+            console.log(unit)
+          }}
+        
+        />
+        </div>
+        {/* <div>
+          <span>{unit}</span>
+        </div> */}
+      
           <Controls.Input
-            name="inventoryName"
-            label="Name"
-            value={values.inventoryName}
-            onChange={handleInputChange}
+           Readonly
+            label="unit"
+            value={unit}
+           
             disabled={true}
-            required={true}
-          />
-      ):
-      <Controls.Input
-            name="inventoryName"
-            label="Name"
-            value={values.inventoryName}
-            onChange={handleInputChange}
-            ////disabled={true}
-           // required={true}
+          
           />
       
-      }
-         {_data.id ? (
+     
+      {/* } */}
+         {/* {_data.id ? (
           <Controls.Select
             label="unit"
             name="unitId"
@@ -186,11 +231,12 @@ const InventoryProductFormAdd = (props) => {
           onChange={handleInputChange}
           options={units}
           disabled={true}
-        />}
+        />} */}
+        
         </Grid>
 
         <Grid container item xs={6}>
-          <Controls.Input
+        <Controls.Input
             type="number"
             name="quantity"
             label="Quantity"
