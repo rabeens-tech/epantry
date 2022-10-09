@@ -40,50 +40,13 @@ const InventoryProductFormAdd = (props) => {
   const classes = useStyles();
 
   const _data = props.data || {};
-  if(_data.unitName!==undefined){
-    let defaultUnit = units.filter(x=>x["title"].toUpperCase() === (_data.unitName|| "").toUpperCase())
-    if(defaultUnit.length > 0){
-      _data.unitId = defaultUnit[0]["id"]
-    }
-  }
+ 
 
   const [allproducts, setAllproducts] = React.useState()
   const [Products, setProducts] = React.useState()
   const [selectedFile, setSelectedFile] = React.useState(null);
   const [unit, setUnit] = React.useState({});
-  const [inv, setInv] = React.useState([])
-  const validate = (fieldValues = values) => {
-    // return true
-    let temp = { ...errors }
-    if ('inventoryName' in fieldValues)
-      temp.inventoryName = fieldValues.inventoryName
-        ? fieldValues.inventoryName.length < 51
-          ? fieldValues.inventoryName.match(/^[a-zA-Z0-9 !@#\$%\^\&*\)\(+=_-]+$/g)
-            ? ""
-            : "Invalid Data"
-          : "maximum 50 Characters"
-        : "This field is required."
-
-    // if ('description' in fieldValues)
-    //   temp.description = fieldValues.description
-    //     ? fieldValues.description.match(/^[a-zA-Z0-9 !@#\$%\^\&*\)\(+=.]+$/g)
-    //       ? ""
-    //       : "Invalid Data"
-    //     : "This field is required."
-    // if ('image' in fieldValues)
-    //   temp.image = fieldValues.image
-    //     ? fieldValues.image.match(/^[a-zA-Z0-9 !@#\$%\^\&*\)\(+=._-]+$/g)
-    //       ? ""
-    //       : "Invalid Data"
-    //     : "This field is required."
-    setErrors({
-      ...temp
-    })
-    if (fieldValues == values)
-      return Object.values(temp).every(x => x == "")
-  }
-
-
+  const [inv, setInv] = React.useState();
   React.useEffect(() => {
     load_product();
   }, []);
@@ -103,7 +66,7 @@ setAllproducts(res.data);
           }
         })
          console.log(_res);
-        setProducts(_res)  ;  
+        setProducts(_res) ;  
       } else if (res.status === 401) {
         // userSessionContext.handleLogout();
       } else if (res.status === 400) {
@@ -117,6 +80,26 @@ setAllproducts(res.data);
     });
   //setIsNewPopup(false);
 };
+  const validate = (fieldValues = values) => {
+    // return true
+    let temp = { ...errors }
+    if ('inventoryName' in fieldValues)
+      temp.inventoryName = fieldValues.inventoryName
+        ? fieldValues.inventoryName.length < 51
+          ? fieldValues.inventoryName.match(/^[a-zA-Z0-9 !@#\$%\^\&*\)\(+=]+$/g)
+            ? ""
+            : "Invalid Data"
+          : "maximum 50 Characters"
+        : "This field is required."
+    setErrors({
+      ...temp
+    })
+    if (fieldValues == values)
+      return Object.values(temp).every(x => x == "")
+  }
+
+
+  
   // const handleCapture = (e) => {
   //   setSelectedFile(e.target.files[0]);
   //   setFile(URL.createObjectURL(e.target.files[0]));
@@ -126,39 +109,23 @@ setAllproducts(res.data);
   //   setFile(URL.createObjectURL(e.target.files[0]));
   // };
 
-
   const { values, handleInputChange, errors, setErrors } = useForm(_data, true, validate);
 
   const handleSubmission = e => {
-    // alert("handle")
-    let curr_unit = units.filter(x=> (x["id"] === values.unitId))
-    ////let curr_category = allCat.filter(x=>x["id"]===values.category_id)
-    //console.log(values, units, curr_unit)
-    if(curr_unit.length===0){
-      toast.error("Invalid Unit type selected ")
-      return
-    }
-    // if(curr_category.length===0){
-    //   toast.error("Invalid Product Category selected")
-    //   return
-    // }
-    
+    // alert("handle") 
     e.preventDefault()
     if (validate()) {
       let req_value = {
         id: values.id,
         inventoryAdded:"",
-       // consumptionRate:values.consumptionRate,
+      
         quantity:values.quantity,
-        inventoryName:inv.label,
-        // values.inventoryName,
-       // description: values.description,
-        //categoryId: values.categoryId,
-      //  unitName: values.unitName,
-      unitName: curr_unit[0]["title"],
+       
+      
+      //unitName: curr_unit[0]["title"],
         inventoryImgUrl: "http://placekitten.com/g/150/150",
       };
-// console.log(req_value)
+
       props.handleSubmit(req_value);
     }
   }
@@ -168,9 +135,9 @@ setAllproducts(res.data);
   return (
     <Form onSubmit={handleSubmission}>
       <Grid container>
-        <Grid container item xs={6}>
+        <Grid container item xs={8}>
        
-        <div style={{width: '388px'}}> 
+        <div style={{width: '469px'}}> 
        <Select
           type="text"
           placeholder={"Search product...."}
@@ -180,62 +147,13 @@ setAllproducts(res.data);
           value={inv}
           
           onChange={(e) => {
-            setInv(e);
-            console.log(e.value)
-            let temp=allproducts.filter((x) => {return x.id === parseInt(e.value)})
-            console.log(temp);
-            setUnit(temp)
-            console.log(unit)
+          setInv(e.value)
           }}
         
         />
-        </div>
-        {/* <div>
-          <span>{unit}</span>
-        </div> */}
-      
-          <Controls.Input
-           Readonly
-            label="unit"
-            value={unit}
-           
-            disabled={true}
-          
-          />
-      
-     
-      {/* } */}
-         {/* {_data.id ? (
-          <Controls.Select
-            label="unit"
-            name="unitId"
-            initialValue={{
-              id:units.filter(x=>{
-
-              })
-            }}
-            value={values.unitId}
-            onChange={handleInputChange}
-            options={units}
-            disabled={true}
-          />
-          ):<Controls.Select
-          label="unit"
-          name="unitId"
-          initialValue={{
-            id:units.filter(x=>{
-
-            })
-          }}
-          value={values.unitId}
-          onChange={handleInputChange}
-          options={units}
-          disabled={true}
-        />} */}
-        
-        </Grid>
-
-        <Grid container item xs={6}>
+         </div>
+         {inv?
+        <div style={{paddingTop:"20px",width: '502px'}}>
         <Controls.Input
             type="number"
             name="quantity"
@@ -244,10 +162,22 @@ setAllproducts(res.data);
             onChange={handleInputChange}
             required={true}
           />
+        </div>
+         
+         :null}
+         
+        </Grid>
+
+        <Grid container item xs={3}>
+        {inv?
+        <div>
+          <span>{"value"}</span>
+        </div> 
+        :null}
         </Grid>
 
 
-        <div style={{ width: "100%", textAlign: "right" }}>
+        <div style={{ width: "90%", textAlign: "left" }}>
           {_data.id ? (
             <Controls.Button
               type="submit"

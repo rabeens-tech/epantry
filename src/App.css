@@ -466,4 +466,9 @@ align-items: center;
       margin-right: 10px;
       object-fit: cover;
     }
-   
+    .css-2b097c-container {
+
+      left: -27px;
+    position: relative;
+    box-sizing: border-box;
+    }
