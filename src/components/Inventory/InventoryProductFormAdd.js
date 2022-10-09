@@ -40,18 +40,25 @@ const InventoryProductFormAdd = (props) => {
   const classes = useStyles();
 
   const _data = props.data || {};
-  if(_data.unitName!==undefined){
-    let defaultUnit = units.filter(x=>x["title"].toUpperCase() === (_data.unitName|| "").toUpperCase())
-    if(defaultUnit.length > 0){
-      _data.unitId = defaultUnit[0]["id"]
+  console.log(_data)
+  const [allProducts, setAllproducts] = React.useState()
+  
+  const [product, setProduct] = React.useState(()=>{
+    if(_data === undefined){
+      return
     }
-  }
+    if(Object.keys(_data).length === 0){
+      return
+    }
+    return {
+      value:_data.inventory.id,
+      label:_data.inventory.inventoryName
 
-  const [allproducts, setAllproducts] = React.useState()
-  const [Products, setProducts] = React.useState()
-  const [selectedFile, setSelectedFile] = React.useState(null);
-  const [unit, setUnit] = React.useState({});
-  const [inv, setInv] = React.useState([])
+    }
+  })
+  // const [selectedFile, setSelectedFile] = React.useState(null);
+  // const [unit, setUnit] = React.useState({});
+  // const [inv, setInv] = React.useState([])
   const validate = (fieldValues = values) => {
     // return true
     let temp = { ...errors }
@@ -92,18 +99,13 @@ const InventoryProductFormAdd = (props) => {
     axios.get(`${config.APP_CONFIG}inventory/getall`)
     .then((res) => {
   
-      console.log(res)
+      // console.log(res)
       if (res.status === 200) {
-        console.log(res.data)
-setAllproducts(res.data);
-         let _res= res.data.map((x,i)=>{
-          return {
-            value:x["id"],
-            label:x["inventoryName"]
-          }
-        })
-         console.log(_res);
-        setProducts(_res)  ;  
+        // console.log(res.data)
+        setAllproducts(res.data);
+         
+         // console.log(_res);
+        // setProducts(_res)  ;  
       } else if (res.status === 401) {
         // userSessionContext.handleLogout();
       } else if (res.status === 400) {
@@ -130,122 +132,104 @@ setAllproducts(res.data);
   const { values, handleInputChange, errors, setErrors } = useForm(_data, true, validate);
 
   const handleSubmission = e => {
-    // alert("handle")
-    let curr_unit = units.filter(x=> (x["id"] === values.unitId))
+    e.preventDefault()
+    // let curr_unit = units.filter(x=> (x["id"] === values.unitId))
     ////let curr_category = allCat.filter(x=>x["id"]===values.category_id)
     //console.log(values, units, curr_unit)
-    if(curr_unit.length===0){
-      toast.error("Invalid Unit type selected ")
-      return
-    }
+    // if(curr_unit.length===0){
+    //   toast.error("Invalid Unit type selected ")
+    //   return
+    // }
     // if(curr_category.length===0){
     //   toast.error("Invalid Product Category selected")
     //   return
     // }
     
-    e.preventDefault()
     if (validate()) {
       let req_value = {
-        id: values.id,
-        inventoryAdded:"",
-       // consumptionRate:values.consumptionRate,
-        quantity:values.quantity,
-        inventoryName:inv.label,
+        inventoryId: product.value,
+        // inventoryAdded:"",
+        // consumptionRate:values.consumptionRate,
+        newAdded:values.newAdded,
+        // inventoryName:product.label,
         // values.inventoryName,
-       // description: values.description,
-        //categoryId: values.categoryId,
-      //  unitName: values.unitName,
-      unitName: curr_unit[0]["title"],
-        inventoryImgUrl: "http://placekitten.com/g/150/150",
+        // description: values.description,
+        // categoryId: values.categoryId,
+        // unitName: values.unitName,
+        // inventoryImgUrl: values.inventoryImgUrl,
       };
-// console.log(req_value)
+      // console.log(req_value)
       props.handleSubmit(req_value);
     }
   }
 
 
+  if(allProducts==undefined){
+    return <Spinner />
+  }
+
 
   return (
     <Form onSubmit={handleSubmission}>
       <Grid container>
-        <Grid container item xs={6}>
+        <Grid container>
        
-        <div style={{width: '388px'}}> 
+        <div style={{width: '100%'}}> 
        <Select
           type="text"
           placeholder={"Search product...."}
-          options={Products}
+          options={allProducts.map((x,i)=>{
+              return {
+                value:x["id"],
+                label:x["inventoryName"]
+              }
+            })
+          }
           styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
           menuPortalTarget={document.body}
-          value={inv}
+          value={product}
           
           onChange={(e) => {
-            setInv(e);
-            console.log(e.value)
-            let temp=allproducts.filter((x) => {return x.id === parseInt(e.value)})
-            console.log(temp);
-            setUnit(temp)
-            console.log(unit)
+            // console.log(e)
+            setProduct(e)
           }}
         
         />
         </div>
-        {/* <div>
-          <span>{unit}</span>
-        </div> */}
-      
-          <Controls.Input
-           Readonly
-            label="unit"
-            value={unit}
-           
-            disabled={true}
+
           
-          />
-      
-     
-      {/* } */}
-         {/* {_data.id ? (
-          <Controls.Select
-            label="unit"
-            name="unitId"
-            initialValue={{
-              id:units.filter(x=>{
-
-              })
-            }}
-            value={values.unitId}
-            onChange={handleInputChange}
-            options={units}
-            disabled={true}
-          />
-          ):<Controls.Select
-          label="unit"
-          name="unitId"
-          initialValue={{
-            id:units.filter(x=>{
-
-            })
-          }}
-          value={values.unitId}
-          onChange={handleInputChange}
-          options={units}
-          disabled={true}
-        />} */}
-        
         </Grid>
 
         <Grid container item xs={6}>
-        <Controls.Input
+        {
+          product!==undefined?
+        
+          <Controls.Input
+            style={{
+              width:"100%"
+            }}
             type="number"
-            name="quantity"
+            name="newAdded"
             label="Quantity"
-            value={values.quantity}
+            value={values.newAdded}
             onChange={handleInputChange}
             required={true}
           />
-        </Grid>
+          :null
+        }
 
+        
+        </Grid>
+        <Grid container item xs={6}>
+          {
+            product!==undefined?
+          
+            <div>
+              <span>{allProducts.filter(x=>(x["id"]===product["value"]) )[0]["unitName"] || "--"}</span>
+            </div>
+            :null
+          }
+        </Grid>
 
         <div style={{ width: "100%", textAlign: "right" }}>
           {_data.id ? (

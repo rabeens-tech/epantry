@@ -166,6 +166,7 @@ const updateproduct= (_data) => {
       if (res.status === 200) {
         toast.success(res.data || "successfully added");
            load_product()
+           setIsEditPopup(false);
       } else if (res.status === 401) {
         // userSessionContext.handleLogout();
       } else if (res.status === 400) {
@@ -177,7 +178,7 @@ const updateproduct= (_data) => {
       toast.error("Something Went Wrong");
       // setRecords([]);
     });
-  setIsNewPopup(false);
+  
 };
   
 
