@@ -496,3 +496,8 @@ align-items: center;
     font-weight: bold;
  
   } */
+  .select {
+    width: 400px;
+    margin: 20px auto;
+  }
+  
