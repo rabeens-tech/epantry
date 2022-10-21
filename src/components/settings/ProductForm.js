@@ -154,15 +154,16 @@ const ProductForm = (props) => {
     
     if (validate()) {
       let req_value = {
-        id: values.id,
+        inventoryId: values.inventoryId,
         inventoryAdded:"",
         consumptionRate:0,
+        consumptionType:"DAILY", 
         quantity:0,
         inventoryName: values.inventoryName,
-        description: values.description,
+        invDescription: values.invDescription,
         categoryId: values.categoryId,
         unitName: curr_unit[0]["title"],
-        inventoryImgUrl: "http://placekitten.com/g/150/150",
+        inventoryImgUrl: values.inventoryImgUrl || "",
         inventoryCategory:curr_category[0]["id"]
       };
       // console.log(values)
@@ -177,8 +178,8 @@ const ProductForm = (props) => {
   if(allCat === undefined){
     return <Spinner />
   }
- console.log(_data)
-  console.log(values)
+ // console.log(_data)
+  // console.log(values)
   return (
     <Form onSubmit={handleSubmission}>
       <Grid container>
@@ -213,13 +214,24 @@ const ProductForm = (props) => {
 
         <Grid container item xs={6}>
           <Controls.Input
-            name="description"
+            name="invDescription"
             multiline
             rows={3}
             label="Description"
-            value={values.description}
+            value={values.invDescription}
             onChange={handleInputChange}
           />
+
+          <Controls.Input
+            name="inventoryImgUrl"
+            multiline
+            rows={3}
+            label="Image URL"
+            value={values.inventoryImgUrl}
+            onChange={handleInputChange}
+          />
+
+{/**
           <div style={{ display: "block" }}>
             <div style={{ width: "175px", textAlign: "center", margin: "8px", height: "20px" }}>
               <label>Upload Image</label>
@@ -247,9 +259,10 @@ const ProductForm = (props) => {
               </Tooltip>
             </div>
           </div>
+          **/}
         </Grid>
         <div style={{ width: "100%", textAlign: "right" }}>
-          {_data.id ? (
+          {_data.inventoryId ? (
             <Controls.Button
               type="submit"
               text="Update"

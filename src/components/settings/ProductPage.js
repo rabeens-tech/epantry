@@ -139,7 +139,7 @@ export default function ProductPage(props) {
 
  const addproduct= (_data) => {
   axios
-  .post(`${config.APP_CONFIG}inventory/saveall`, _data)
+  .post(`${config.APP_CONFIG}inventory/saveincategory`, _data)
   .then((res) => {
     if (res.status === 200) {
       toast.success(res.data || "successfully added");
@@ -161,7 +161,7 @@ setIsNewPopup(false);
 const updateproduct= (_data) => {
   // console.log(_data)
   axios
-    .put(`${config.APP_CONFIG}inventory/change/${_data["id"]}`, _data)
+    .put(`${config.APP_CONFIG}inventory/change/${_data["inventoryId"]}`, _data)
     .then((res) => {
       if (res.status === 200) {
         toast.success(res.data || "successfully added");
@@ -245,7 +245,7 @@ const deleteProduct= (id) => {
               <ProductForm 
                 categories = {allCat}
                 handleSubmit={updateproduct}
-                data={records.filter((x) => x.id === isEditPopup)[0] || null}
+                data={records.filter((x) => x.inventoryId === isEditPopup)[0] || null}
               />
             </Popup>
           ) : null}
@@ -301,13 +301,13 @@ const deleteProduct= (id) => {
                 <TblHead />
                 <TableBody>
                   {recordsAfterPagingAndSorting().map((item, index) => {
-                    console.log(item)
+                    // console.log(item)
                     let curr_cat = allCat.filter(x=>(x["id"] === item.categoryId))
                     let curr_cat_id = 0
                     if(curr_cat.length!==0){
                       curr_cat_id = curr_cat[0]["title"] 
                     }
-                    return <TableRow key={item.id}>
+                    return <TableRow key={index}>
                    
                       <TableCell> <span className="avataricon">
                           <img alt={item.inventoryName} src={item.inventoryImgUrl}className="avt"/>
@@ -315,13 +315,14 @@ const deleteProduct= (id) => {
                         </span>
                         </TableCell>
                       <TableCell>{curr_cat_id}</TableCell>
-                      <TableCell>{`${item.quantity || 0} ${item.unitName} `}</TableCell>
-                      <TableCell>{item.inventoryImgUrl.substr(0,20)}</TableCell>
+                      <TableCell>{`${item.remainingStock || 0} ${item.unitName} `}</TableCell>
+                      <TableCell>{ (item.inventoryImgUrl&&item.inventoryImgUrl.substr(0,20) ) || ""}</TableCell>
                       <TableCell>
                         <Controls.ActionButton
                           color="primary"
                           onClick={(e) => {
-                            setIsEditPopup(item.id);
+                            // alert("edit")
+                            setIsEditPopup(item.inventoryId);
                           }}
                         ><Tooltip title="Edit">
                           <EditOutlinedIcon fontSize="small" /></Tooltip>
@@ -336,7 +337,7 @@ const deleteProduct= (id) => {
                               title: "Are you sure to delete this Product?",
                               subTitle: "You can't undo this operation",
                               onConfirm: () => {
-                                deleteProduct(item.id);
+                                deleteProduct(item.inventoryId);
                               },
                             });
                           }}

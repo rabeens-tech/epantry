@@ -81,11 +81,15 @@ public class CustomUserDetailsServiceManager implements UserDetailsService{
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         List<Users> userdata = userRepo.findByUserName(username);
+        if (userdata.size()>0){
          MyUserDetails myUserDetail= new MyUserDetails(userdata.get(0));
          if (myUserDetail.getUsername().isEmpty()){
             throw new UsernameNotFoundException("No user available, please check your credential for :"+username);
          }
          return myUserDetail;
+        }else{
+            throw new UsernameNotFoundException("No user available, please check your credential for :"+username);
+         }
     }
 
 }

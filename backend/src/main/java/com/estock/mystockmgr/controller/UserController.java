@@ -32,6 +32,7 @@ public class UserController {
     public String saveUser(@RequestBody Users user){
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setPassword(encoder.encode(user.getPassword()));
+        System.out.println(user.isActive()+" here");
         userRepo.save(user);
         return "User data saved successfully";
     }

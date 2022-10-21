@@ -39,6 +39,7 @@ const headCells = [
   { id: "inventoryName", label: "Item" },
   { id: "quantity", label: "Quantity" },
   { id: "unit", label: "Unit" },
+  { id: "inventoryAdded", label: "Date"},
   { id: "actions", label: "", disableSorting: true },
 ];
 
@@ -93,7 +94,7 @@ export default function Productlist(props) {
 
   const load_product = () => {
     axios
-    .get(`${config.APP_CONFIG}getall`)
+    .get(`${config.APP_CONFIG}replishment/getall`)
     .then((res) => {
       if (res.status === 200) {
         setRecords(res.data)    
@@ -114,7 +115,7 @@ export default function Productlist(props) {
 
   const addproduct= (_data) => {
     axios
-    .post(`${config.APP_CONFIG}saveall`, _data)
+    .post(`${config.APP_CONFIG}replishment/saveall`, _data)
     .then((res) => {
       if (res.status === 200) {
         toast.success(res.data || "successfully added");
@@ -138,7 +139,7 @@ export default function Productlist(props) {
     toast.info("update has issue. ")
     return
     axios
-      .put(`${config.APP_CONFIG}change/${isEditPopup}`, _data)
+      .put(`${config.APP_CONFIG}replishment/change/${isEditPopup}`, _data)
       .then((res) => {
         if (res.status === 200) {
           toast.success(res.data || "successfully added");
@@ -161,7 +162,7 @@ export default function Productlist(props) {
 const deleteProduct= (id) => {
     setConfirmDialog({ ...confirmDialog, isOpen: false });
     axios
-      .delete(`${config.APP_CONFIG}remove/${id}`)
+      .delete(`${config.APP_CONFIG}replishment/remove/${id}`)
       .then((res) => {
         if (res.status === 200) {
           toast.success("Product deleted successfully!");
@@ -264,24 +265,33 @@ const deleteProduct= (id) => {
                 <TblHead />
                 <TableBody>
                   {recordsAfterPagingAndSorting().map((item, index) => {
-                    console.log(item)
-                    return <TableRow key={item.id}>
+                    // console.log(item)
+                    return <TableRow key={index}>
                    
                       <TableCell>
                         <span className="avataricon">
                           <img 
                             alt={ ""} 
-                            src={item.inventory.inventoryImgUrl} 
+                            src={ item.inventory.inventoryImgUrl } 
                             className="avt"
                           />
-                            {item.inventory.inventoryName || ""}
+
+                            { 
+                              item.inventory.inventoryName || ""
+                            }
                         </span>
                         
                       </TableCell>
                       
-                      <TableCell>{`${item.newAdded || 0} ${item.inventory.unitName} `}</TableCell>
+                      <TableCell>{
+                        `${item.quantity || 0} ${item.inventory.unitName} `
+                      }</TableCell>
                       
-                      <TableCell>{`${item.inventory.consumptionRate|| 0} ${item.inventory.unitName || "unit"}/${item.consumptionType || "day"}`}</TableCell>
+                      <TableCell>{
+                          `${item.inventory.consumptionRate|| 0} ${item.inventory.unitName || "unit"} / ${item.inventory.consumptionType || "day"}`
+                        }</TableCell>
+                      
+                      <TableCell>{(new Date(item.inventory.inventoryAdded|| 0)).toLocaleString()}</TableCell>
                       
                       <TableCell>
                         <Controls.ActionButton
@@ -300,7 +310,7 @@ const deleteProduct= (id) => {
                               title: "Are you sure to delete this Product?",
                               subTitle: "You can't undo this operation",
                               onConfirm: () => {
-                                deleteProduct(item.replishmentId);
+                                deleteProduct(item.purchaseId);
                               },
                             });
                           }}

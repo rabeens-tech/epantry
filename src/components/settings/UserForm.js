@@ -87,7 +87,7 @@ console.log(userRole);
   }
   const { values, handleInputChange, errors, setErrors } =useForm(_data,true,validate);
 
-  const getSwitch = (key, callback, label) => {
+  const getSwitch = (key, callback, label = "") => {
     return (
       <FormGroup>
         <FormControlLabel
@@ -148,6 +148,7 @@ console.log(userRole);
    
       <Controls.Input
          name="password"
+         type="password"
          label="Password"
          value={values.password}
          onChange={handleInputChange} 
@@ -155,7 +156,8 @@ console.log(userRole);
          
         
         />
- <Controls.Input
+     <Controls.Input
+         type="password"
          name="confirmpassword"
          label="ConfirmPassword"
          value={values.confirmpassword}

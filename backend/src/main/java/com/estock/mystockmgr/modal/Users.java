@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.Getter;
 
 @Entity
 @Data
@@ -25,5 +26,8 @@ public class Users {
     private String password;
     private String[] userRole = new String[20];
     private boolean isActive;
-
+    
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
 }

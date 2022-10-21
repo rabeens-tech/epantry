@@ -57,8 +57,6 @@ public class CategoryController {
     @ResponseBody
     public String saveInventory(@RequestBody InventoryCategory category){
         category.populateDefaultDate();
-        System.out.println(category.getCreatedDate());
-        System.out.println("here is date");
         inventoryCategoryRepo.save(category);
         return "Category added successfully";
     }

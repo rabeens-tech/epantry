@@ -116,7 +116,7 @@ export default function GroceryList(props) {
     .get(`${config.APP_CONFIG}inventory/getall`)
     .then((res) => {
       if (res.status === 200) {
-        console.log(res)
+        // console.log(res)
 
         setRecords(res.data)
         // toast.success(res.data || "successfully added");
@@ -244,26 +244,28 @@ console.log(a);
             <TblHead />
             <TableBody>
               {recordsAfterPagingAndSorting().map((item) => {
-             
+                // let lastReplishment = item.purchase.reduce( (x,y) =>(x["inventoryAdded"] < y["inventoryAdded"]))
                 return <TableRow key={item.id}>
                   <TableCell><div className="avataricon">
-                      <img alt={item.inventoryName} src={item.inventoryImgUrl}className="avt"/>
+                      <img alt={item.inventoryName} src={item.inventoryImgUrl} className="avt"/>
                       {item.inventoryName}
                       </div>
                     </TableCell>
                     {/* <TableCell>{item.categoryName}</TableCell> */}
-                    <TableCell>{item.quantity + " " + item.unitName}</TableCell>
-                    <TableCell>{( getDuration(item.daysToDeplete)).value}</TableCell>
-                   
-              
+                    <TableCell>{item.remainingStock + " " + item.unitName}</TableCell>
+                    <TableCell>{ 
+                        item.remainingDaysToDeplete  || 0
+                    }
+                    {" days"}
+                    </TableCell>              
   
                    <TableCell align="left">
-                   <span className="status" style={makeStyle(getDuration(item.daysToDeplete).value)}>{"Repeat Last Purchase -"} {check(item.id)}<span>{check_status(item.daysToDeplete)}</span>
+                   <span className="status" style={makeStyle(getDuration(item.remainingDaysToDeplete).value)}>{"Repeat Last Purchase -"} {check(item.id)}<span>{check_status(item.remainingDaysToDeplete)}</span>
                      
                       {/* {("Repeat Last Purchase -")+({data.filter((x)=> x.id===item.id).map((y,i)=>
                       {
-  console.log(y);
-                      return(<div key={i}>{y.qtyi}{y.unit}</div>)})})} */}
+  // console.log(y);
+                      return(<div key={i}>{y.quantity}{y.unit}</div>)})})} */}
                      
      {/* <span className="status" style={makeStyle(item.days)}>{"Repeat Last Purchase - "}{data.filter((x)=> x.id===item.id).map((y,index)=>{return({y.qty} {""}{y.unit} )               
               })}

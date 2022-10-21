@@ -8,8 +8,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,8 +35,8 @@ public class SpringWebsecConfigurer {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((authz) -> {
             try {
-                authz.anyRequest().permitAll();
-                // authz.anyRequest().authenticated().and().formLogin().defaultSuccessUrl("/index");
+                // authz.anyRequest().permitAll();
+                authz.anyRequest().authenticated().and().formLogin().loginPage("/login").permitAll().defaultSuccessUrl("/index").and().logout().permitAll();
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -58,15 +60,15 @@ public class SpringWebsecConfigurer {
         return authProvider;
     }
 
-    @Bean
+@Bean
 public WebMvcConfigurer CORSConfigurer() {
     return new WebMvcConfigurer() {
         @Override
         public void addCorsMappings(CorsRegistry registry) {
             registry.addMapping("/**")
                     .allowedOrigins("*")
-                    .allowedHeaders("Content-Type", "Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Authorization", "X-Requested-With", "requestId", "Correlation-Id")
-                    // .allowedHeaders("*")
+                    // .allowedHeaders("Content-Type", "Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Authorization", "X-Requested-With", "requestId", "Correlation-Id")
+                    .allowedHeaders("*")
                     .allowedMethods("*")
                     .maxAge(-1)   // add maxAge
                     .allowCredentials(false);

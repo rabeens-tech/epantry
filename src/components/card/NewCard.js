@@ -28,22 +28,39 @@ function NewCard(props) {
             }}
             key={id}
           >
-            <Item>
-              <div
-                style={{
-                  fontSize:"0.3em"
-                }}
-              >
-               {card.categoryName}
+            <Item
+              style={{
+                background:"rgba(180,180,180,0.4)",
+                borderRadius:"10%",
+                justifyContent:"space-around",
+                flexDirection:"column",
+                fontSize:"1em",
+                color:"#355",
+                fontWeight:"bold",
+                textAlign:"center"
+                // display:"inline-block"
+              }}
+            >
+
+              <div>
+               {card.categoryName&&card.categoryName.substr(0,255)}
               </div>
-                <br/>
-              <div
-                style={{
-                  fontSize:"0.5em"
-                }}
-              >
-              {card.inventoryList.length }
+
+
+              <div>
+                <span
+                  style={{
+                    fontSize:"1.5em"
+                  }}
+                >
+                  {card.inventoryList.length } {" "}
+                </span>
+                <span>
+                  SKU in stock 
+                </span>
               </div>
+
+
             </Item>
               {/* title={card.title}
              value={card.value}

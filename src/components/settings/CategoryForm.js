@@ -67,7 +67,7 @@ const [File,setFile]=useState(null)
        // id:values.id,
         categoryName: values.categoryName,
         categoryDescription:values.categoryDescription,
-        categoryImgUrl:"http://placekitten.com/g/150/150",
+        categoryImgUrl:values.categoryImgUrl,
       };
 
       props.handleSubmit(req_value);
@@ -104,9 +104,21 @@ const [File,setFile]=useState(null)
       
       <Grid container item xs={6}> 
       <div style={{ display: "block" }}>
-            <div style={{ width: "175px", textAlign: "center", margin: "8px", height: "20px" }}>
-              <label>Upload Image</label>
-            </div>
+            
+            <Controls.Input
+               name="categoryImgUrl"
+               label="Image URL"
+               multiline={true}
+               rows={5}
+               value={values.categoryImgUrl}
+               onChange={handleInputChange} 
+               error={errors.categoryImgUrl}
+                style={{
+                  width:"100%"
+                }}       
+              
+              /> 
+              {/** 
             <div style={{ border: "1px solid #ddd", maxWidth: "175px", width: "100%", height: "150px", textAlign: "center", margin: "8px" }}>
               <input
                 accept="image/*"
@@ -115,6 +127,7 @@ const [File,setFile]=useState(null)
                 type="file"
                 onChange={handleCapture1}
               />
+              
               {File ? < img src={File} alt="image" width="175" height="150" /> : "Select Image"}
               <Tooltip title="Select Image">
                 <label htmlFor="faceImage">
@@ -129,9 +142,11 @@ const [File,setFile]=useState(null)
                 </label>
               </Tooltip>
             </div>
+          **/}
           </div>
 
       </Grid>
+
       <div style={{ width: "100%", textAlign: "right" }}>
       {_data.id ? (
             <Controls.Button

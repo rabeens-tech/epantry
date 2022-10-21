@@ -12,9 +12,10 @@ import lombok.ToString;
 public class InventoryPayload {
     private String inventoryName;
     private float consumptionRate;
-    private int quantity;
+    private float quantity;
     private int categoryId;
     private String inventoryImgUrl;
     private String unitName;
     private String consumptionType;
+    private String invDescription;
 }

@@ -1,6 +1,7 @@
 package com.estock.mystockmgr.controller;
 
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import com.estock.mystockmgr.dto.InventoryPayload;
 import com.estock.mystockmgr.dto.InventorySummary;
 import com.estock.mystockmgr.modal.Inventory;
 import com.estock.mystockmgr.repository.InventoryRepo;
+import com.estock.mystockmgr.repository.PurchaseRepo;
 import com.estock.mystockmgr.services.InventoryManagement;
 
 @RestController
@@ -24,6 +26,8 @@ public class InventoryController {
 
     @Autowired
     InventoryRepo inventoryRepo;
+    @Autowired
+    PurchaseRepo purchaseRepo;
     @Autowired
     InventoryManagement inventoryManagement;
 
@@ -52,7 +56,6 @@ public class InventoryController {
     @RequestMapping(value = "/saveall",method=RequestMethod.POST)
     @ResponseBody
     public String saveInventory(@RequestBody Inventory inventory){
-        inventory.populateDefaultDate();
         inventoryRepo.save(inventory);
         return "Inventory added successfully";
     }
@@ -95,6 +98,17 @@ public class InventoryController {
 
     @RequestMapping(path="/invsummary",method = RequestMethod.GET)
     public Map<String,InventorySummary>  getInventorySummary(){
-      return inventoryManagement.generateSummary(inventoryRepo.findAll());
+      return inventoryManagement.generateSummary(purchaseRepo.findAll());
     }    
+
+    @RequestMapping(path="/getavailablestock/{inventoryId}",method = RequestMethod.GET)
+    public float  getInventoryStock(@PathVariable("inventoryId") int inventoryid){
+      Optional<Inventory> inventory = inventoryRepo.findById(inventoryid);
+      if(inventory.isPresent()){
+       return purchaseRepo.getAvailableStockForInventory(inventory.get());
+      }else{
+        return -1;
+      }
+    }    
+
 }

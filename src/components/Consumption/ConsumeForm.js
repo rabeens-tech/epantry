@@ -100,11 +100,17 @@ const ConsumeForm = (props) => {
     values.unitId = current_unit[0]["id"]
   }
   if(values.consumptionTypeId === undefined){
-
-    let current_consumption = frequency.filter(x=>(x["title"].toUpperCase() === values.consumptionType.toUpperCase()) )
-    if(current_consumption.length!==0){
-      values.consumptionTypeId = current_consumption[0]["id"]
+    // console.log(frequency)
+    // console.log(values)
+    if(values.consumptionType === undefined || values.consumptionType === null){
+      values.consumptionTypeId = 1
+    }else{
+      let current_consumption = frequency.filter(x=>(x["title"].toUpperCase() === values.consumptionType.toUpperCase()) )
+      if(current_consumption.length!==0){
+        values.consumptionTypeId = current_consumption[0]["id"]
+      }  
     }
+    
   }
 
 
@@ -121,7 +127,7 @@ const ConsumeForm = (props) => {
     
     if (true) {
       let req_value = {
-        id:_data.id,
+        inventoryId:_data.inventoryId,
         consumptionRate:values.consumptionRate,
         quantity:values.quantity,
         inventoryName: values.inventoryName,
@@ -192,7 +198,7 @@ const ConsumeForm = (props) => {
 
       </Grid>
       <div style ={{alignItems:right}}>
-      {_data.id ? (
+      {_data.inventoryId ? (
             <Controls.Button
               type="submit" 
               text="Update" 

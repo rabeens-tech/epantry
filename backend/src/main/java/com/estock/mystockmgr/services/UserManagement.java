@@ -24,7 +24,7 @@ public class UserManagement {
     Optional<Users> userdata = userRepo.findById(userId);
         if (userdata.isPresent()){
             Users userold = userdata.get();
-            userold.setActive(user.isActive());
+            userold.setIsActive(user.isActive());
             userold.setPassword(user.getPassword());
             userold.setUserEmail(user.getUserEmail());
             userold.setUserName(user.getUserName());

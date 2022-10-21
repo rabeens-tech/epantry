@@ -320,7 +320,7 @@ export default function InventoryList(props) {
                       </TableCell>
           
                     <TableCell>{item.categoryName}</TableCell>
-                    <TableCell>{item.qty}</TableCell>
+                    <TableCell>{item.quantity}</TableCell>
                     <TableCell>{item.unit}</TableCell>
                     <TableCell>{item.consume_rate}</TableCell>
                    

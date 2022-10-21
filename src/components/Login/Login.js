@@ -59,16 +59,18 @@ export default function Login(props) {
          name: values.username,
          password:values.password,
       };
-
+      let fdata = new FormData()
+      fdata.append("username", "rabeen")
+      fdata.append("username", "rabeen")
       axios(`${config.APP_CONFIG}login`, {
         // mode: 'no-cors', // no-cors, *cors, same-origin
         cache: 'no-cache',
         method: 'POST',
         headers: {
-          // 'Content-Type': 'application/json'
+          'Content-Type': 'application/json'
         },
         timeout: 8000,
-        body: JSON.stringify(req_value)
+        body: fdata
     })
     .then(res=>{
    console.log(res);

@@ -308,7 +308,7 @@ const  deleteuser = (id) => {
                       </TableCell>
                       <TableCell>{item.userEmail}</TableCell>
                       <TableCell>{item.userRole[0]==="admin"?"Yes":"No"}</TableCell>
-                      <TableCell>{item.active===1?"Yes":"No"}</TableCell>
+                      <TableCell>{item.active===true?"Yes":"No"}</TableCell>
                       <TableCell>
                   
                       

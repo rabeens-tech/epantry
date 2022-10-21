@@ -1,0 +1,9 @@
+-------------------------------------------------------------------------------
+Test set: com.estock.mystockmgr.MystockmgrApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 5.595 s <<< FAILURE! - in com.estock.mystockmgr.MystockmgrApplicationTests
+contextLoads  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Invocation of init method failed; nested exception is org.hibernate.MappingException: Unable to find column with logical name: id in org.hibernate.mapping.Table(inventory) and its related supertables and secondary tables
+Caused by: org.hibernate.MappingException: Unable to find column with logical name: id in org.hibernate.mapping.Table(inventory) and its related supertables and secondary tables
+

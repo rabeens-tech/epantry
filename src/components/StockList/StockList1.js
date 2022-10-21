@@ -204,8 +204,8 @@ console.log(records)
             <TblHead />
             <TableBody>
               {recordsAfterPagingAndSorting() &&
-                recordsAfterPagingAndSorting().map((item) => (
-                  <TableRow key={item.id}>
+                recordsAfterPagingAndSorting().map((item,idx) => {
+                  return  <TableRow key={idx}>
                  
                     <TableCell><div className="avataricon">
                       <img alt={item.inventoryName} src={item.inventoryImgUrl}className="avt"/>
@@ -213,13 +213,19 @@ console.log(records)
                       </div>
                     </TableCell>
                     {/* <TableCell>{item.categoryName}</TableCell> */}
-                    <TableCell>{`${item.quantity || 0} ${item.unitName} `}</TableCell>
-                    <TableCell>{item.unit}</TableCell>
+                    <TableCell>
+                      {`${item["usedStock"] || 0} 
+                      ${item.unitName} `}
+                    </TableCell>
+                    <TableCell>
+                      {`${item["remainingStock"] || 0} 
+                      ${item.unitName} `}
+                    </TableCell>
                    
-                    <TableCell>{item.last_replenished}{"  days ago"}</TableCell>
+                    <TableCell>{new Date(item["remainingDaysToDeplete"] || 0).toDateString() }{"  days ago"}</TableCell>
 
                   </TableRow>
-                ))}
+                })}
             </TableBody>
           </TblContainer>
           {records.length>1 ?

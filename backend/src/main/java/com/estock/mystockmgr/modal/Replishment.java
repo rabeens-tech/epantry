@@ -25,7 +25,7 @@ public class Replishment {
     boolean mostRecent;
 
     @OneToOne
-    @JoinColumn(referencedColumnName = "id")
+    @JoinColumn(referencedColumnName = "inventoryId")
     Inventory inventory;
     
     public Replishment(float newAdded,Inventory inventory){

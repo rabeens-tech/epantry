@@ -125,6 +125,7 @@ const InventoryProductFormAdd = (props) => {
 
   const handleSubmission = e => {
     // alert("handle") 
+    console.log(product)
     e.preventDefault()
     if (validate()) {
       let req_value = {
@@ -157,7 +158,7 @@ const InventoryProductFormAdd = (props) => {
           placeholder={"Search product...."}
           options={allProducts.map((x,i)=>{
               return {
-                value:x["id"],
+                value:x["inventoryId"],
                 label:x["inventoryName"]
               }
             })
@@ -198,7 +199,7 @@ const InventoryProductFormAdd = (props) => {
             product!==undefined?
           
             <div>
-              <span>Unit Name :{allProducts.filter(x=>(x["id"]===product["value"]) )[0]["unitName"] || "--"}</span>
+              <span>Unit Name :{allProducts.filter(x=>(x["inventoryId"]===product["value"]) )[0]["unitName"] || "--"}</span>
             </div>
             :null
           }

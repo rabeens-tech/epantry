@@ -213,8 +213,6 @@ const deleteProductcategory= (id) => {
       .catch((err) => {
         toast.error("Error");
       });
-  
-    
 }
 
   
@@ -309,10 +307,28 @@ const deleteProductcategory= (id) => {
                   {recordsAfterPagingAndSorting().map((item, index) => (
                     <TableRow key={index}>
                    
-                      <TableCell>{item.categoryName}</TableCell>
-                      <TableCell>{item.categoryDescription}</TableCell>
-                      <TableCell>{item.categoryImgUrl}</TableCell>
-                      <TableCell>
+                      <TableCell
+                        style={{
+                          maxWidth:"20%"
+                        }}
+                      >{item.categoryName}</TableCell>
+                      <TableCell
+                        style={{
+                          width:"40%"
+                        }}
+                        >
+                        {item.categoryDescription}</TableCell>
+                      <TableCell
+                        style={{
+                          maxWidth:"30%"
+                        }}
+                      >{item.categoryImgUrl}</TableCell>
+                      <TableCell
+                        style={{
+                          maxWidth:"10%"
+                        }}
+                      >
+{/*
                         <Controls.ActionButton
                           color="primary"
                           onClick={(e) => {
@@ -322,14 +338,14 @@ const deleteProductcategory= (id) => {
                           <EditOutlinedIcon fontSize="small" /></Tooltip>
                         </Controls.ActionButton>
                        
-                      
+   */}                   
                          <Controls.ActionButton
                           color="secondary"
                           onClick={() => {
                             setConfirmDialog({
                               isOpen: true,
                               title: "Are you sure to delete this Category?",
-                              subTitle: "You can't undo this operation",
+                              subTitle: "You can't undo this operation. All products associated with this category will be removed.",
                               onConfirm: () => {
                                 deleteProductcategory(item.categoryId);
                               },

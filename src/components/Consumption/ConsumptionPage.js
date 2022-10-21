@@ -33,12 +33,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const headCells = [
-  { id: "name", label: "item" },
+  { id: "name", label: "Item" },
   // { id: "categoryname", label: " CategoryName" },
-  { id: "frequency", label: " Consumption Frequency" },
-  { id: "depletion_rate", label: " Avg Qty Consumption" },
-  // { id: "unit", label: " UOM", disableSorting: true },
-  { id: "actions", label: "Actions", disableSorting: true },
+  { id: "frequency", label: "Consumption Frequency" },
+  { id: "depletion_rate", label: "Avg Qty Consumption" },
+  
+  { id: "actions", label: "", disableSorting: true },
 ];
 
 
@@ -138,7 +138,7 @@ export default function ConsumeptionPage(props) {
     // console.log(_data)
 
     axios
-      .put(`${config.APP_CONFIG}inventory/change/${_data.id}`, _data)
+      .put(`${config.APP_CONFIG}inventory/change/${_data.inventoryId}`, _data)
       .then((res) => {
         if (res.status === 200) {
           toast.success(res.data || "Successfully updated!");
@@ -192,9 +192,7 @@ const deleteconsume= (id) => {
     <div>
    
         <div
-          className="content-wrapper iframe-mode"
-          data-widget="iframe"
-          data-loading-screen={750}
+
         >
           {isNewPopup ? (
             <Popup
@@ -219,7 +217,7 @@ const deleteconsume= (id) => {
               <ConsumeForm 
                 actionType={"edit"}
                 handleSubmit={updateconsume}
-                data={records.filter((x) => x.id === isEditPopup)[0] || {}}
+                data={records.filter((x) => x.inventoryId === isEditPopup)[0] || {}}
               />
             </Popup>
           ) : null}
@@ -279,7 +277,7 @@ const deleteconsume= (id) => {
                 <TblHead />
                 <TableBody>
                   {recordsAfterPagingAndSorting().map((item, index) => (
-                    <TableRow key={item.id}>
+                    <TableRow key={index}>
                    
                       <TableCell><div className="avataricon">
                         <img alt={item.inventoryName} src={item.inventoryImgUrl
@@ -289,12 +287,12 @@ const deleteconsume= (id) => {
                       </TableCell>
                       <TableCell>{item.consumptionType || "-"}</TableCell>
                       <TableCell>{item.consumptionRate || "-"}</TableCell>
-
+                      
                       <TableCell>
                         <Controls.ActionButton
                           color="primary"
                           onClick={(e) => {
-                            setIsEditPopup(item.id);
+                            setIsEditPopup(item.inventoryId);
                           }}
                         ><Tooltip title="Edit">
                           <EditOutlinedIcon fontSize="small" /></Tooltip>

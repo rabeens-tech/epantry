@@ -13,8 +13,10 @@ import com.estock.mystockmgr.dto.InventoryPayload;
 import com.estock.mystockmgr.dto.InventorySummary;
 import com.estock.mystockmgr.modal.Inventory;
 import com.estock.mystockmgr.modal.InventoryCategory;
+import com.estock.mystockmgr.modal.Purchase;
 import com.estock.mystockmgr.repository.InventoryCategoryRepo;
 import com.estock.mystockmgr.repository.InventoryRepo;
+import com.estock.mystockmgr.repository.PurchaseRepo;
 
 @Service
 @Transactional
@@ -23,13 +25,28 @@ public class InventoryManagement {
     InventoryRepo inventoryRepo;
     @Autowired
     InventoryCategoryRepo inventoryCategoryRepo;
+    @Autowired
+    PurchaseRepo purchaseRepo;
     
     public boolean saveInventorydata(InventoryPayload inventoryPayload) throws Exception{
         Optional<InventoryCategory> category = inventoryCategoryRepo.findById(inventoryPayload.getCategoryId());
         if (category.isPresent()){
-        Inventory inventory = new Inventory(inventoryPayload.getInventoryName(),inventoryPayload.getConsumptionRate(),inventoryPayload.getQuantity(),inventoryPayload.getInventoryName(),inventoryPayload.getConsumptionType());
-        inventory.setInventoryCategory(category.get());
-        inventoryRepo.save(inventory);
+            Inventory currentInventory;
+            Optional<Inventory> invexists = inventoryRepo.findOneByInventoryName(inventoryPayload.getInventoryName());
+            if (invexists.isPresent()){
+               currentInventory = invexists.get();
+            }else{
+                Inventory inventory = new Inventory(inventoryPayload.getInventoryName(),inventoryPayload.getConsumptionRate(),inventoryPayload.getUnitName(),inventoryPayload.getConsumptionType(),inventoryPayload.getInvDescription());
+                inventory.setInventoryCategory(category.get());
+                inventory.setInventoryImgUrl(inventoryPayload.getInventoryImgUrl());
+                currentInventory=inventoryRepo.save(inventory);
+            }
+            
+            if(inventoryPayload.getQuantity()>0){
+                Purchase purchasedata = new Purchase(inventoryPayload.getQuantity(),currentInventory);
+                purchaseRepo.save(purchasedata);
+            }       
+            
         }else{
             throw new Exception("category value is not available");
         }
@@ -46,13 +63,25 @@ public class InventoryManagement {
             invdata.setInventoryImgUrl(inventoryPayload.getInventoryImgUrl());
             invdata.setConsumptionRate(inventoryPayload.getConsumptionRate());
             invdata.setConsumptionType(inventoryPayload.getConsumptionType());
-            invdata.setQuantity(inventoryPayload.getQuantity());
+            invdata.setUnitName(inventoryPayload.getUnitName());
             invdata.setInventoryCategory(category.get());
-            inventoryRepo.save(invdata);
-
+            Inventory updatedInventory = inventoryRepo.save(invdata);
+            if (inventoryPayload.getQuantity()>0){
+                    Optional<Purchase> purchaseInfo=purchaseRepo.findOneByInventoryOrderByPurchaseIdDesc(updatedInventory);
+                    if(purchaseInfo.isPresent()){
+                        Purchase purchase = purchaseInfo.get();
+                        purchase.setQuantity(inventoryPayload.getQuantity());
+                        purchase.setInventory(updatedInventory);
+                        purchaseRepo.save(purchase);
+                    }else{
+                        Purchase purchase = new Purchase(inventoryPayload.getQuantity(),updatedInventory);
+                        purchaseRepo.save(purchase);
+                    }
+                }
             }else{
                 throw new Exception("Inventory value is not available");
             }
+        
         }else{
             throw new Exception("category value is not available");
         }
@@ -60,12 +89,12 @@ public class InventoryManagement {
     }
 
 
-    public Map<String, InventorySummary> generateSummary(Iterable<Inventory> allInv){
+    public Map<String, InventorySummary> generateSummary(Iterable<Purchase> allInv){
         Map<String,InventorySummary> mymap = new HashMap<>();
         int ordernowCount=0;
         int ordersoonCount=0;
         int orderLaterCount=0;
-        for (Inventory inventory : allInv){
+        for (Purchase inventory : allInv){
             float days=inventory.getDaysToDeplete();
             if (days<3){
             ordernowCount++;
