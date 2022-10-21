@@ -205,9 +205,13 @@ const load_categories = () =>{
             <TableBody>
               {recordsAfterPagingAndSorting() &&
                 recordsAfterPagingAndSorting().map((item,idx) => {
-                  let last_replenished_date = item.purchase.reduce((x,y)=>{
-                    return x["inventoryAdded"] < y["inventoryAdded"]
-                  })["inventoryAdded"] || 0
+
+                  let last_replenished_date = 0
+                  if(item.purchase&&item.purchase.length>0){
+                    return item.purchase.reduce((x,y)=>{
+                      return x["inventoryAdded"] < y["inventoryAdded"]
+                    })["inventoryAdded"]
+                  }
                   console.log(last_replenished_date)
                   return  <TableRow key={idx}>
                  
