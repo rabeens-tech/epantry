@@ -208,7 +208,7 @@ const load_categories = () =>{
 
                   let last_replenished_date = 0
                   if(item.purchase&&item.purchase.length>0){
-                    return item.purchase.reduce((x,y)=>{
+                    last_replenished_date =  item.purchase.reduce((x,y)=>{
                       return x["inventoryAdded"] < y["inventoryAdded"]
                     })["inventoryAdded"]
                   }

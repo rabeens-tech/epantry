@@ -40,21 +40,21 @@ const useStyles = makeStyles((theme) => ({
 
 
 const makeStyle = (days) => {
-  if (days <= 3) {
+  if (days < 3) {
     return {
       //background: 'rgb(145 254 159 / 47%)',
       background: "linear-gradient(180deg, #FF919D 0%, #FC929D 100%)",
       // color: 'red',
     }
   }
-  else if (days > 3 && days <= 7) {
+  else if (days >= 3 && days < 7) {
     return {
       background: '#ffadad8f',
       // backGround: "linear-gradient(rgb(248, 212, 154) -146.42%, rgb(255 202 113) -46.42%)",
       // color: 'yellow',
     }
   }
-  if (days > 7) {
+  if (days >= 7) {
     return {
       background: '#bb67ff',
       // backGround: "linear-gradient(180deg, #bb67ff 0%, #c484f3 100%)",
@@ -242,10 +242,10 @@ export default function GroceryList(props) {
       return <span>{"Order Now"}</span>
     }
 
-    if (days > 3 && days < 7) {
+    if (days >= 3 && days < 7) {
       return <span>{"Order Soon"}</span>
     }
-    if (days > 7) {
+    if (days >= 7) {
       return <span>{"Order Later"}</span>
     }
   }
@@ -335,7 +335,8 @@ export default function GroceryList(props) {
                         (row.status === 'Pending' && 'yellow') ||
                         (row.status === 'Blocked' && 'green'))
                     }}
-                  >{row.status}</Typography> */}
+                  >{row.status}
+                    </Typography> */}
                         </span></TableCell>
 
 

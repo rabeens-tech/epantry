@@ -126,7 +126,7 @@ const ConsumeForm = (props) => {
         description: values.description,
         categoryId: values.categoryId,
         unitName: values.unitName,
-        inventoryImgUrl: "http://placekitten.com/g/150/150",
+        inventoryImgUrl: values.inventoryImgUrl,
         consumptionType:curr_consumption_type[0]["title"].toUpperCase(),       
       };
       // console.log(req_value)
