@@ -9,14 +9,6 @@ import Spinner from "../../utils/spinner";
 import config from "../../utils/config";
 import axios from 'axios';
 import units from '../../utils/units'
-// const initialFValues = {
-//   id:"",
-//   category_id:"",
-//   name: "",
-//   depletion_rate:"",
-//   unit:"",
-//   frequency:"",
-// };
 
 
 import frequency from '../../utils/frequency';
@@ -115,7 +107,7 @@ const ConsumeForm = (props) => {
 
 
   const handleSubmission = e => {
-    e.preventDefault()
+    e.preventDefault();
     const curr_consumption_type = frequency.filter(x=>x["id"] === values.consumptionTypeId)
 
     if(curr_consumption_type.length === 0){

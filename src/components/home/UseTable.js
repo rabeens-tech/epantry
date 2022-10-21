@@ -209,7 +209,9 @@ export default function UseTable(records, headCells, filterFn) {
   
   //const currentpage=page * rowsPerPage;
   const recordsAfterPagingAndSorting = () => {
+    console.log(filterFn.fn(records))
     if(filterFn.fn(records).length<records.length ){
+     
       return filterFn.fn(records) 
     }
 else{

@@ -58,7 +58,7 @@ console.log(userRole);
        :"maximum 50 Characters"
     : "This field is required."
     if ('userEmail' in fieldValues)
-    temp.userEmail = fieldValues.userEmail ?
+    temp.userEmail = fieldValues.userEmail?
     fieldValues.userEmail.match(/^[a-zA-Z0-9 !@#\$%\^\&*\)\(+=._-]+$/g)
       ? ""
         : "Invalid Data" 
@@ -111,7 +111,7 @@ console.log(userRole);
       </FormGroup>
     );
   };
-  
+  console.log(parseInt(isActive))
   const handleSubmission = e => {
     e.preventDefault()
     if (validate()) {
@@ -121,7 +121,7 @@ console.log(userRole);
         userEmail:values.userEmail,
         password:values.password,
         userRole:userRole,
-        isActive:parseInt(values.isActive) || 0,
+        isActive:parseInt(isActive)===1?true:false,
       };
 
       props.handleSubmit(req_value);
@@ -153,7 +153,7 @@ console.log(userRole);
          value={values.password}
          onChange={handleInputChange} 
          error={errors.password}
-         
+         type="password"
         
         />
      <Controls.Input
@@ -164,7 +164,7 @@ console.log(userRole);
          onChange={handleInputChange} 
          error={errors.confirmpassword}
          
-        
+         type="password"
         />
     </Grid>
     

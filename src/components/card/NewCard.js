@@ -4,22 +4,22 @@ import Item from "./Item";
 import "./Card.css";
 import Cardd from "../card/Cardd";
 const breakPoints = [
-    { width: 1, itemsToShow: 2 },
-    { width: 550, itemsToShow: 2 },
-    { width: 768, itemsToShow: 2 },
-    { width: 1200, itemsToShow: 2 },
-  ];
+  { width: 1, itemsToShow: 1 },
+  { width: 550, itemsToShow: 2 },
+  { width: 768, itemsToShow: 2 },
+  { width: 1200, itemsToShow: 3 },
+];
 
 
 
 function NewCard(props) {
   let cards_Data = props.data || []
 
-  // console.log(cards_Data)
+  console.log(cards_Data)
   return (
     <div>
-    <Carousel breakPoints={breakPoints}>
-    {cards_Data.map((card, id) => {
+      <Carousel breakPoints={breakPoints}>
+        {cards_Data.map((card, id) => {
 
         return (
           <div  
@@ -62,15 +62,16 @@ function NewCard(props) {
 
 
             </Item>
+
               {/* title={card.title}
              value={card.value}
             /> */}
 
-          </div>
-        );
-      })}
-  </Carousel>
-  </div>
+            </div>
+          );
+        })}
+      </Carousel>
+    </div>
   )
 }
 

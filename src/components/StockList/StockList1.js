@@ -147,8 +147,8 @@ const load_categories = () =>{
       return <Spinner />
     }
 
-console.log(filters)
-console.log(records)
+// console.log(filters)
+// console.log(records)
 
   return (
     <div>
@@ -205,6 +205,10 @@ console.log(records)
             <TableBody>
               {recordsAfterPagingAndSorting() &&
                 recordsAfterPagingAndSorting().map((item,idx) => {
+                  let last_replenished_date = item.purchase.reduce((x,y)=>{
+                    return x["inventoryAdded"] < y["inventoryAdded"]
+                  })["inventoryAdded"] || 0
+                  console.log(last_replenished_date)
                   return  <TableRow key={idx}>
                  
                     <TableCell><div className="avataricon">
@@ -222,7 +226,7 @@ console.log(records)
                       ${item.unitName} `}
                     </TableCell>
                    
-                    <TableCell>{new Date(item["remainingDaysToDeplete"] || 0).toDateString() }{"  days ago"}</TableCell>
+                    <TableCell>{new Date(last_replenished_date || 0).toDateString() }</TableCell>
 
                   </TableRow>
                 })}

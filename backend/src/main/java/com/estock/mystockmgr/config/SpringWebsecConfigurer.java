@@ -35,8 +35,8 @@ public class SpringWebsecConfigurer {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((authz) -> {
             try {
-                // authz.anyRequest().permitAll();
-                authz.anyRequest().authenticated().and().formLogin().loginPage("/login").permitAll().defaultSuccessUrl("/index").and().logout().permitAll();
+                authz.anyRequest().permitAll();
+                // authz.anyRequest().authenticated().and().formLogin().loginPage("/login").permitAll().defaultSuccessUrl("/index").and().logout().permitAll();
 
             } catch (Exception e) {
                 e.printStackTrace();
