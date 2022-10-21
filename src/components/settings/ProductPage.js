@@ -35,9 +35,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const headCells = [
-  { id: "inventoryName", label: "Product Name" },
-
-  { id: "unit", label: "Product Qty Unit" },
+  { id: "inventoryName", label: "Product" },
+  { id: "categoryName", label: "Category" },
+  { id: "unit", label: "Quantity" },
   { id: "image", label: "Image URL" },
   { id: "actions", label: "Actions", disableSorting: true },
 ];
