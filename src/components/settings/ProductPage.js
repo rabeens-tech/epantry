@@ -44,7 +44,7 @@ const headCells = [
 
 
 
-export default function ProductPage(props) {
+export default function ProductPage(props) {  
   const classes = useStyles(props);
   const [records, setRecords] = useState();
   const [allCat, setAllCat] = useState();
